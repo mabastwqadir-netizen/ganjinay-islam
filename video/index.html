@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ckb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ڤیدیۆ - گەنجینەی ئیسلام</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="apple-touch-icon" href="../assets/logo.png">
+    <link rel="manifest" href="../manifest.json">
+</head>
+<body>
+    <script>
+        if (localStorage.getItem('sidebarOpen') === 'true') {
+            document.body.classList.add('sidebar-open');
+        }
+    </script>
+    <!-- ==================== HEADER ==================== -->
+    <header>
+        <div class="header-container">
+            <button id="sidebarToggle"><i class="fas fa-bars-staggered"></i> بەشەکان</button>
+            <div class="logo"><i class="fa-sharp-duotone fa-solid fa-kaaba"></i> گەنجینەی ئیسلام</div>
+            <nav id="navMenu">
+                <div class="nav-scroll-wrapper">
+                    <ul>
+                        <li><a href="../index.html">سەرەتا</a></li>
+                        <li><a href="../islam-what/index.html">ئیسلام چییە؟</a></li>
+                        <li><a href="../aqidah/index.html">عەقیدە</a></li>
+                        <li><a href="../tawheed/index.html">تەوحید</a></li>
+                        <li><a href="../quran/index.html">قوڕئان</a></li>
+                        <li><a href="../hadiths/index.html">فەرموودە</a></li>
+                        <li><a href="../prayer/index.html">نوێژ</a></li>
+                        <li><a href="../biography/index.html">ژیاننامە</a></li>
+                        <li><a href="../companions/index.html">هاوەڵان</a></li>
+                        <li><a href="../dhikr/index.html">یادی خودا</a></li>
+                        <li><a href="index.html" class="active">ڤیدیۆ</a></li>
+                        <li><a href="../library-media/index.html">کتێبخانە</a></li>
+                        <li><a href="../faq/index.html">پرسیار و وەڵام</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="quran-content-page">
+        <div class="quran-header">
+            <h2><i class="fa-solid fa-clapperboard"></i> بەشی ڤیدیۆ</h2>
+            <p>کۆمەڵێک ڤیدیۆی بەسوود و کاریگەر کە پێکهاتووە لە ووتار و ڕووقیەی شەرعی و قوڕئان.</p>
+        </div>
+
+        <!-- Controls (Search + Dropdown) -->
+        <div class="video-controls">
+            <div class="hadith-search-container">
+                <input type="text" id="searchInput" class="hadith-search-input" placeholder="گەڕان لە ڤیدیۆکان...">
+                <i class="fas fa-search hadith-search-icon"></i>
+            </div>
+            
+            <div class="custom-select-wrapper">
+                <select id="categorySelect" class="video-category-select" onchange="filterVideos(this.value)" aria-label="پاڵاوتنی ڤیدیۆکان بەپێی بەش">
+                    <option value="all">هەموو بەشەکان</option>
+                </select>
+                <i class="fas fa-chevron-down select-icon"></i>
+            </div>
+        </div>
+
+        <div id="video-grid" class="video-grid">
+            <!-- Skeleton loaders -->
+            <div class="skeleton-card video-skeleton"></div>
+            <div class="skeleton-card video-skeleton"></div>
+            <div class="skeleton-card video-skeleton"></div>
+        </div>
+
+        <div class="visitor-count">
+            <p><i class="fas fa-eye"></i> ژمارەی سەردانیکەران: <span id="visitor-count">0</span></p>
+        </div>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <p class="copyright">&copy; 2026 هەموو مافەکان پارێزراوە بۆ گەنجینەی ئیسلام.</p>
+        
+        <div class="footer-socials">
+            <!-- لینکی فەیسبووک -->
+            <a href="https://www.facebook.com/share/1ZrBaxzyfp/" target="_blank" rel="noopener noreferrer" class="social-btn facebook" title="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            
+            <!-- لینکی ئینستاگرام -->
+            <a href="https://www.instagram.com/mabast.w?igsh=MWx4ZHk1a2pncjBrcA==" target="_blank" rel="noopener noreferrer" class="social-btn instagram" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            
+            <!-- لینکی یوتوب -->
+            <a href="https://youtube.com/@mabast.1491?si=ZtEd5wFa2hPEpiiQ" target="_blank" rel="noopener noreferrer" class="social-btn youtube" title="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            
+            <!-- ئیمەیڵ (Gmail) -->
+            <a href="mailto:mabastw.qadir@gmail.com" class="social-btn email" title="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+
+        <p class="developer">گەشەپێدەر / مەبەست وریا خەیلانی</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+
+    <!-- Supabase Integration -->
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+        const supabaseUrl = 'https://sftnwbgwbxkmuackksho.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmdG53Ymd3YnhrbXVhY2trc2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5NTIxNTAsImV4cCI6MjA4MzUyODE1MH0.ArdAj5hPfNskzYDHitg5W6y9MGNkMFwAIwG9ep0MpBw'
+        const supabase = createClient(supabaseUrl, supabaseKey)
+
+        let allVideos = [];
+
+        async function initVisitorCount() {
+            const countEl = document.getElementById('visitor-count');
+            if (!countEl) return;
+            try {
+                const { data, error } = await supabase.rpc('increment_global_visitor_count');
+                if (error) throw error;
+                countEl.innerText = data;
+                await supabase.rpc('increment_page_view', { p_page_name: 'video' });
+            } catch (err) { console.error('Error updating visitor count:', err); }
+        }
+
+        function getYouTubeVideoId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        function renderCategories() {
+            const selectElement = document.getElementById('categorySelect');
+            // Get unique categories from videos
+            const categories = [...new Set(allVideos.map(v => v.category).filter(c => c))];
+            
+            // Keep the first option (All) and append others
+            let optionsHTML = '<option value="all">هەموو بەشەکان</option>';
+            optionsHTML += categories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+            
+            selectElement.innerHTML = optionsHTML;
+        }
+
+        window.filterVideos = (category) => {
+            // Trigger search input event to re-filter based on both category and search term
+            const searchInput = document.getElementById('searchInput');
+            // Store the category in the input dataset to be used by the input event listener
+            searchInput.dataset.currentCategory = category;
+            searchInput.dispatchEvent(new Event('input'));
+        }
+
+        function stopAllVideos() {
+            const playingContainers = document.querySelectorAll('.video-embed-container[data-played="true"]');
+            playingContainers.forEach(container => {
+                container.dataset.played = 'false';
+                const thumb = container.dataset.thumbnail;
+                const title = container.dataset.title;
+                
+                container.innerHTML = `
+                    <img src="${thumb}" alt="${title}" class="thumbnail">
+                    <i class="fas fa-play-circle play-button"></i>
+                `;
+            });
+        }
+
+        function renderVideosList(videos) {
+            const grid = document.getElementById('video-grid');
+            grid.innerHTML = '';
+
+            if (videos.length === 0) {
+                grid.innerHTML = '<p class="empty-message grid-full-width">هیچ ڤیدیۆیەک نەدۆزرایەوە.</p>';
+                return;
+            }
+
+            videos.forEach(video => {
+                const card = document.createElement('div');
+                card.classList.add('video-card');
+                card.dataset.videoId = video.id;
+
+                let videoId = null;
+                if (video.video_type === 'youtube') {
+                    videoId = getYouTubeVideoId(video.video_url);
+                }
+                
+                const thumbnailUrl = video.thumbnail_url || (videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : '../assets/images/video-placeholder.jpg');
+
+                card.innerHTML = `
+                    <div class="video-embed-container">
+                        <img src="${thumbnailUrl}" alt="${video.title}" class="thumbnail">
+                        <i class="fas fa-play-circle play-button"></i>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">${video.title}</h3>
+                        <p class="video-description">${video.description || ''}</p>
+                        <div class="video-meta">
+                            <div class="views">
+                                <i class="fas fa-eye"></i>
+                                <span class="view-count">${video.views}</span> بینین
+                            </div>
+                            <span class="video-type-label">${video.video_type === 'youtube' ? 'یوتیوب' : 'سەرەکی'}</span>
+                        </div>
+                    </div>
+                `;
+
+                const embedContainer = card.querySelector('.video-embed-container');
+                embedContainer.dataset.thumbnail = thumbnailUrl;
+                embedContainer.dataset.title = video.title;
+
+                embedContainer.addEventListener('click', async () => {
+                    if (embedContainer.dataset.played === 'true') return;
+                    
+                    stopAllVideos();
+                    
+                    embedContainer.dataset.played = 'true';
+
+                    // Increment view count
+                    try {
+                        const { data: newCount, error: rpcError } = await supabase.rpc('increment_video_view', { video_id_to_update: video.id });
+                        if (rpcError) throw rpcError;
+                        card.querySelector('.view-count').innerText = newCount;
+                    } catch (err) {
+                        console.error('Error incrementing view count:', err);
+                    }
+
+                    // Replace thumbnail with video player
+                    embedContainer.innerHTML = ''; 
+                    if (video.video_type === 'youtube' && videoId) {
+                        const iframe = document.createElement('iframe');
+                        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+                        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                        iframe.allowFullscreen = true;
+                        embedContainer.appendChild(iframe);
+                    } else if (video.video_type === 'self_hosted') {
+                        const videoPlayer = document.createElement('video');
+                        videoPlayer.src = video.video_url;
+                        videoPlayer.controls = true;
+                        videoPlayer.autoplay = true;
+                        embedContainer.appendChild(videoPlayer);
+                    }
+                });
+
+                grid.appendChild(card);
+            });
+        }
+
+        function renderVideos(data) {
+            const grid = document.getElementById('video-grid');
+
+            if (data) {
+                
+                allVideos = data || [];
+                
+                renderCategories();
+                renderVideosList(allVideos);
+
+                // Enable Search
+                const searchInput = document.getElementById('searchInput');
+                searchInput.addEventListener('input', (e) => {
+                    const term = e.target.value.toLowerCase();
+                    const currentCategory = e.target.dataset.currentCategory || 'all';
+
+                    const filtered = allVideos.filter(video => {
+                        const matchesSearch = video.title.toLowerCase().includes(term) || (video.description && video.description.toLowerCase().includes(term));
+                        const matchesCategory = currentCategory === 'all' || video.category === currentCategory;
+                        return matchesSearch && matchesCategory;
+                    });
+                    
+                    renderVideosList(filtered);
+                });
+            } else {
+                grid.innerHTML = '<p class="empty-message grid-full-width">هیچ ڤیدیۆیەک نەدۆزرایەوە.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initVisitorCount();
+            window.fetchAndCacheData('videos', renderVideos, supabase, 'display_order', true);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ckb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عەقیدەی ئیسلامی - گەنجینەی ئیسلام</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+</head>
+<body>
+    <script>
+        if (localStorage.getItem('sidebarOpen') === 'true') {
+            document.body.classList.add('sidebar-open');
+        }
+    </script>
+    
+    <header>
+        <div class="header-container">
+            <button id="sidebarToggle"><i class="fas fa-bars-staggered"></i> بەشەکان</button>
+            <div class="logo"><i class="fa-sharp-duotone fa-solid fa-kaaba"></i> گەنجینەی ئیسلام</div>
+            <nav id="navMenu">
+                <div class="nav-scroll-wrapper">
+                    <ul>
+                         <li><a href="../index.html">سەرەتا</a></li>
+                        <li><a href="../islam-what/index.html">ئیسلام چییە؟</a></li>
+                        <li><a href="index.html" class="active">عەقیدە</a></li>
+                        <li><a href="../tawheed/index.html">تەوحید</a></li>
+                        <li><a href="../quran/index.html">قوڕئان</a></li>
+                        <li><a href="../hadiths/index.html">فەرموودە</a></li>
+                        <li><a href="../prayer/index.html">نوێژ</a></li>
+                        <li><a href="../biography/index.html">ژیاننامە</a></li>
+                        <li><a href="../companions/index.html">هاوەڵان</a></li>
+                        <li><a href="../dhikr/index.html">یادی خودا</a></li>
+                        <li><a href="../video/index.html">ڤیدیۆ</a></li>
+                        <li><a href="../library-media/index.html">کتێبخانە</a></li>
+                        <li><a href="../faq/index.html">پرسیار و وەڵام</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="hadith-page-container">
+            <div class="hadith-header-row">
+                <div class="hadith-title-section">
+                    <h2><i class="fa-duotone fa-solid fa-mosque text-green"></i> عەقیدەی ئیسلامی</h2>
+                    <p>بنەماکانی باوەڕ و ناسینی خودا و پێغەمبەران و ڕۆژی دوایی</p>
+                </div>
+                <div class="hadith-search-container">
+                    <input type="text" class="hadith-search-input" placeholder="گەڕان لە بابەتەکانی عەقیدە..." oninput="filterAqidah(this.value)">
+                    <i class="fas fa-search hadith-search-icon"></i>
+                </div>
+            </div>
+
+            <div class="hadith-grid" id="aqidah-container">
+                <div class="loading-spinner loading-spinner-center">
+                    <i class="fas fa-spinner fa-spin fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p class="copyright">&copy; 2026 هەموو مافەکان پارێزراوە بۆ گەنجینەی ئیسلام.</p>
+        
+        <div class="footer-socials">
+            <!-- لینکی فەیسبووک -->
+            <a href="https://www.facebook.com/share/1ZrBaxzyfp/" target="_blank" rel="noopener noreferrer" class="social-btn facebook" title="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            
+            <!-- لینکی ئینستاگرام -->
+            <a href="https://www.instagram.com/mabast.w?igsh=MWx4ZHk1a2pncjBrcA==" target="_blank" rel="noopener noreferrer" class="social-btn instagram" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            
+            <!-- لینکی یوتوب -->
+            <a href="https://youtube.com/@mabast.1491?si=ZtEd5wFa2hPEpiiQ" target="_blank" rel="noopener noreferrer" class="social-btn youtube" title="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            
+            <!-- ئیمەیڵ (Gmail) -->
+            <a href="mailto:mabastw.qadir@gmail.com" class="social-btn email" title="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+
+        <p class="developer">گەشەپێدەر / مەبەست وریا خەیلانی</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+        const supabaseUrl = 'https://sftnwbgwbxkmuackksho.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmdG53Ymd3YnhrbXVhY2trc2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5NTIxNTAsImV4cCI6MjA4MzUyODE1MH0.ArdAj5hPfNskzYDHitg5W6y9MGNkMFwAIwG9ep0MpBw'
+        const supabase = createClient(supabaseUrl, supabaseKey)
+
+        // فەنکشنێک بۆ پیشاندانی داتاکان لەناو HTML
+        function renderAqidah(data) {
+            const container = document.getElementById('aqidah-container');
+            
+            if (!data || data.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #94a3b8;">هیچ بابەتێک نەدۆزرایەوە.</p>';
+                return;
+            }
+
+            container.innerHTML = data.map((item, index) => `
+                    <div class="aqidah-card">
+                        <div class="card-number">${index + 1}</div>
+                        <div class="aqidah-header">
+                            <div class="question-ar">${item.question_ar}</div>
+                            <div class="question-ku">${item.question_ku}</div>
+                        </div>
+                        
+                        <div class="aqidah-body">
+                            <div class="answer-ar">${item.answer_ar}</div>
+                            <div class="answer-ku">${item.answer_ku}</div>
+                        </div>
+
+                        ${(item.quran_ar || item.hadith_ar) ? `
+                        <div class="aqidah-footer">
+                            ${item.quran_ar ? `
+                            <div class="evidence-box quran">
+                                <div class="evidence-title"><i class="fas fa-quran"></i> قورئانی پیرۆز</div>
+                                <div class="evidence-ar">${item.quran_ar}</div>
+                                <div class="evidence-ku">${item.quran_ku}</div>
+                                <div class="evidence-source">${item.quran_source}</div>
+                            </div>` : ''}
+                            
+                            ${item.hadith_ar ? `
+                            <div class="evidence-box hadith">
+                                <div class="evidence-title"><i class="fas fa-scroll"></i> فەرموودە</div>
+                                <div class="evidence-ar">${item.hadith_ar}</div>
+                                <div class="evidence-ku">${item.hadith_ku}</div>
+                                <div class="evidence-source">${item.hadith_source}</div>
+                            </div>` : ''}
+                        </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+        }
+
+        // بەکارهێنانی فەنکشنە ئامادەکراوەکەی ناو script.js
+        document.addEventListener('DOMContentLoaded', () => {
+            // پارامیتەرەکان: ناوی خشتە، فەنکشنی دیزاین، سوپابەیس
+            window.fetchAndCacheData('aqidah', renderAqidah, supabase);
+        });
+
+        window.filterAqidah = (query) => {
+            const cards = document.querySelectorAll('.aqidah-card');
+            query = query.toLowerCase();
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

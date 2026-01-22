@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ckb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کتێبخانە - گەنجینەی ئیسلام</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+</head>
+<body>
+    <script>
+        if (localStorage.getItem('sidebarOpen') === 'true') {
+            document.body.classList.add('sidebar-open');
+        }
+    </script>
+    <!-- ==================== HEADER ==================== -->
+    <header>
+        <div class="header-container">
+            <button id="sidebarToggle"><i class="fas fa-bars-staggered"></i> بەشەکان</button>
+            <div class="logo"><i class="fa-sharp-duotone fa-solid fa-kaaba"></i> گەنجینەی ئیسلام</div>
+            <nav id="navMenu">
+                <div class="nav-scroll-wrapper">
+                    <ul>
+                        <li><a href="../index.html">سەرەتا</a></li>
+                        <li><a href="../islam-what/index.html">ئیسلام چییە؟</a></li>
+                        <li><a href="../aqidah/index.html">عەقیدە</a></li>
+                        <li><a href="../tawheed/index.html">تەوحید</a></li>
+                        <li><a href="../quran/index.html">قوڕئان</a></li>
+                        <li><a href="../hadiths/index.html">فەرموودە</a></li>
+                        <li><a href="../prayer/index.html">نوێژ</a></li>
+                        <li><a href="../biography/index.html">ژیاننامە</a></li>
+                        <li><a href="../companions/index.html">هاوەڵان</a></li>
+                        <li><a href="../dhikr/index.html">یادی خودا</a></li>
+                        <li><a href="../video/index.html">ڤیدیۆ</a></li>
+                        <li><a href="index.html" class="active">کتێبخانە</a></li>
+                        <li><a href="../faq/index.html">پرسیار و وەڵام</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="quran-page-container">
+        <div class="quran-header">
+            <h2><i class="fas fa-book-open"></i> کتێبخانەی گشتی</h2>
+            <p>کۆمەڵێک کتێبی بەسوود و سەرچاوەی گرنگ بۆ دەوڵەمەندکردنی زانیارییەکانت.</p>
+        </div>
+
+        <div id="books-container" class="library-books-grid">
+            <!-- Loading State -->
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin fa-3x"></i>
+                <p class="loading-text">جارکردنی کتێبەکان...</p>
+            </div>
+        </div>
+
+        <div class="visitor-count">
+            <p><i class="fas fa-eye"></i> ژمارەی سەردانیکەران: <span id="visitor-count">0</span></p>
+        </div>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <p class="copyright">&copy; 2026 هەموو مافەکان پارێزراوە بۆ گەنجینەی ئیسلام.</p>
+        
+        <div class="footer-socials">
+            <!-- لینکی فەیسبووک -->
+            <a href="https://www.facebook.com/share/1ZrBaxzyfp/" target="_blank" rel="noopener noreferrer" class="social-btn facebook" title="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            
+            <!-- لینکی ئینستاگرام -->
+            <a href="https://www.instagram.com/mabast.w?igsh=MWx4ZHk1a2pncjBrcA==" target="_blank" rel="noopener noreferrer" class="social-btn instagram" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            
+            <!-- لینکی یوتوب -->
+            <a href="https://youtube.com/@mabast.1491?si=ZtEd5wFa2hPEpiiQ" target="_blank" rel="noopener noreferrer" class="social-btn youtube" title="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            
+            <!-- ئیمەیڵ (Gmail) -->
+            <a href="mailto:mabastw.qadir@gmail.com" class="social-btn email" title="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+
+        <p class="developer">گەشەپێدەر / مەبەست وریا خەیلانی</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/theme.js"></script>
+    
+    <!-- Supabase Integration -->
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+        const supabaseUrl = 'https://sftnwbgwbxkmuackksho.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmdG53Ymd3YnhrbXVhY2trc2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5NTIxNTAsImV4cCI6MjA4MzUyODE1MH0.ArdAj5hPfNskzYDHitg5W6y9MGNkMFwAIwG9ep0MpBw'
+        const supabase = createClient(supabaseUrl, supabaseKey)
+
+        // Functions to increment counts
+        window.incrementView = async (id) => {
+            // Update UI immediately (Optimistic update)
+            const el = document.getElementById(`view-count-${id}`);
+            if (el) el.innerText = parseInt(el.innerText) + 1;
+
+            try {
+                await supabase.rpc('increment_book_view', { book_id: id });
+            } catch (e) { console.error('Error incrementing view', e); }
+        }
+
+        window.incrementDownload = async (id) => {
+            // Update UI immediately (Optimistic update)
+            const el = document.getElementById(`download-count-${id}`);
+            if (el) el.innerText = parseInt(el.innerText) + 1;
+
+            try {
+                await supabase.rpc('increment_book_download', { book_id: id });
+            } catch (e) { console.error('Error incrementing download', e); }
+        }
+
+        async function initVisitorCount() {
+            const countEl = document.getElementById('visitor-count');
+            if (!countEl) return;
+
+            try {
+                const { data, error } = await supabase.rpc('increment_global_visitor_count');
+                if (error) throw error;
+                countEl.innerText = data;
+            } catch (err) { console.error('Error updating visitor count:', err); }
+        }
+
+        function renderBooks(books) {
+            const container = document.getElementById('books-container');
+            
+                container.innerHTML = '';
+
+                if (!books || books.length === 0) {
+                    container.innerHTML = '<p class="books-empty-message">هیچ کتێبێک نەدۆزرایەوە.</p>';
+                    return;
+                }
+
+                books.forEach(book => {
+                    const bookCard = document.createElement('div');
+                    bookCard.className = 'library-book-card';
+                    
+                    // Handle cover image (fallback icon if empty)
+                    let coverHtml = '';
+                    if (book.cover_url) {
+                        coverHtml = `<img src="${book.cover_url}" alt="${book.title}" class="library-book-cover">`;
+                    } else {
+                        coverHtml = `<div class="library-book-cover library-book-cover-fallback"><i class="fas fa-book"></i></div>`;
+                    }
+
+                    bookCard.innerHTML = `
+                        <div class="library-book-cover-container">${coverHtml}</div>
+                        <div class="library-book-info">
+                            <h3 class="library-book-title" title="${book.title}">${book.title}</h3>
+                            ${book.author ? `<p class="library-book-author"><i class="fas fa-pen-nib"></i> ${book.author}</p>` : ''}
+                            
+                            <div class="library-book-stats-info">
+                                <span><i class="fas fa-eye"></i> <span id="view-count-${book.id}">${book.view_count || 0}</span></span>
+                                <span><i class="fas fa-download"></i> <span id="download-count-${book.id}">${book.download_count || 0}</span></span>
+                            </div>
+
+                            <div class="library-book-actions">
+                                <a href="${book.pdf_url}" target="_blank" rel="noopener noreferrer" class="library-read-btn" onclick="incrementView('${book.id}')" title="خوێندنەوە"><i class="fas fa-book-open"></i></a>
+                                <a href="${book.pdf_url}?download=" class="library-download-btn" onclick="incrementDownload('${book.id}')">
+                                    <i class="fas fa-download" title="داونڵۆد"></i>
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(bookCard);
+                });
+        }
+
+        // Load books when page is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            window.fetchAndCacheData('books', renderBooks, supabase, 'created_at', false);
+            initVisitorCount();
+        });
+    </script>
+</body>
+</html>

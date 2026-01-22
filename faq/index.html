@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ckb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پرسیار و وەڵام (FAQ) - گەنجینەی ئیسلام</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+</head>
+<body class="faq-page">
+    <script>
+        if (localStorage.getItem('sidebarOpen') === 'true') {
+            document.body.classList.add('sidebar-open');
+        }
+    </script>
+    <!-- ==================== HEADER ==================== -->
+    <header>
+        <div class="header-container">
+            <button id="sidebarToggle"><i class="fas fa-bars-staggered"></i> بەشەکان</button>
+            <div class="logo"><i class="fa-sharp-duotone fa-solid fa-kaaba"></i> گەنجینەی ئیسلام</div>
+            <nav id="navMenu">
+                <div class="nav-scroll-wrapper">
+                    <ul>
+                       <li><a href="../index.html">سەرەتا</a></li>
+                        <li><a href="../islam-what/index.html">ئیسلام چییە؟</a></li>
+                        <li><a href="../aqidah/index.html">عەقیدە</a></li>
+                        <li><a href="../tawheed/index.html">تەوحید</a></li>
+                        <li><a href="../quran/index.html">قوڕئان</a></li>
+                        <li><a href="../hadiths/index.html">فەرموودە</a></li>
+                        <li><a href="../prayer/index.html">نوێژ</a></li>
+                        <li><a href="../biography/index.html">ژیاننامە</a></li>
+                        <li><a href="../companions/index.html">هاوەڵان</a></li>
+                        <li><a href="../dhikr/index.html">یادی خودا</a></li>
+                        <li><a href="../video/index.html">ڤیدیۆ</a></li>
+                        <li><a href="../library-media/index.html">کتێبخانە</a></li>
+                        <li><a href="index.html" class="active">پرسیار و وەڵام</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="faq-page-container">
+        <div class="faq-header">
+            <h2><i class="fas fa-comments"></i> پرسیار و وەڵام (FAQ)</h2>
+            <p class="faq-header-subtitle">پرسیارەکانت بنێرە و وەڵامەکان ببینە</p>
+        </div>
+
+        <!-- Ask Question Form -->
+        <div class="faq-form-container">
+            <h3><i class="fas fa-pen-to-square"></i> پرسیارەکەت بنووسە</h3>
+            <div class="faq-input-group">
+                <input type="text" id="asker-name" class="faq-input" placeholder="ناوەکەت (ئارەزوومەندانە)">
+                <textarea id="question-text" class="faq-textarea" rows="4" placeholder="پرسیارەکەت لێرە بنووسە..."></textarea>
+                <button onclick="submitQuestion()" class="faq-submit-btn">
+                    <i class="fas fa-paper-plane"></i> ناردنی پرسیار
+                </button>
+            </div>
+        </div>
+
+        <!-- Questions List -->
+        <div id="faq-list">
+            <div class="loading-spinner faq-loading-spinner">
+                <i class="fas fa-spinner fa-spin fa-2x faq-loading-icon"></i>
+                <p class="faq-loading-text">جارکردنی پرسیارەکان...</p>
+            </div>
+        </div>
+
+        <div class="visitor-count visitor-count-faq">
+            <p><i class="fas fa-eye"></i> ژمارەی سەردانیکەران: <span id="visitor-count">0</span></p>
+        </div>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <p class="copyright">&copy; 2026 هەموو مافەکان پارێزراوە بۆ گەنجینەی ئیسلام.</p>
+        
+        <div class="footer-socials">
+            <!-- لینکی فەیسبووک -->
+            <a href="LINK_FACEBOOK_HERE" target="_blank" class="social-btn facebook" title="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            
+            <!-- لینکی ئینستاگرام -->
+            <a href="LINK_INSTAGRAM_HERE" target="_blank" class="social-btn instagram" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            
+            <!-- لینکی یوتوب -->
+            <a href="LINK_YOUTUBE_HERE" target="_blank" class="social-btn youtube" title="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            
+            <!-- ئیمەیڵ (Gmail) -->
+            <a href="mailto:YOUR_EMAIL_HERE" class="social-btn email" title="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+        <p class="developer">گەشەپێدەر / مەبەست وریا خەیلانی</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/theme.js"></script>
+
+    <!-- Supabase Integration -->
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+        const supabaseUrl = 'https://sftnwbgwbxkmuackksho.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmdG53Ymd3YnhrbXVhY2trc2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5NTIxNTAsImV4cCI6MjA4MzUyODE1MH0.ArdAj5hPfNskzYDHitg5W6y9MGNkMFwAIwG9ep0MpBw'
+        const supabase = createClient(supabaseUrl, supabaseKey)
+
+        function renderFAQ(questions, answers) {
+            const container = document.getElementById('faq-list');
+            container.innerHTML = '';
+            
+            if (!questions || questions.length === 0) {
+                container.innerHTML = '<p class="faq-empty-message">هیچ پرسیارێک نەدۆزرایەوە. یەکەم کەس بە پرسیار بکەیت!</p>';
+                return;
+            }
+
+            questions.forEach(q => {
+                const item = document.createElement('div');
+                item.className = 'faq-item';
+                
+                // Filter answers for this question
+                const qAnswers = answers.filter(a => a.question_id === q.id);
+                
+                let answersHtml = `<div class="answers-container">`;
+                
+                if (qAnswers.length > 0) {
+                    qAnswers.forEach(ans => {
+                        const isOfficial = ans.is_official;
+                        answersHtml += `
+                            <div class="answer-item ${isOfficial ? 'official' : ''}">
+                                <div class="answer-header">
+                                    ${isOfficial 
+                                        ? '<span class="official-label"><i class="fas fa-check-circle"></i> وەڵامی بەڕێوبەر</span>' 
+                                        : `<span class="responder-name"><i class="fas fa-user-circle"></i> ${ans.responder_name || 'میوان'}</span>`
+                                    }
+                                </div>
+                                <div class="answer-text">${ans.answer_text}</div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    answersHtml += `<div class="no-answers"><i class="fas fa-clock"></i> هێشتا وەڵام نەدراوەتەوە...</div>`;
+                }
+                answersHtml += `</div>`;
+
+                item.innerHTML = `
+                    <div class="faq-question">
+                        <i class="fas fa-circle-question"></i>
+                        <div>
+                            ${q.question}
+                            <div class="faq-asker-info">
+                                لە لایەن: ${q.asker_name || 'نەناسراو'}
+                            </div>
+                        </div>
+                    </div>
+                    ${answersHtml}
+                    
+                    <button class="reply-toggle-btn" onclick="toggleReplyForm('${q.id}')">
+                        <i class="fas fa-reply"></i> وەڵام بدەرەوە
+                    </button>
+                    
+                    <div id="reply-form-${q.id}" class="reply-form">
+                        <div class="reply-inputs">
+                            <input type="text" id="reply-name-${q.id}" placeholder="ناوەکەت">
+                            <input type="password" id="admin-code-${q.id}" class="admin-code-input" placeholder="کۆد (ئەگەر هەیە)">
+                        </div>
+                        <textarea id="reply-text-${q.id}" class="faq-textarea faq-reply-textarea" rows="2" placeholder="وەڵامەکەت بنووسە..."></textarea>
+                        <button onclick="submitReply('${q.id}')" class="faq-submit-btn faq-reply-btn">
+                            <i class="fas fa-paper-plane"></i> ناردن
+                        </button>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Load Questions
+        async function loadQuestions() {
+            const container = document.getElementById('faq-list');
+            
+            // 1. Try to load from cache first
+            const cachedData = localStorage.getItem('faq_data');
+            if (cachedData) {
+                const { questions, answers } = JSON.parse(cachedData);
+                renderFAQ(questions, answers);
+            }
+
+            try {
+                // Fetch questions and answers in parallel for faster loading
+                const [questionsResponse, answersResponse] = await Promise.all([
+                    supabase
+                        .from('questions')
+                        .select('*')
+                        .order('created_at', { ascending: false }),
+                    supabase
+                        .from('answers')
+                        .select('*')
+                        .order('is_official', { ascending: false })
+                        .order('created_at', { ascending: true })
+                ]);
+
+                const questions = questionsResponse.data || [];
+                const answers = answersResponse.data || [];
+
+                if (questionsResponse.error || answersResponse.error) throw questionsResponse.error || answersResponse.error;
+
+                // Cache and render
+                localStorage.setItem('faq_data', JSON.stringify({ questions, answers }));
+                renderFAQ(questions, answers);
+
+            } catch (err) {
+                console.error('Error:', err);
+                if (!cachedData) {
+                    container.innerHTML = '<p class="faq-error-message">هەڵەیەک ڕوویدا لە هێنانی داتاکان.</p>';
+                }
+            }
+        }
+
+        // Toggle Reply Form
+        window.toggleReplyForm = (id) => {
+            const form = document.getElementById(`reply-form-${id}`);
+            form.classList.toggle('active');
+        }
+
+        // Submit Reply
+        window.submitReply = async (questionId) => {
+            const text = document.getElementById(`reply-text-${questionId}`).value;
+            const name = document.getElementById(`reply-name-${questionId}`).value;
+            const adminCode = document.getElementById(`admin-code-${questionId}`).value;
+
+            if (!text.trim()) {
+                alert('تکایە وەڵامەکەت بنووسە');
+                return;
+            }
+
+            try {
+                // Call the Supabase RPC function to handle logic securely on server
+                const { error } = await supabase.rpc('submit_answer', {
+                    p_question_id: questionId,
+                    p_answer_text: text,
+                    p_responder_name: name,
+                    p_admin_code: adminCode
+                });
+
+                if (error) throw error;
+
+                alert('وەڵامەکەت بە سەرکەوتوویی نێردرا.');
+                loadQuestions(); // Reload to show new answer
+            } catch (err) {
+                console.error('Error replying:', err);
+                alert('هەڵەیەک ڕوویدا.');
+            }
+        }
+
+        // Submit Question
+        window.submitQuestion = async () => {
+            const questionText = document.getElementById('question-text').value;
+            const askerName = document.getElementById('asker-name').value;
+
+            if (!questionText.trim()) {
+                alert('تکایە پرسیارەکەت بنووسە');
+                return;
+            }
+
+            try {
+                const { error } = await supabase
+                    .from('questions')
+                    .insert([{ 
+                        question: questionText,
+                        asker_name: askerName
+                    }]);
+
+                if (error) throw error;
+
+                // Clear form and reload
+                document.getElementById('question-text').value = '';
+                document.getElementById('asker-name').value = '';
+                alert('پرسیارەکەت بە سەرکەوتوویی نێردرا. وەڵامەکەی بەم زووانە دەدرێتەوە.');
+                loadQuestions();
+
+            } catch (err) {
+                console.error('Error submitting:', err);
+                alert('هەڵەیەک ڕوویدا لە ناردنی پرسیار.');
+            }
+        }
+
+        // Visitor Count Logic
+        async function initVisitorCount() {
+            const countEl = document.getElementById('visitor-count');
+            if (!countEl) return;
+
+            try {
+                // Call RPC to increment and get new count
+                const { data, error } = await supabase.rpc('increment_global_visitor_count');
+                if (error) throw error;
+                
+                countEl.innerText = data;
+            } catch (err) {
+                console.error('Error updating visitor count:', err);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQuestions();
+            initVisitorCount();
+        });
+    </script>
+</body>
+</html>

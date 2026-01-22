@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ckb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فەرموودەکان - گەنجینەی ئیسلام</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+</head>
+<body>
+    <script>
+        if (localStorage.getItem('sidebarOpen') === 'true') {
+            document.body.classList.add('sidebar-open');
+        }
+    </script>
+    <!-- ==================== HEADER ==================== -->
+    <header>
+        <div class="header-container">
+            <button id="sidebarToggle"><i class="fas fa-bars-staggered"></i> بەشەکان</button>
+            <div class="logo"><i class="fa-sharp-duotone fa-solid fa-kaaba"></i> گەنجینەی ئیسلام</div>
+            <nav id="navMenu">
+                <div class="nav-scroll-wrapper">
+                    <ul>
+                        <li><a href="../index.html">سەرەتا</a></li>
+                        <li><a href="../islam-what/index.html">ئیسلام چییە؟</a></li>
+                        <li><a href="../aqidah/index.html">عەقیدە</a></li>
+                        <li><a href="../tawheed/index.html">تەوحید</a></li>
+                        <li><a href="../quran/index.html">قوڕئان</a></li>
+                        <li><a href="index.html" class="active">فەرموودە</a></li>
+                        <li><a href="../prayer/index.html">نوێژ</a></li>
+                        <li><a href="../biography/index.html">ژیاننامە</a></li>
+                        <li><a href="../companions/index.html">هاوەڵان</a></li>
+                        <li><a href="../dhikr/index.html">یادی خودا</a></li>
+                        <li><a href="../video/index.html">ڤیدیۆ</a></li>
+                        <li><a href="../library-media/index.html">کتێبخانە</a></li>
+                        <li><a href="../faq/index.html">پرسیار و وەڵام</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main>
+        <div class="hadith-page-container">
+            <div class="hadith-header-row">
+                <div class="hadith-title-section">
+                    <h2><i class="fas fa-book-quran"></i> فەرموودەکانی پەیامبەر ﷺ</h2>
+                    <p>کۆمەڵێک فەرموودەی سەحیح لە سەرچاوە باوەڕپێکراوەکانەوە</p>
+                </div>
+                <!-- CONTROLS -->
+                <div class="hadith-controls">
+                    <div class="hadith-search-container">
+                        <input type="text" class="hadith-search-input" placeholder="گەڕان..." oninput="handleSearch()">
+                        <i class="fas fa-search hadith-search-icon"></i>
+                    </div>
+                    <select id="title-filter" class="hadith-filter-select" onchange="filterByTitle()" aria-label="پاڵاوتن بەپێی بابەت">
+                        <option value="">هەموو بابەتەکان</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="hadith-content-layout">
+
+                <!-- Hadiths Grid -->
+                <div id="hadiths-container" class="hadith-grid">
+                    <!-- Cards will be injected here -->
+                </div>
+            </div>
+
+            <div class="visitor-count">
+                <p><i class="fas fa-eye"></i> ژمارەی سەردانیکەران: <span id="visitor-count">0</span></p>
+            </div>
+        </div>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <p class="copyright">&copy; 2026 هەموو مافەکان پارێزراوە بۆ گەنجینەی ئیسلام.</p>
+        
+        <div class="footer-socials">
+            <!-- لینکی فەیسبووک -->
+            <a href="https://www.facebook.com/share/1ZrBaxzyfp/" target="_blank" rel="noopener noreferrer" class="social-btn facebook" title="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            
+            <!-- لینکی ئینستاگرام -->
+            <a href="https://www.instagram.com/mabast.w?igsh=MWx4ZHk1a2pncjBrcA==" target="_blank" rel="noopener noreferrer" class="social-btn instagram" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            
+            <!-- لینکی یوتوب -->
+            <a href="https://youtube.com/@mabast.1491?si=ZtEd5wFa2hPEpiiQ" target="_blank" rel="noopener noreferrer" class="social-btn youtube" title="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            
+            <!-- ئیمەیڵ (Gmail) -->
+            <a href="mailto:mabastw.qadir@gmail.com" class="social-btn email" title="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+
+        <p class="developer">گەشەپێدەر / مەبەست وریا خەیلانی</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+
+    <!-- Supabase Integration -->
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+        const supabaseUrl = 'https://sftnwbgwbxkmuackksho.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmdG53Ymd3YnhrbXVhY2trc2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5NTIxNTAsImV4cCI6MjA4MzUyODE1MH0.ArdAj5hPfNskzYDHitg5W6y9MGNkMFwAIwG9ep0MpBw'
+        const supabase = createClient(supabaseUrl, supabaseKey)
+        
+        let allHadiths = [];
+
+        async function initVisitorCount() {
+            const countEl = document.getElementById('visitor-count');
+            if (!countEl) return;
+
+            try {
+                const { data, error } = await supabase.rpc('increment_global_visitor_count');
+                if (error) throw error;
+                countEl.innerText = data;
+
+                // Increment Hadith Page View
+                await supabase.rpc('increment_page_view', { p_page_name: 'hadith' });
+
+            } catch (err) { console.error('Error updating visitor count:', err); }
+        }
+
+        // فەنکشنی دیزاینکردن کە داتا وەردەگرێت (جا لە کاش بێت یان ئینتەرنێت)
+        function renderHadiths(data) {
+            const hadithsContainer = document.getElementById('hadiths-container');
+
+            // ڕیزکردنی داتاکان
+            allHadiths = data.sort((a, b) => (parseInt(a.hadith_number) || 0) - (parseInt(b.hadith_number) || 0));
+
+            if (!allHadiths || allHadiths.length === 0) {
+                hadithsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #94a3b8;">هیچ فەرموودەیەک نەدۆزرایەوە.</p>';
+                return;
+            }
+
+            // پڕکردنەوەی فیلتەرەکان
+            const titles = [...new Set(allHadiths.map(h => h.title).filter(t => t))];
+            const filterSelect = document.getElementById('title-filter');
+            if (filterSelect) {
+                filterSelect.innerHTML = '<option value="">هەموو بابەتەکان</option>' + 
+                    titles.map(t => `<option value="${t}">${t}</option>`).join('');
+            }
+
+            // پیشاندانی لیستەکە
+            renderList(allHadiths);
+        }
+
+        // Unified Filter Function
+        function applyFilters() {
+            const searchInput = document.querySelector('.hadith-search-input');
+            const filterSelect = document.getElementById('title-filter');
+            
+            const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+            const title = filterSelect ? filterSelect.value : '';
+
+            let filtered = allHadiths;
+
+            // Filter by Title
+            if (title) {
+                filtered = filtered.filter(h => h.title === title);
+            }
+
+            // Filter by Search Query
+            if (query) {
+                filtered = filtered.filter(h => 
+                    h.arabic_text.toLowerCase().includes(query) || 
+                    h.kurdish_text.toLowerCase().includes(query) ||
+                    (h.hadith_number && h.hadith_number.toString().includes(query)) ||
+                    (h.narrator && h.narrator.toLowerCase().includes(query)) ||
+                    (h.title && h.title.toLowerCase().includes(query))
+                );
+            }
+
+            renderList(filtered);
+        }
+
+        window.handleSearch = () => applyFilters();
+        window.filterByTitle = () => applyFilters();
+
+        // Toggle Read More Function
+        window.toggleHadith = (index) => {
+            const container = document.getElementById(`hadith-text-${index}`);
+            if (!container) return;
+            
+            const shortText = container.querySelector('.short-text');
+            const fullText = container.querySelector('.full-text');
+            const btn = container.querySelector('.read-more-hadith-btn');
+
+            if (fullText.style.display === 'none') {
+                fullText.style.display = 'inline';
+                shortText.style.display = 'none';
+                btn.innerHTML = '<i class="fas fa-chevron-up"></i> کەمتر ببینە';
+            } else {
+                fullText.style.display = 'none';
+                shortText.style.display = 'inline';
+                btn.innerHTML = '<i class="fas fa-chevron-down"></i> زیاتر ببینە';
+            }
+        }
+
+        function renderList(filtered) {
+            const container = document.getElementById('hadiths-container');
+            
+            if (filtered.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #94a3b8; font-size: 1.1rem;">هیچ فەرموودەیەک نەدۆزرایەوە.</p>';
+                return;
+            }
+            
+            container.innerHTML = filtered.map((h, index) => {
+                // Check if mobile (width <= 768px) to set lower limit
+                const isMobile = window.innerWidth <= 768;
+                const charLimit = isMobile ? 150 : 300;
+
+                const text = h.kurdish_text || '';
+                const isLong = text.length > charLimit;
+                const shortText = isLong ? text.substring(0, charLimit) + '...' : text;
+
+                return `
+                <div class="hadith-card">
+                    ${h.title ? `<div class="hadith-topic-title">${h.title}</div>` : ''}
+                    <div class="hadith-arabic">${h.arabic_text}</div>
+                    <div class="hadith-kurdish" id="hadith-text-${index}">
+                        ${isLong ? `
+                            <span class="short-text">${shortText}</span>
+                            <span class="full-text" style="display:none;">${text}</span>
+                            <button class="read-more-hadith-btn" onclick="toggleHadith(${index})">
+                                <i class="fas fa-chevron-down"></i> زیاتر ببینە
+                            </button>
+                        ` : text}
+                    </div>
+                    <div class="hadith-footer">
+                        <div class="hadith-narrator">
+                            <i class="fas fa-user-edit"></i>
+                            <span>ڕیوایەتکار: ${h.narrator || 'نەزانراو'}</span>
+                        </div>
+                        <div class="hadith-meta">
+                            <span>${h.source}</span>
+                            <span class="hadith-number">فەرموودەی #${h.hadith_number || '---'}</span>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initVisitorCount();
+            // بەکارهێنانی فەنکشنە ئامادەکراوەکە بۆ هێنان و پاشەکەوتکردن
+            window.fetchAndCacheData('hadiths', renderHadiths, supabase);
+        });
+    </script>
+</body>
+</html>

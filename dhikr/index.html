@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ckb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>یادی خودا (زیکرەکان) - گەنجینەی ئیسلام</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+</head>
+<body>
+    <script>
+        if (localStorage.getItem('sidebarOpen') === 'true') {
+            document.body.classList.add('sidebar-open');
+        }
+    </script>
+    
+    <header>
+        <div class="header-container">
+            <button id="sidebarToggle"><i class="fas fa-bars-staggered"></i> بەشەکان</button>
+            <div class="logo"><i class="fa-sharp-duotone fa-solid fa-kaaba"></i> گەنجینەی ئیسلام</div>
+            <nav id="navMenu">
+                <div class="nav-scroll-wrapper">
+                    <ul>
+                        <li><a href="../index.html">سەرەتا</a></li>
+                        <li><a href="../islam-what/index.html">ئیسلام چییە؟</a></li>
+                        <li><a href="../aqidah/index.html">عەقیدە</a></li>
+                        <li><a href="../tawheed/index.html">تەوحید</a></li>
+                        <li><a href="../quran/index.html">قوڕئان</a></li>
+                        <li><a href="../hadiths/index.html">فەرموودە</a></li>
+                        <li><a href="../prayer/index.html">نوێژ</a></li>
+                        <li><a href="../biography/index.html">ژیاننامە</a></li>
+                        <li><a href="../companions/index.html">هاوەڵان</a></li>
+                        <li><a href="index.html" class="active">یادی خودا</a></li>
+                        <li><a href="../video/index.html">ڤیدیۆ</a></li>
+                        <li><a href="../library-media/index.html">کتێبخانە</a></li>
+                        <li><a href="../faq/index.html">پرسیار و وەڵام</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="hadith-page-container">
+            <div class="hadith-header-row">
+                <div class="hadith-title-section">
+                    <h2><i class="fas fa-hands-praying text-green"></i> یادی خودا (زیکرەکان)</h2>
+                    <p>دڵەکان تەنها بە یادی خودا ئارام دەگرن</p>
+                </div>
+            </div>
+
+            <div class="zikr-controls">
+                <div class="zikr-search-container">
+                    <input type="text" class="zikr-search-input" placeholder="گەڕان لە زیکرەکان..." oninput="searchDhikr(this.value)">
+                    <i class="fas fa-search zikr-search-icon"></i>
+                </div>
+                <select class="zikr-category-select" id="zikrCategory" onchange="filterDhikr(this.value)" aria-label="پاڵاوتنی زیکرەکان">
+                    <option>جارێ دەهێنرێت...</option>
+                </select>
+            </div>
+
+            <div class="hadith-grid" id="dhikr-container">
+                <div class="loading-spinner loading-spinner-center">
+                    <i class="fas fa-spinner fa-spin fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p class="copyright">&copy; 2026 هەموو مافەکان پارێزراوە بۆ گەنجینەی ئیسلام.</p>
+        
+        <div class="footer-socials">
+            <!-- لینکی فەیسبووک -->
+            <a href="https://www.facebook.com/share/1ZrBaxzyfp/" target="_blank" rel="noopener noreferrer" class="social-btn facebook" title="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            
+            <!-- لینکی ئینستاگرام -->
+            <a href="https://www.instagram.com/mabast.w?igsh=MWx4ZHk1a2pncjBrcA==" target="_blank" rel="noopener noreferrer" class="social-btn instagram" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            
+            <!-- لینکی یوتوب -->
+            <a href="https://youtube.com/@mabast.1491?si=ZtEd5wFa2hPEpiiQ" target="_blank" rel="noopener noreferrer" class="social-btn youtube" title="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            
+            <!-- ئیمەیڵ (Gmail) -->
+            <a href="mailto:mabastw.qadir@gmail.com" class="social-btn email" title="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+
+        <p class="developer">گەشەپێدەر / مەبەست وریا خەیلانی</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+        const supabaseUrl = 'https://sftnwbgwbxkmuackksho.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmdG53Ymd3YnhrbXVhY2trc2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5NTIxNTAsImV4cCI6MjA4MzUyODE1MH0.ArdAj5hPfNskzYDHitg5W6y9MGNkMFwAIwG9ep0MpBw'
+        const supabase = createClient(supabaseUrl, supabaseKey)
+
+        let allAdhkar = [];
+        let currentCategory = '';
+        let searchQuery = '';
+
+        function renderDhikrData(data) {
+            const selectElement = document.getElementById('zikrCategory');
+
+            allAdhkar = data || [];
+
+            // Extract unique categories dynamically
+            const categories = [...new Set(allAdhkar.map(item => item.category))];
+
+            if (categories.length > 0) {
+                currentCategory = categories[0];
+                
+                // Generate Dropdown Options
+                selectElement.innerHTML = categories.map(cat => 
+                    `<option value="${cat}">${cat}</option>`
+                ).join('');
+            }
+
+            renderAdhkar();
+        }
+
+        window.filterDhikr = (category) => {
+            const select = document.getElementById('zikrCategory');
+            if (select && select.value !== category) {
+                select.value = category;
+            }
+
+            currentCategory = category;
+            renderAdhkar();
+        }
+
+        window.searchDhikr = (q) => {
+            searchQuery = q.toLowerCase();
+            renderAdhkar();
+        }
+
+        function renderAdhkar() {
+            const container = document.getElementById('dhikr-container');
+            
+            const filtered = allAdhkar.filter(d => {
+                const matchesCategory = d.category === currentCategory;
+                const matchesSearch = !searchQuery || 
+                    d.arabic_text.includes(searchQuery) || 
+                    (d.kurdish_text && d.kurdish_text.includes(searchQuery));
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #94a3b8; grid-column: 1/-1;">هیچ زیکرێک نەدۆزرایەوە.</p>';
+                return;
+            }
+
+            container.innerHTML = filtered.map((item, index) => `
+                <div class="dhikr-card">
+                    <div class="dhikr-arabic">${item.arabic_text}</div>
+                    <div class="dhikr-kurdish">${item.kurdish_text || ''}</div>
+                    
+                    <div class="counter-btn" id="btn-${index}" onclick="countDown(${index}, ${item.repeat_count})">
+                        ${item.repeat_count}
+                    </div>
+
+                    <div class="dhikr-meta">
+                        <i class="fas fa-book-open"></i> ${item.source || 'سەرچاوە نەزانراوە'}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.countDown = (index, max) => {
+            const btn = document.getElementById(`btn-${index}`);
+            let current = parseInt(btn.innerText);
+            
+            if (current > 0) {
+                current--;
+                btn.innerText = current;
+                if (current === 0) {
+                    btn.classList.add('completed');
+                    btn.innerHTML = '<i class="fas fa-check"></i>';
+                }
+            } else {
+                // Reset
+                current = max;
+                btn.innerText = current;
+                btn.classList.remove('completed');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.fetchAndCacheData('adhkar', renderDhikrData, supabase, 'id', true);
+        });
+    </script>
+</body>
+</html>

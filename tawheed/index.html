@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ckb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تەوحید - گەنجینەی ئیسلام</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <script>
+        if (localStorage.getItem('sidebarOpen') === 'true') {
+            document.body.classList.add('sidebar-open');
+        }
+    </script>
+    <!-- ==================== HEADER ==================== -->
+    <header>
+        <div class="header-container">
+            <button id="sidebarToggle"><i class="fas fa-bars-staggered"></i> بەشەکان</button>
+            <div class="logo"><i class="fa-sharp-duotone fa-solid fa-kaaba"></i> گەنجینەی ئیسلام</div>
+            <nav id="navMenu">
+                <div class="nav-scroll-wrapper">
+                    <ul>
+                        <li><a href="../index.html">سەرەتا</a></li>
+                        <li><a href="../islam-what/index.html">ئیسلام چییە؟</a></li>
+                        <li><a href="../aqidah/index.html">عەقیدە</a></li>
+                        <li><a href="index.html" class="active">تەوحید</a></li>
+                        <li><a href="../quran/index.html">قوڕئان</a></li>
+                        <li><a href="../hadiths/index.html">فەرموودە</a></li>
+                        <li><a href="../prayer/index.html">نوێژ</a></li>
+                        <li><a href="../biography/index.html">ژیاننامە</a></li>
+                        <li><a href="../companions/index.html">هاوەڵان</a></li>
+                        <li><a href="../dhikr/index.html">یادی خودا</a></li>
+                        <li><a href="../video/index.html">ڤیدیۆ</a></li>
+                        <li><a href="../library-media/index.html">کتێبخانە</a></li>
+                        <li><a href="../faq/index.html">پرسیار و وەڵام</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main>
+        <div class="hadith-page-container">
+            <div class="hadith-header-row">
+                <div class="hadith-title-section">
+                    <h2><i class="fa-solid fa-hand-point-up text-green"></i> زانستی تەوحید</h2>
+                    <p>ناسینی خوای گەورە و یەکتاپەرستی بە بەڵگەی قورئان و فەرموودە</p>
+                </div>
+                <!-- SEARCH -->
+                <div class="hadith-search-container">
+                    <input type="text" class="hadith-search-input" placeholder="گەڕان لە بەشەکانی تەوحید..." oninput="handleSearch(this)">
+                    <i class="fas fa-search hadith-search-icon"></i>
+                </div>
+            </div>
+
+            <div class="hadith-content-layout">
+                <!-- TABS (Right Side) -->
+                <div class="tabs vertical-tabs">
+                    <button class="tab-button tab-pill active" onclick="switchTab('rububiyyah', this)">
+                        <span class="tab-icon"><i class="fas fa-hands-praying"></i></span>
+                        <span class="tab-text">الربوبیة</span>
+                    </button>
+                    <button class="tab-button tab-pill" onclick="switchTab('uluhiyyah', this)">
+                        <span class="tab-icon"><i class="fa-sharp-duotone fa-solid fa-kaaba"></i></span>
+                        <span class="tab-text">الألوهیة</span>
+                    </button>
+                    <button class="tab-button tab-pill" onclick="switchTab('asma', this)">
+                        <span class="tab-icon"><i class="fas fa-book"></i></span>
+                        <span class="tab-text">الأسماء والصفات</span>
+                    </button>
+                </div>
+
+                <!-- Content Area (Left Side) -->
+                <div id="tawheed-content" class="flex-1">
+                    
+                    <!-- RUBUBIYYAH -->
+                    <div id="rububiyyah" class="tab-content active">
+                        <div class="companion-detail-card">
+                            <h2 class="tawheed-header">تەوحیدی پەروەردگارێتی (الربوبية)</h2>
+
+                            <div class="companion-section-title"><i class="fas fa-info-circle"></i> پێناسە</div>
+                            <div class="tawheed-definition-box">
+                                <h4><i class="fas fa-language"></i> عەرەبی</h4>
+                                <div class="tawheed-definition-text tawheed-text-ar">
+                                    التوحيد الربوبي هو الإيمان بأن الله وحده هو رب كل شيء، وأنه المتصرف في الكون، وأنه مالك الملك، وأنه لا خالق إلا هو.
+                                </div>
+                            </div>
+                            <div class="tawheed-definition-box">
+                                <h4><i class="fas fa-globe"></i> کوردی</h4>
+                                <div class="tawheed-definition-text">
+                                    تەوحیدی پەروەردگارێتی بریتییە لە باوەڕی تەواو بەوەی کە خوای گەورە تاکە پەروەردگار و بەڕێوەبەری هەموو گەردوونە، و هیچ دروستکارێک نییە جگە لە ئەو.
+                                </div>
+                            </div>
+
+                            <div class="companion-section-title"><i class="fas fa-quran"></i> بەڵگەی قورئان</div>
+                            <div class="evidence-grid">
+                                <div class="evidence-card">
+                                    <div class="evidence-arabic">الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ</div>
+                                    <div class="evidence-kurdish">ستایش بۆ خوای پەروەردگاری جیهانیان</div>
+                                    <div class="evidence-meta">
+                                        <span><i class="fas fa-quran"></i> الفاتحة: 2</span>
+                                    </div>
+                                </div>
+                                <div class="evidence-card">
+                                    <div class="evidence-arabic">اللَّهُ خَالِقُ كُلِّ شَيْءٍ</div>
+                                    <div class="evidence-kurdish">خوای گەورە دروستکاری هەموو شتێکە</div>
+                                    <div class="evidence-meta">
+                                        <span><i class="fas fa-quran"></i> الزمر: 62</span>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="companion-section-title"><i class="fas fa-scroll"></i> بەڵگەی فەرموودە</div>
+                             <div class="evidence-grid">
+                                <div class="evidence-card">
+                                    <div class="evidence-arabic">أنت رب السماوات والأرض</div>
+                                    <div class="evidence-kurdish">تۆ پەروەردگاری ئاسمانەکان و زەویت</div>
+                                    <div class="evidence-meta">
+                                        <span><i class="fas fa-book"></i> سەحیحی بوخاری</span>
+                                        <span>#1120</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ULUHIYYAH -->
+                    <div id="uluhiyyah" class="tab-content">
+                        <div class="companion-detail-card">
+                            <h2 class="tawheed-header">تەوحیدی پەرستن (الألوهية)</h2>
+
+                            <div class="companion-section-title"><i class="fas fa-info-circle"></i> پێناسە</div>
+                            <div class="tawheed-definition-box">
+                                <h4><i class="fas fa-language"></i> عەرەبی</h4>
+                                <div class="tawheed-definition-text tawheed-text-ar">
+                                    هو إفراد الله بالعبادة، وتوجيه جميع أنواع العبادة لله وحده لا شريك له.
+                                </div>
+                            </div>
+                            <div class="tawheed-definition-box">
+                                <h4><i class="fas fa-globe"></i> کوردی</h4>
+                                <div class="tawheed-definition-text">
+                                    بریتییە لە بەتاک دانانی خوای گەورە لە پەرستندا، و ئاڕاستەکردنی هەموو جۆرە پەرستنێک تەنها بۆ ئەو بەبێ هاوبەش.
+                                </div>
+                            </div>
+
+                            <div class="companion-section-title"><i class="fas fa-quran"></i> بەڵگەی قورئان</div>
+                            <div class="evidence-grid">
+                                <div class="evidence-card">
+                                    <div class="evidence-arabic">إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ</div>
+                                    <div class="evidence-kurdish">تەنها تۆ دەپەرستین و تەنها داوای یارمەتی لە تۆ دەکەین</div>
+                                    <div class="evidence-meta">
+                                        <span><i class="fas fa-quran"></i> الفاتحة: 5</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ASMA WA SIFAT -->
+                    <div id="asma" class="tab-content">
+                        <div class="companion-detail-card">
+                            <h2 class="tawheed-header">تەوحیدی ناو و سیفات (الأسماء والصفات)</h2>
+
+                            <div class="companion-section-title"><i class="fas fa-info-circle"></i> پێناسە</div>
+                            <div class="tawheed-definition-box">
+                                <h4><i class="fas fa-language"></i> عەرەبی</h4>
+                                <div class="tawheed-definition-text tawheed-text-ar">
+                                    هو الإيمان بأسماء الله الحسنى وصفاته العليا كما جاءت في القرآن والسنة.
+                                </div>
+                            </div>
+                            <div class="tawheed-definition-box">
+                                <h4><i class="fas fa-globe"></i> کوردی</h4>
+                                <div class="tawheed-definition-text">
+                                    بریتییە لە باوەڕهێنان بە ناوە جوانەکان و سیفەتە بەرزەکانی خوای گەورە وەک چۆن لە قورئان و فەرموودەدا هاتووە.
+                                </div>
+                            </div>
+
+                            <div class="companion-section-title"><i class="fas fa-quran"></i> بەڵگەی قورئان</div>
+                            <div class="evidence-grid">
+                                <div class="evidence-card">
+                                    <div class="evidence-arabic">لَيْسَ كَمِثْلِهِ شَيْءٌ ۖ وَهُوَ السَّمِيعُ الْبَصِيرُ</div>
+                                    <div class="evidence-kurdish">هیچ شتێک وێنەی ئەو نییە، و ئەو بیستەر و بینایە</div>
+                                    <div class="evidence-meta">
+                                        <span><i class="fas fa-quran"></i> الشورى: 11</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="visitor-count">
+                <p><i class="fas fa-eye"></i> ژمارەی سەردانیکەران: <span id="visitor-count">0</span></p>
+            </div>
+        </div>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <p class="copyright">&copy; 2026 هەموو مافەکان پارێزراوە بۆ گەنجینەی ئیسلام.</p>
+        
+        <div class="footer-socials">
+            <!-- لینکی فەیسبووک -->
+            <a href="https://www.facebook.com/share/1ZrBaxzyfp/" target="_blank" rel="noopener noreferrer" class="social-btn facebook" title="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            
+            <!-- لینکی ئینستاگرام -->
+            <a href="https://www.instagram.com/mabast.w?igsh=MWx4ZHk1a2pncjBrcA==" target="_blank" rel="noopener noreferrer" class="social-btn instagram" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            
+            <!-- لینکی یوتوب -->
+            <a href="https://youtube.com/@mabast.1491?si=ZtEd5wFa2hPEpiiQ" target="_blank" rel="noopener noreferrer" class="social-btn youtube" title="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            
+            <!-- ئیمەیڵ (Gmail) -->
+            <a href="mailto:mabastw.qadir@gmail.com" class="social-btn email" title="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+
+        <p class="developer">گەشەپێدەر / مەبەست وریا خەیلانی</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+
+    <!-- Supabase Integration (Only for Visitor Count) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://sftnwbgwbxkmuackksho.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmdG53Ymd3YnhrbXVhY2trc2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5NTIxNTAsImV4cCI6MjA4MzUyODE1MH0.ArdAj5hPfNskzYDHitg5W6y9MGNkMFwAIwG9ep0MpBw'
+        
+        let supabase;
+        if (window.supabase) {
+            supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        }
+
+        async function initVisitorCount() {
+            if (!supabase) return;
+            const countEl = document.getElementById('visitor-count');
+            if (!countEl) return;
+
+            try {
+                const { data, error } = await supabase.rpc('increment_global_visitor_count');
+                if (error) throw error;
+                countEl.innerText = data;
+            } catch (err) { console.error('Error updating visitor count:', err); }
+        }
+
+        window.handleSearch = (input) => {
+            const query = input.value.toLowerCase();
+            const buttons = document.querySelectorAll('.tab-button');
+            
+            buttons.forEach(btn => {
+                const text = btn.querySelector('.tab-text').innerText.toLowerCase();
+                if (text.includes(query)) {
+                    btn.style.display = 'flex';
+                } else {
+                    btn.style.display = 'none';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initVisitorCount);
+    </script>
+</body>
+</html>

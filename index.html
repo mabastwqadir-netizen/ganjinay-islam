@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ckb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="گەنجینەی ئیسلام -  فەرموودە، هاوەڵانی پەیامبەر، ژیاننامە، و زۆر تر">
+    <title>گەنجینەی ئیسلام</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+</head>
+<body>
+    <script>
+        if (localStorage.getItem('sidebarOpen') === 'true') {
+            document.body.classList.add('sidebar-open');
+        }
+    </script>
+    <!-- ==================== HEADER ==================== -->
+    <header>
+        <div class="header-container">
+            <button id="sidebarToggle"><i class="fas fa-bars-staggered"></i> بەشەکان</button>
+            <div class="logo"><i class="fa-solid fa-kaaba"></i> گەنجینەی ئیسلام</div>
+            <nav id="navMenu">
+                <div class="nav-scroll-wrapper">
+                    <ul>
+                        <li><a href="index.html" class="active">سەرەتا</a></li>
+                        <li><a href="../islam-what/index.html">ئیسلام چییە؟</a></li>
+                        <li><a href="../aqidah/index.html">عەقیدە</a></li>
+                        <li><a href="../tawheed/index.html">تەوحید</a></li>
+                        <li><a href="../quran/index.html">قوڕئان</a></li>
+                        <li><a href="../hadiths/index.html">فەرموودە</a></li>
+                        <li><a href="../prayer/index.html">نوێژ</a></li>
+                        <li><a href="../biography/index.html">ژیاننامە</a></li>
+                        <li><a href="../companions/index.html">هاوەڵان</a></li>
+                        <li><a href="../dhikr/index.html">یادی خودا</a></li>
+                        <li><a href="../video/index.html">ڤیدیۆ</a></li>
+                        <li><a href="../library-media/index.html">کتێبخانە</a></li>
+                        <li><a href="../faq/index.html">پرسیار و وەڵام</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero">
+        <h1>گەنجینەی ئیسلام</h1>
+        <p>بۆ خزمەتی ئاینی خودای تاك</p>
+        <div class="hero-notification">
+            <i class="fas fa-bell"></i> پەرستشەکان وەکو عیبادەت ئەنجام بدەن نەك وەکو عادەت
+        </div><br>
+        <button class="cta-button" onclick="document.querySelector('main').scrollIntoView({behavior: 'smooth'})">ئاشنا بوون بە ئیسلام</button>
+    </section>
+
+    <!-- ==================== STATS SECTION ==================== -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                <span class="stat-number" id="home-visitor-stat">0</span>
+                <span class="stat-label">کۆی سەردانیکەران</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-book-quran"></i></div>
+                <span class="stat-number" id="quran-stat">0</span>
+                <span class="stat-label">خوێنەرانی قوڕئان</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-book-open"></i></div>
+                <span class="stat-number" id="hadith-stat">0</span>
+                <span class="stat-label">خوێنەرانی فەرموودە</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-download"></i></div>
+                <span class="stat-number" id="download-stat">0</span>
+                <span class="stat-label">کتێبە دابەزێنراوەکان</span>
+            </div>
+        </div>
+    </section>
+
+        <!-- ==================== MAIN CONTENT ==================== -->
+
+        <main>
+            <section class="sections-grid">
+                <div class="section-card" onclick="window.location.href='islam-what/index.html'">
+                    <div class="section-icon"><i class="fas fa-question-circle"></i></div>
+                    <h3>ئیسلام چییە؟</h3>
+                    <p>پێناسەی ئیسلام و بنەماکانی</p>
+                </div>
+                <div class="section-card" onclick="window.location.href='aqidah/index.html'">
+                    <div class="section-icon"><i class="fa-duotone fa-solid fa-mosque"></i></div>
+                    <h3>عەقیدە</h3>
+                    <p>کۆمەڵێك پرسیار و وەڵام و بەڵگەی عەقیدەیی</p>
+                </div>
+                <div class="section-card" onclick="window.location.href='tawheed/index.html'">
+                    <div class="section-icon"><i class="fa-solid fa-hand-point-up"></i></div>
+                    <h3>تەوحید</h3>
+                    <p>یەکخاپەرستی و پێوانەکانی</p>
+                </div>
+                 <div class="section-card" onclick="window.location.href='quran/index.html'">
+                    <div class="section-icon"><i class="fas fa-quran"></i></div>
+                    <h3>قوڕئان</h3>
+                    <p>کۆمەڵێك زانیاری لەسەر قوڕئان</p>
+                </div>
+                <div class="section-card" onclick="window.location.href='hadiths/index.html'">
+                    <div class="section-icon"><i class="fas fa-book"></i></div>
+                    <h3>فەرموودەکان</h3>
+                    <p>سەحیحی بوخاری، سەحیحی موسلیم و دیکە</p>
+                </div>
+                 <div class="section-card" onclick="window.location.href='prayer/index.html'">
+                    <div class="section-icon"><i class="fa-solid fa-person-praying"></i></div>
+                    <h3>نوێژ</h3>
+                    <p>چۆنییەتی نوێژکردن و بابەتەکان</p>
+                </div>
+                 <div class="section-card" onclick="window.location.href='biography/index.html'">
+                    <div class="section-icon"><i class="fas fa-scroll"></i></div>
+                    <h3>ژیاننامەی پەیامبەر</h3>
+                    <p>ژیانی پێش ئیسلام و دوای ئیسلام</p>
+                </div>
+                <div class="section-card" onclick="window.location.href='companions/index.html'">
+                    <div class="section-icon"><i class="fas fa-users"></i></div>
+                    <h3>هاوەڵانی پەیامبەر</h3>
+                    <p>باسی کۆمەڵێك هاوەڵی دیار</p>
+                </div>
+                 <div class="section-card" onclick="window.location.href='dhikr/index.html'">
+                    <div class="section-icon"><i class="fas fa-hands-praying"></i></div>
+                    <h3>یادی خودا</h3>
+                    <p>فێربوونی یادکردنەوەی خودا</p>
+                </div>
+                <div class="section-card" onclick="window.location.href='../video/index.html'">
+                    <div class="section-icon"><i class="fa-solid fa-clapperboard"></i></div>
+                    <h3>ڤیدیۆ</h3>
+                    <p>ڕووقیە ، قوڕئان ، ووتار و هیتر</p>
+                </div>
+                <div class="section-card" onclick="window.location.href='library-media/index.html'">
+                    <div class="section-icon"><i class="fas fa-book-open"></i></div>
+                    <h3>کتێبخانە</h3>
+                    <p>پەرتووکخانەی ئیسلام</p>
+                </div>
+                <div class="section-card" onclick="window.location.href='faq/index.html'">
+                    <div class="section-icon"><i class="fas fa-comments"></i></div>
+                    <h3>پرسیار و وەڵام (FAQ)</h3>
+                    <p>وەڵامدانەوەی پرسیارە باوەکان</p>
+                </div>
+            </section>
+
+            <!-- New Latest Books Section -->
+            <section class="latest-books-section mt-4rem p-0-1rem">
+                <div class="flex-between-center mb-2rem">
+                    <h2 class="text-yellow font-1-8rem m-0"><i class="fas fa-book-open"></i> نوێترین کتێبەکان</h2>
+                    <a href="library-media/index.html" class="text-green no-decoration font-bold">بینینی هەمووی <i class="fas fa-arrow-left"></i></a>
+                </div>
+                <div id="books-container" class="books-grid">
+                    <div class="loading-spinner loading-spinner-center">
+                        <i class="fas fa-spinner fa-spin fa-2x text-green"></i>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+    
+
+        <!-- ==================== FOOTER ==================== -->
+
+       <footer>
+        <p class="copyright">&copy; 2026 هەموو مافەکان پارێزراوە بۆ گەنجینەی ئیسلام.</p>
+        
+        <div class="footer-socials">
+            <!-- لینکی فەیسبووک -->
+            <a href="https://www.facebook.com/share/1ZrBaxzyfp/" target="_blank" rel="noopener noreferrer" class="social-btn facebook" title="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            
+            <!-- لینکی ئینستاگرام -->
+            <a href="https://www.instagram.com/mabast.w?igsh=MWx4ZHk1a2pncjBrcA==" target="_blank" rel="noopener noreferrer" class="social-btn instagram" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            
+            <!-- لینکی یوتوب -->
+            <a href="https://youtube.com/@mabast.1491?si=ZtEd5wFa2hPEpiiQ" target="_blank" rel="noopener noreferrer" class="social-btn youtube" title="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            
+            <!-- ئیمەیڵ (Gmail) -->
+            <a href="mailto:mabastw.qadir@gmail.com" class="social-btn email" title="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+
+        <p class="developer">گەشەپێدەر / مەبەست وریا خەیلانی</p>
+    </footer>
+
+    
+
+        <script src="js/script.js"></script>
+
+        <script src="js/theme.js"></script>
+
+    
+
+        <!-- Supabase Integration -->
+
+        <script type="module">
+
+            import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+    
+
+            const supabaseUrl = 'https://sftnwbgwbxkmuackksho.supabase.co'
+
+            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmdG53Ymd3YnhrbXVhY2trc2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5NTIxNTAsImV4cCI6MjA4MzUyODE1MH0.ArdAj5hPfNskzYDHitg5W6y9MGNkMFwAIwG9ep0MpBw'
+
+            const supabase = createClient(supabaseUrl, supabaseKey)
+
+    
+
+            // Functions to increment counts for books
+
+            window.incrementView = async (id) => {
+
+                const el = document.getElementById(`view-count-${id}`);
+
+                if (el) el.innerText = parseInt(el.innerText) + 1;
+
+                try {
+
+                    await supabase.rpc('increment_book_view', { book_id: id });
+
+                } catch (e) { console.error('Error incrementing view', e); }
+
+            }
+
+    
+
+            window.incrementDownload = async (id) => {
+
+                const el = document.getElementById(`download-count-${id}`);
+
+                if (el) el.innerText = parseInt(el.innerText) + 1;
+
+                try {
+
+                    await supabase.rpc('increment_book_download', { book_id: id });
+
+                } catch (e) { console.error('Error incrementing download', e); }
+
+            }
+
+    
+
+            async function loadBooks() {
+
+                const container = document.getElementById('books-container');
+
+                if (!container) return;
+
+                
+
+                try {
+
+                    const { data: books, error } = await supabase
+
+                        .from('books')
+
+                        .select('*')
+
+                        .order('created_at', { ascending: false })
+
+                        .limit(8); // Limit to 8 books for the homepage
+
+    
+
+                    if (error) throw error;
+
+    
+
+                    container.innerHTML = '';
+
+    
+
+                    if (!books || books.length === 0) {
+
+                        container.innerHTML = '<p class="books-empty-message">هیچ کتێبێک نەدۆزرایەوە.</p>';
+
+                        return;
+
+                    }
+
+    
+
+                    books.forEach(book => {
+
+                        const bookCard = document.createElement('div');
+
+                        bookCard.className = 'book-card';
+
+                        
+
+                        let coverHtml = '';
+
+                        if (book.cover_url) {
+
+                            coverHtml = `<img src="${book.cover_url}" alt="${book.title}" class="book-cover">`;
+
+                        } else {
+
+                            coverHtml = `<div class="book-cover book-cover-fallback"><i class="fas fa-book"></i></div>`;
+
+                        }
+
+    
+
+                        bookCard.innerHTML = `
+
+                            <div class="book-cover-container">${coverHtml}</div>
+
+                            <div class="book-info">
+
+                                <h3 class="book-title">${book.title}</h3>
+
+                                ${book.author ? `<p class="book-author"><i class="fas fa-pen-nib"></i> ${book.author}</p>` : ''}
+
+                                
+
+                                <div class="book-stats-info">
+
+                                    <span><i class="fas fa-eye"></i> <span id="view-count-${book.id}">${book.view_count || 0}</span></span>
+
+                                    <span><i class="fas fa-download"></i> <span id="download-count-${book.id}">${book.download_count || 0}</span></span>
+
+                                </div>
+
+    
+
+                                <div class="book-actions">
+
+                                    <a href="${book.pdf_url}" target="_blank" class="read-btn" onclick="incrementView(${book.id})"><i class="fas fa-book-open"></i></a>
+
+                                    <a href="${book.pdf_url}?download=" class="download-btn" onclick="incrementDownload(${book.id})">
+
+                                        <i class="fas fa-download"></i>
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                        container.appendChild(bookCard);
+
+                    });
+
+    
+
+                } catch (err) {
+
+                    console.error('Error fetching books:', err);
+
+                    container.innerHTML = '<p class="books-error-message">هەڵەیەک ڕوویدا لە کاتی هێنانی کتێبەکان.</p>';
+
+                }
+
+            }
+
+    
+
+    
+
+            async function initStats() {
+
+                const homeStatEl = document.getElementById('home-visitor-stat');
+
+                const quranStatEl = document.getElementById('quran-stat');
+
+                const hadithStatEl = document.getElementById('hadith-stat');
+
+                const downloadStatEl = document.getElementById('download-stat');
+
+    
+
+                try {
+
+                    // 1. Increment & Get Global Visitor Count
+
+                    if (homeStatEl) {
+
+                        const { data, error } = await supabase.rpc('increment_global_visitor_count');
+
+                        if (!error) homeStatEl.innerText = data.toLocaleString();
+
+                    }
+
+    
+
+                    // 2. Get Page Stats (Quran & Hadith)
+
+                    const { data: pageStats, error: pageError } = await supabase
+
+                        .from('page_stats')
+
+                        .select('*')
+
+                        .in('page_name', ['quran', 'hadith']);
+
+                    
+
+                    if (!pageError && pageStats) {
+
+                        const quranData = pageStats.find(p => p.page_name === 'quran');
+
+                        const hadithData = pageStats.find(p => p.page_name === 'hadith');
+
+                        
+
+                        if (quranStatEl && quranData) quranStatEl.innerText = quranData.view_count.toLocaleString();
+
+                        if (hadithStatEl && hadithData) hadithStatEl.innerText = hadithData.view_count.toLocaleString();
+
+                    }
+
+    
+
+                    // 3. Get Total Book Downloads
+
+                    if (downloadStatEl) {
+
+                        const { data: downloads, error: dlError } = await supabase.rpc('get_total_book_downloads');
+
+                        if (!dlError) downloadStatEl.innerText = downloads.toLocaleString();
+
+                    }
+
+    
+
+                } catch (err) { console.error('Error updating stats:', err); }
+
+            }
+
+    
+
+            document.addEventListener('DOMContentLoaded', () => {
+
+                initStats();
+
+                loadBooks();
+
+            });
+
+        </script>
+</body>
+</html>

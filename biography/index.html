@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ckb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ژیاننامەی پەیامبەر - گەنجینەی ئیسلام</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+</head>
+<body>
+    <script>
+        if (localStorage.getItem('sidebarOpen') === 'true') {
+            document.body.classList.add('sidebar-open');
+        }
+    </script>
+    <!-- ==================== HEADER ==================== -->
+    <header>
+        <div class="header-container">
+            <button id="sidebarToggle"><i class="fas fa-bars-staggered"></i> بەشەکان</button>
+            <div class="logo"><i class="fa-sharp-duotone fa-solid fa-kaaba"></i> گەنجینەی ئیسلام</div>
+            <nav id="navMenu">
+                <div class="nav-scroll-wrapper">
+                    <ul>
+                         <li><a href="../index.html">سەرەتا</a></li>
+                        <li><a href="../islam-what/index.html">ئیسلام چییە؟</a></li>
+                        <li><a href="../aqidah/index.html">عەقیدە</a></li>
+                        <li><a href="../tawheed/index.html">تەوحید</a></li>
+                        <li><a href="../quran/index.html">قوڕئان</a></li>
+                        <li><a href="../hadiths/index.html">فەرموودە</a></li>
+                        <li><a href="../prayer/index.html">نوێژ</a></li>
+                        <li><a href="index.html" class="active">ژیاننامە</a></li>
+                        <li><a href="../companions/index.html">هاوەڵان</a></li>
+                        <li><a href="../dhikr/index.html">یادی خودا</a></li>
+                        <li><a href="../video/index.html">ڤیدیۆ</a></li>
+                        <li><a href="../library-media/index.html">کتێبخانە</a></li>
+                        <li><a href="../faq/index.html">پرسیار و وەڵام</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="quran-content-page">
+        <div class="quran-header">
+            <h2><i class="fas fa-scroll"></i> ژیاننامەی پەیامبەر محمد</h2>
+            <p>وێستگەکانی ژیانی پێشەوای مرۆڤایەتی لە پێش و پاش ئیسلامدا</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="hadith-search-container search-centered">
+                <input type="text" id="searchInput" class="hadith-search-input" placeholder="گەڕان لە ڕووداوەکان...">
+                <i class="fas fa-search hadith-search-icon"></i>
+            </div>
+
+            <!-- TABS -->
+            <div class="tabs" role="tablist" aria-label="Biography sections">
+                <button class="tab-button tab-pill active" role="tab" aria-selected="true" aria-controls="before-islam" id="tab-before" onclick="switchTab('before-islam', this)">
+                    <span class="tab-icon"><i class="fas fa-moon"></i></span>
+                    <span class="tab-text">پێش ئیسلام</span>
+                </button>
+                <button class="tab-button tab-pill" role="tab" aria-selected="false" aria-controls="after-islam" id="tab-after" onclick="switchTab('after-islam', this)">
+                    <span class="tab-icon"><i class="fas fa-sun"></i></span>
+                    <span class="tab-text">دوای ئیسلام</span>
+                </button>
+            </div>
+
+            <!-- BEFORE ISLAM -->
+            <div id="before-islam" class="tab-content active">
+                <h3><i class="fa-solid fa-hashtag"></i> ژیانی پێش ئیسلام</h3>
+                <div id="before-islam-grid" class="messages-grid bio-grid-layout">
+                    <!-- Loading Skeletons -->
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                </div>
+            </div>
+
+            <!-- AFTER ISLAM -->
+            <div id="after-islam" class="tab-content">
+                <h3><i class="fa-solid fa-hashtag"></i> ژیانی دوای ئیسلام</h3>
+                <div id="after-islam-grid" class="messages-grid bio-grid-layout">
+                    <!-- Loading Skeletons -->
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                </div>
+            </div>
+
+            <div class="visitor-count">
+                <p><i class="fas fa-eye"></i> ژمارەی سەردانیکەران: <span id="visitor-count">0</span></p>
+            </div>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+   <footer>
+        <p class="copyright">&copy; 2026 هەموو مافەکان پارێزراوە بۆ گەنجینەی ئیسلام.</p>
+        
+        <div class="footer-socials">
+            <!-- لینکی فەیسبووک -->
+            <a href="https://www.facebook.com/share/1ZrBaxzyfp/" target="_blank" rel="noopener noreferrer" class="social-btn facebook" title="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            
+            <!-- لینکی ئینستاگرام -->
+            <a href="https://www.instagram.com/mabast.w?igsh=MWx4ZHk1a2pncjBrcA==" target="_blank" rel="noopener noreferrer" class="social-btn instagram" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            
+            <!-- لینکی یوتوب -->
+            <a href="https://youtube.com/@mabast.1491?si=ZtEd5wFa2hPEpiiQ" target="_blank" rel="noopener noreferrer" class="social-btn youtube" title="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            
+            <!-- ئیمەیڵ (Gmail) -->
+            <a href="mailto:mabastw.qadir@gmail.com" class="social-btn email" title="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+
+        <p class="developer">گەشەپێدەر / مەبەست وریا خەیلانی</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+
+    <!-- Supabase Integration -->
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+        const supabaseUrl = 'https://sftnwbgwbxkmuackksho.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmdG53Ymd3YnhrbXVhY2trc2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5NTIxNTAsImV4cCI6MjA4MzUyODE1MH0.ArdAj5hPfNskzYDHitg5W6y9MGNkMFwAIwG9ep0MpBw'
+        const supabase = createClient(supabaseUrl, supabaseKey)
+
+        async function initVisitorCount() {
+            const countEl = document.getElementById('visitor-count');
+            if (!countEl) return;
+
+            try {
+                const { data, error } = await supabase.rpc('increment_global_visitor_count');
+                if (error) throw error;
+                countEl.innerText = data;
+                
+                // Increment Page View
+                await supabase.rpc('increment_page_view', { p_page_name: 'biography' });
+            } catch (err) { console.error('Error updating visitor count:', err); }
+        }
+
+        function renderBiography(data) {
+            const beforeContainer = document.getElementById('before-islam-grid');
+            const afterContainer = document.getElementById('after-islam-grid');
+
+                if (!data || data.length === 0) {
+                    beforeContainer.innerHTML = '<p class="empty-message">هیچ داتایەک نییە.</p>';
+                    afterContainer.innerHTML = '<p class="empty-message">هیچ داتایەک نییە.</p>';
+                    return;
+                }
+
+                // Clear skeletons
+                beforeContainer.innerHTML = '';
+                afterContainer.innerHTML = '';
+
+                data.forEach(event => {
+                    const card = document.createElement('div');
+                    card.classList.add('message-card', 'bio-card'); // Using message-card style from Quran section
+
+                    card.innerHTML = `
+                        <div class="message-header">
+                            <i class="fas ${event.icon || 'fa-history'}"></i>
+                            <h4>${event.title}</h4>
+                        </div>
+                        <div class="message-body">
+                            <p style="color: #cbd5e1; line-height: 1.8; margin-bottom: 1rem;">${event.content}</p>
+                            ${event.date_text ? `
+                            <div class="quran-verse-section" style="margin-bottom:0; padding: 0.8rem;">
+                                <p class="kurdish-text" style="margin:0; text-align:center;">
+                                    <i class="fas fa-calendar-alt" style="color:#1db954; margin-left:5px;"></i> 
+                                    <strong>مێژوو:</strong> ${event.date_text}
+                                </p>
+                            </div>
+                            ` : ''}
+                        </div>
+                    `;
+
+                    if (event.category === 'before_islam') {
+                        beforeContainer.appendChild(card);
+                    } else {
+                        afterContainer.appendChild(card);
+                    }
+                });
+
+                // Enable Search
+                const searchInput = document.getElementById('searchInput');
+                searchInput.addEventListener('input', (e) => {
+                    const term = e.target.value.toLowerCase();
+                    const cards = document.querySelectorAll('.bio-card');
+                    cards.forEach(card => {
+                        const text = card.textContent.toLowerCase();
+                        card.style.display = text.includes(term) ? 'block' : 'none';
+                    });
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initVisitorCount();
+            window.fetchAndCacheData('biography_events', renderBiography, supabase, 'display_order', true);
+        });
+    </script>
+</body>
+</html>

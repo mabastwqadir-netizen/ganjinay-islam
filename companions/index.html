@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ckb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>هاوەڵانی پەیامبەر - گەنجینەی ئیسلام</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+</head>
+<body>
+    <script>
+        if (localStorage.getItem('sidebarOpen') === 'true') {
+            document.body.classList.add('sidebar-open');
+        }
+    </script>
+    <!-- ==================== HEADER ==================== -->
+   <header>
+        <div class="header-container">
+            <button id="sidebarToggle"><i class="fas fa-bars-staggered"></i> بەشەکان</button>
+            <div class="logo"><i class="fa-sharp-duotone fa-solid fa-kaaba"></i> گەنجینەی ئیسلام</div>
+            <nav id="navMenu">
+                <div class="nav-scroll-wrapper">
+                    <ul>
+                         <li><a href="../index.html">سەرەتا</a></li>
+                        <li><a href="../islam-what/index.html">ئیسلام چییە؟</a></li>
+                        <li><a href="../aqidah/index.html">عەقیدە</a></li>
+                        <li><a href="../tawheed/index.html">تەوحید</a></li>
+                        <li><a href="../quran/index.html">قوڕئان</a></li>
+                        <li><a href="../hadiths/index.html">فەرموودە</a></li>
+                        <li><a href="../prayer/index.html">نوێژ</a></li>
+                        <li><a href="../biography/index.html">ژیاننامە</a></li>
+                        <li><a href="index.html" class="active">هاوەڵان</a></li>
+                        <li><a href="../dhikr/index.html">یادی خودا</a></li>
+                        <li><a href="../video/index.html">ڤیدیۆ</a></li>
+                        <li><a href="../library-media/index.html">کتێبخانە</a></li>
+                        <li><a href="../faq/index.html">پرسیار و وەڵام</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main>
+        <div class="hadith-page-container">
+            <div class="hadith-header-row">
+                <div class="hadith-title-section">
+                    <h2><i class="fas fa-users text-green"></i> هاوەڵانی پەیامبەر ﷺ</h2>
+                    <p>هاوەڵانی دڵسۆزی پەیامبەر ﷺ کە زەحمەتی ئاستەنگی زۆریان چەشت بۆ بڵاوکردنەوەی ئیسلام</p>
+                </div>
+                <!-- SEARCH -->
+                <div class="hadith-search-container">
+                    <input type="text" class="hadith-search-input" placeholder="گەڕان بەناو هاوەڵاندا..." oninput="handleSearch(this)">
+                    <i class="fas fa-search hadith-search-icon"></i>
+                </div>
+            </div>
+
+            <div class="hadith-content-layout">
+                <!-- TABS (Right Side) -->
+                <div id="companions-tabs" class="tabs vertical-tabs">
+                    <div class="loading-spinner loading-text-center w-full">
+                        <i class="fas fa-spinner fa-spin fa-2x"></i>
+                    </div>
+                </div>
+
+                <!-- Content Area (Left Side) -->
+                <div id="companion-content" class="flex-1">
+                    <!-- Details will be injected here -->
+                </div>
+            </div>
+
+            <div class="visitor-count">
+                <p><i class="fas fa-eye"></i> ژمارەی سەردانیکەران: <span id="visitor-count">0</span></p>
+            </div>
+        </div>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+   <footer>
+        <p class="copyright">&copy; 2026 هەموو مافەکان پارێزراوە بۆ گەنجینەی ئیسلام.</p>
+        
+        <div class="footer-socials">
+            <!-- لینکی فەیسبووک -->
+            <a href="https://www.facebook.com/share/1ZrBaxzyfp/" target="_blank" rel="noopener noreferrer" class="social-btn facebook" title="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            
+            <!-- لینکی ئینستاگرام -->
+            <a href="https://www.instagram.com/mabast.w?igsh=MWx4ZHk1a2pncjBrcA==" target="_blank" rel="noopener noreferrer" class="social-btn instagram" title="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            
+            <!-- لینکی یوتوب -->
+            <a href="https://youtube.com/@mabast.1491?si=ZtEd5wFa2hPEpiiQ" target="_blank" rel="noopener noreferrer" class="social-btn youtube" title="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            
+            <!-- ئیمەیڵ (Gmail) -->
+            <a href="mailto:mabastw.qadir@gmail.com" class="social-btn email" title="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+
+        <p class="developer">گەشەپێدەر / مەبەست وریا خەیلانی</p>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/theme.js"></script>
+
+    <!-- Supabase Integration -->
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+
+        const supabaseUrl = 'https://sftnwbgwbxkmuackksho.supabase.co'
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmdG53Ymd3YnhrbXVhY2trc2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5NTIxNTAsImV4cCI6MjA4MzUyODE1MH0.ArdAj5hPfNskzYDHitg5W6y9MGNkMFwAIwG9ep0MpBw'
+        const supabase = createClient(supabaseUrl, supabaseKey)
+        
+        let allCompanions = [];
+        let activeCompanion = null;
+
+        // Functions to increment book counts
+        window.incrementBookView = async (id) => {
+            const el = document.getElementById(`book-view-${id}`);
+            if (el) el.innerText = parseInt(el.innerText) + 1;
+            try { await supabase.rpc('increment_companion_book_view', { companion_id: id }); } catch (e) {}
+        }
+        window.incrementBookDownload = async (id) => {
+            const el = document.getElementById(`book-dl-${id}`);
+            if (el) el.innerText = parseInt(el.innerText) + 1;
+            try { await supabase.rpc('increment_companion_book_download', { companion_id: id }); } catch (e) {}
+        }
+
+        async function initVisitorCount() {
+            const countEl = document.getElementById('visitor-count');
+            if (!countEl) return;
+
+            try {
+                const { data, error } = await supabase.rpc('increment_global_visitor_count');
+                if (error) throw error;
+                countEl.innerText = data;
+            } catch (err) { console.error('Error updating visitor count:', err); }
+        }
+
+        function renderCompanions(data) {
+            const tabsContainer = document.getElementById('companions-tabs');
+            const contentContainer = document.getElementById('companion-content');
+
+            allCompanions = data || [];
+
+            if (!allCompanions || allCompanions.length === 0) {
+                tabsContainer.innerHTML = '';
+                contentContainer.innerHTML = '<p style="text-align: center; color: #94a3b8;">هیچ داتایەک نەدۆزرایەوە.</p>';
+                return;
+            }
+
+            // Render Tabs
+            renderTabs(allCompanions);
+            
+            // Select first one
+            selectCompanion(allCompanions[0]);
+        }
+
+        function renderTabs(list) {
+            const tabsContainer = document.getElementById('companions-tabs');
+            tabsContainer.innerHTML = list.map(comp => `
+            <button class="tab-button tab-pill ${activeCompanion && activeCompanion.id === comp.id ? 'active' : ''}" onclick="selectCompanionById('${comp.id}')" data-id="${comp.id}">
+                    <span class="tab-icon"><i class="fas fa-user"></i></span>
+                    <span class="tab-text">${comp.name}</span>
+                </button>
+            `).join('');
+        }
+
+        window.selectCompanionById = (id) => {
+            const comp = allCompanions.find(c => c.id == id);
+            if (comp) selectCompanion(comp);
+        }
+
+        function selectCompanion(comp) {
+            activeCompanion = comp;
+            
+            // Update active class without re-rendering to preserve scroll and animation
+            document.querySelectorAll('#companions-tabs .tab-button').forEach(btn => {
+                if (btn.dataset.id == comp.id) {
+                    btn.classList.add('active');
+                    // Ensure active tab is visible on mobile
+                    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            const container = document.getElementById('companion-content');
+            
+            // Helper to generate collapsible section
+            const generateSection = (title, titleIcon, items, itemIcon, idSuffix) => {
+                if (!items || items.length === 0) return '';
+                
+                const listHtml = items.map(item => `<li><i class="fas ${itemIcon}"></i> ${item}</li>`).join('');
+                const sectionId = `list-${idSuffix}-${comp.id}`;
+                const isLong = items.length > 3;
+                
+                let html = `<div class="companion-section-group">`;
+                html += `<div class="companion-section-title"><i class="fas ${titleIcon}"></i> ${title}</div>`;
+                html += `<div class="companion-features ${isLong ? 'collapsed' : ''}" id="${sectionId}"><ul>${listHtml}</ul></div>`;
+                
+                if (isLong) {
+                    html += `<button class="read-more-btn" onclick="toggleList('${sectionId}', this)">زیاتر ببینە <i class="fas fa-chevron-down"></i></button>`;
+                }
+                html += `</div>`;
+                return html;
+            };
+
+            const featuresSection = generateSection('تایبەتمەندییەکان', 'fa-star', comp.features, 'fa-check-circle', 'features');
+            const politicalSection = generateSection('کارەکانی لە سیاسەتدا', 'fa-landmark', comp.political_works, 'fa-landmark', 'political');
+            const religiousSection = generateSection('کارەکانی لە ئایندا', 'fa-mosque', comp.religious_works, 'fa-mosque', 'religious');
+
+            // Book Section
+            let bookHtml = '';
+            if (comp.book_title) {
+                bookHtml = `
+                    <div class="companion-section-title"><i class="fas fa-book"></i> کتێب دەربارەی ژیانی</div>
+                    <div class="companion-book-section">
+                        ${comp.book_cover_url ? `<img src="${comp.book_cover_url}" class="comp-book-cover" alt="Book Cover">` : `<div class="comp-book-cover"><i class="fas fa-book"></i></div>`}
+                        <div class="comp-book-info">
+                            <div class="comp-book-title">${comp.book_title}</div>
+                            <div class="comp-book-stats">
+                                <span><i class="fas fa-eye"></i> <span id="book-view-${comp.id}">${comp.book_view_count || 0}</span> خوێندنەوە</span>
+                                <span><i class="fas fa-download"></i> <span id="book-dl-${comp.id}">${comp.book_download_count || 0}</span> داونڵۆد</span>
+                            </div>
+                            <div class="comp-book-actions">
+                                <a href="${comp.book_pdf_url}" target="_blank" rel="noopener noreferrer" class="read-btn" onclick="incrementBookView('${comp.id}')"><i class="fas fa-book-open"></i> خوێندنەوە</a>
+                                <a href="${comp.book_pdf_url}?download=" class="download-btn" onclick="incrementBookDownload('${comp.id}')"><i class="fas fa-download"></i> داونڵۆد</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = `
+                <div class="companion-detail-card">
+                    <h2 class="companion-name-title" style="text-align: center; margin-bottom: 2rem;">${comp.name}</h2>
+
+                    <div class="companion-section-title"><i class="fas fa-id-card"></i> ناساندن</div>
+                    <div class="companion-intro-grid">
+                        <div class="info-item"><label>ناوی تەواو</label><span>${comp.full_name || '---'}</span></div>
+                        <div class="info-item"><label>ساڵی لەدایکبوون/مردن</label><span>${comp.birth_death_years || '---'}</span></div>
+                        <div class="info-item"><label>هۆز</label><span>${comp.tribe || '---'}</span></div>
+                        <div class="info-item"><label>ناسراوە بە</label><span>${comp.title || '---'}</span></div>
+                    </div>
+                    
+                    <div class="companion-sections-grid">
+                        ${featuresSection}
+                        ${politicalSection}
+                        ${religiousSection}
+                    </div>
+
+                    ${bookHtml}
+
+                    <div class="companion-section-title"><i class="fas fa-history"></i> باسێك لە ژیانی</div>
+                    <div class="companion-bio collapsed" id="bio-text-${comp.id}">${comp.bio_summary || ''}</div>
+                    <button class="read-more-btn" onclick="toggleBio('bio-text-${comp.id}', this)">
+                        زیاتر ببینە <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        window.toggleBio = (id, btn) => {
+            const bio = document.getElementById(id);
+            if (bio.classList.contains('collapsed')) {
+                bio.classList.remove('collapsed');
+                btn.innerHTML = 'کەمتر ببینە <i class="fas fa-chevron-up"></i>';
+            } else {
+                bio.classList.add('collapsed');
+                btn.innerHTML = 'زیاتر ببینە <i class="fas fa-chevron-down"></i>';
+            }
+        }
+
+        window.toggleList = (id, btn) => {
+            const list = document.getElementById(id);
+            if (list.classList.contains('collapsed')) {
+                list.classList.remove('collapsed');
+                btn.innerHTML = 'کەمتر ببینە <i class="fas fa-chevron-up"></i>';
+            } else {
+                list.classList.add('collapsed');
+                btn.innerHTML = 'زیاتر ببینە <i class="fas fa-chevron-down"></i>';
+            }
+        }
+
+        window.handleSearch = (input) => {
+            const query = input.value.toLowerCase();
+            const filtered = allCompanions.filter(c => c.name.toLowerCase().includes(query) || (c.full_name && c.full_name.toLowerCase().includes(query)));
+            renderTabs(filtered);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => { 
+            initVisitorCount(); 
+            window.fetchAndCacheData('companions', renderCompanions, supabase, 'id', true);
+        });
+    </script>
+</body>
+</html>

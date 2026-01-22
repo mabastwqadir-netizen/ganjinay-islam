@@ -1,0 +1,174 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // Sidebar Toggle Logic
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const body = document.body;
+
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent immediate closing
+            body.classList.toggle('sidebar-open');
+            localStorage.setItem('sidebarOpen', body.classList.contains('sidebar-open'));
+        });
+    }
+
+    // Close sidebar when clicking outside (Mobile/Tablet)
+    document.addEventListener('click', (e) => {
+        if (body.classList.contains('sidebar-open') && 
+            !e.target.closest('nav') && 
+            !e.target.closest('#sidebarToggle')) {
+            body.classList.remove('sidebar-open');
+            localStorage.setItem('sidebarOpen', 'false');
+        }
+    });
+
+    // Close sidebar when a nav link is clicked (Mobile/Tablet)
+    const navLinks = document.querySelectorAll('nav a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 1200) {
+                body.classList.remove('sidebar-open');
+                localStorage.setItem('sidebarOpen', 'false');
+            }
+        });
+    });
+
+    // Initialize active tab from URL hash (optional)
+    const hash = window.location.hash;
+    if (hash) {
+        const tabBtn = document.querySelector(`.tab-button[onclick*="${hash.replace('#', '')}"]`);
+        if (tabBtn) {
+            tabBtn.click();
+        }
+    }
+
+    // ==========================================
+    // FAQ Read More Logic (زیادکراو بۆ وەڵامە درێژەکان)
+    // ==========================================
+    function processFaqReadMore(element) {
+        if (element.dataset.processed) return;
+        element.dataset.processed = 'true';
+
+        // Check height after a short delay to ensure rendering
+        setTimeout(() => {
+            // If height is greater than ~100px (approx 4-5 lines)
+            if (element.scrollHeight > 100) {
+                element.classList.add('collapsed');
+                
+                const btn = document.createElement('button');
+                btn.className = 'faq-see-more-btn';
+                btn.innerHTML = '<i class="fas fa-chevron-down"></i> زیاتر ببینە';
+                
+                btn.onclick = () => {
+                    const isCollapsed = element.classList.toggle('collapsed');
+                    btn.innerHTML = isCollapsed ? 
+                        '<i class="fas fa-chevron-down"></i> زیاتر ببینە' : 
+                        '<i class="fas fa-chevron-up"></i> کەمتر ببینە';
+                };
+                
+                element.parentNode.insertBefore(btn, element.nextSibling);
+            }
+        }, 100);
+    }
+
+    // 1. Process existing elements
+    document.querySelectorAll('.answer-text').forEach(processFaqReadMore);
+
+    // 2. Observe for new elements (Dynamic content)
+    const faqObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => {
+                if (node.nodeType === 1) {
+                    if (node.classList && node.classList.contains('answer-text')) {
+                        processFaqReadMore(node);
+                    } else if (node.querySelectorAll) {
+                        node.querySelectorAll('.answer-text').forEach(processFaqReadMore);
+                    }
+                }
+            });
+        });
+    });
+
+    faqObserver.observe(document.body, { childList: true, subtree: true });
+});
+
+// Global Tab Switcher Function (Used in Prayer page)
+window.switchTab = function(tabId, btn) {
+    const tabsContainer = btn.closest('.tabs');
+    if (!tabsContainer) return;
+
+    const parentContainer = tabsContainer.parentElement;
+
+    // Update Buttons
+    tabsContainer.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Update Content
+    parentContainer.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    const selectedContent = document.getElementById(tabId);
+    if (selectedContent) selectedContent.classList.add('active');
+};
+
+// ==========================================
+// PWA & Caching Helpers (زیادکراو بۆ هەموو بەشەکان)
+// ==========================================
+
+// ١. تۆمارکردنی Service Worker بە شێوەی ئۆتۆماتیکی بۆ هەموو پەڕەکان
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        // دۆزینەوەی ڕێڕەوی sw.js لەڕێگەی لینکی manifest
+        // ئەمە وا دەکات لە هەر فۆڵدەرێک بیت، ڕێڕەوەکە ڕاست بێت (../sw.js یان ./sw.js)
+        const manifestLink = document.querySelector('link[rel="manifest"]');
+        if (manifestLink) {
+            const swPath = manifestLink.getAttribute('href').replace('manifest.json', 'sw.js');
+            
+            navigator.serviceWorker.register(swPath)
+                .then(registration => {
+                    console.log('ServiceWorker registered successfully');
+                }, err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+        }
+    });
+}
+
+// ٢. فەنکشنی گشتی بۆ هێنان و پاشەکەوتکردنی داتاکان (بۆ هەموو بەشەکان)
+window.fetchAndCacheData = async function(tableName, renderCallback, supabaseClient, orderBy = 'id', ascending = true, filter = null, customContainerId = null) {
+    // دیاریکردنی ئایدی کۆنتەینەر (ئەگەر دیاری نەکرابوو، ناوی خشتەکە بەکاردێت)
+    const containerId = customContainerId || `${tableName}-container`;
+    const container = document.getElementById(containerId);
+    
+    // دروستکردنی کلیلێکی تایبەت بۆ کاش (ئەگەر فیلتەر هەبوو، دەخرێتە ناو ناوەکەوە)
+    const cacheKey = filter ? `${tableName}_${filter.column}_${filter.value}_data` : `${tableName}_data`;
+
+    // هەنگاوی یەکەم: پیشاندانی داتای پاشەکەوتکراو (ئەگەر هەبێت)
+    const cachedData = localStorage.getItem(cacheKey);
+    if (cachedData) {
+        renderCallback(JSON.parse(cachedData));
+    }
+
+    // هەنگاوی دووەم: هێنانی داتای نوێ لە ئینتەرنێتەوە
+    try {
+        let query = supabaseClient.from(tableName).select('*');
+        
+        // ئەگەر فیلتەر هەبوو، زیاد دەکرێت (بۆ نموونە section_id = 1)
+        if (filter) {
+            query = query.eq(filter.column, filter.value);
+        }
+        
+        const { data, error } = await query.order(orderBy, { ascending: ascending });
+        
+        if (error) throw error;
+
+        // هەنگاوی سێیەم: نوێکردنەوەی داتا و پاشەکەوتکردن
+        if (data) {
+            localStorage.setItem(cacheKey, JSON.stringify(data));
+            renderCallback(data);
+        }
+    } catch (err) {
+        console.error(`Error fetching ${tableName}:`, err);
+        // ئەگەر کاش نەبوو و ئینتەرنێتیش نەبوو، پەیامی هەڵە پیشان بدە
+        if (!cachedData && container) {
+            container.innerHTML = '<div style="text-align:center; padding:2rem; color:#ef4444;"><i class="fas fa-wifi"></i> کێشە لە پەیوەستبوون بە ئینتەرنێت هەیە.</div>';
+        }
+    }
+};
