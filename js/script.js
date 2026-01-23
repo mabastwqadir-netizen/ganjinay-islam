@@ -161,6 +161,9 @@ window.fetchAndCacheData = async function(tableName, renderCallback, supabaseCli
 
         // هەنگاوی سێیەم: نوێکردنەوەی داتا و پاشەکەوتکردن
         if (data) {
+            if (data.length === 0) {
+                console.warn(`⚠️ ئاگاداری: خشتەی '${tableName}' هیچ داتایەکی تێدا نییە (یان RLS ڕێگری دەکات). تکایە دڵنیابەرەوە لە Supabase Dashboard سیاسەتی 'Enable read access to everyone' بۆ ئەم خشتەیە چالاک کراوە.`);
+            }
             localStorage.setItem(cacheKey, JSON.stringify(data));
             renderCallback(data);
         }

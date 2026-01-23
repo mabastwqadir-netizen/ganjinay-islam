@@ -93,55 +93,117 @@
 
     <script src="../js/script.js"></script>
     <script type="module">
-        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
         const supabaseUrl = 'https://sftnwbgwbxkmuackksho.supabase.co'
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmdG53Ymd3YnhrbXVhY2trc2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5NTIxNTAsImV4cCI6MjA4MzUyODE1MH0.ArdAj5hPfNskzYDHitg5W6y9MGNkMFwAIwG9ep0MpBw'
         const supabase = createClient(supabaseUrl, supabaseKey)
+        
+
+        // فەنکشن بۆ گۆڕینی بەڵگەکان (تەنها لە لاپتۆپ کار دەکات بەهۆی CSS)
+        window.switchEvidence = (btn, index) => {
+            const section = btn.closest('.aqidah-evidence-section');
+            if(!section) return;
+            
+            // نوێکردنەوەی دوگمەکان
+            section.querySelectorAll('.evidence-dot').forEach(d => d.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // نوێکردنەوەی بەڵگەکان
+            section.querySelectorAll('.evidence-item').forEach((item, i) => {
+                if(i === index) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        };
 
         // فەنکشنێک بۆ پیشاندانی داتاکان لەناو HTML
         function renderAqidah(data) {
             const container = document.getElementById('aqidah-container');
             
-            if (!data || data.length === 0) {
+            if (!data) {
+                console.error('هەڵە: داتا نەگەیشت. دڵنیابەرەوە لە RLS Policy یان ئینتەرنێت.');
+                container.innerHTML = '<p style="text-align: center; color: red;">کێشەیەک هەیە لە پەیوەستبوون بە داتابەیس. کۆنسۆڵ (Console) ببینە.</p>';
+                return;
+            }
+
+            if (data.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: #94a3b8;">هیچ بابەتێک نەدۆزرایەوە.</p>';
                 return;
             }
 
-            container.innerHTML = data.map((item, index) => `
-                    <div class="aqidah-card">
-                        <div class="card-number">${index + 1}</div>
-                        <div class="aqidah-header">
-                            <div class="question-ar">${item.question_ar}</div>
-                            <div class="question-ku">${item.question_ku}</div>
-                        </div>
-                        
-                        <div class="aqidah-body">
-                            <div class="answer-ar">${item.answer_ar}</div>
-                            <div class="answer-ku">${item.answer_ku}</div>
-                        </div>
+            container.innerHTML = data.map((item, index) => {
+                // کۆکردنەوەی هەموو بەڵگەکان لە یەک لیستدا
+                let allEvidences = [];
 
-                        ${(item.quran_ar || item.hadith_ar) ? `
-                        <div class="aqidah-footer">
-                            ${item.quran_ar ? `
-                            <div class="evidence-box quran">
-                                <div class="evidence-title"><i class="fas fa-quran"></i> قورئانی پیرۆز</div>
-                                <div class="evidence-ar">${item.quran_ar}</div>
-                                <div class="evidence-ku">${item.quran_ku}</div>
-                                <div class="evidence-source">${item.quran_source}</div>
-                            </div>` : ''}
-                            
-                            ${item.hadith_ar ? `
-                            <div class="evidence-box hadith">
-                                <div class="evidence-title"><i class="fas fa-scroll"></i> فەرموودە</div>
-                                <div class="evidence-ar">${item.hadith_ar}</div>
-                                <div class="evidence-ku">${item.hadith_ku}</div>
-                                <div class="evidence-source">${item.hadith_source}</div>
-                            </div>` : ''}
+                // بەڵگەکانی قورئان
+                if (item.quran_evidences && Array.isArray(item.quran_evidences)) {
+                    item.quran_evidences.forEach(e => allEvidences.push({...e, type: 'quran'}));
+                } else if (item.quran_ar) {
+                    allEvidences.push({ ar: item.quran_ar, ku: item.quran_ku, source: item.quran_source, type: 'quran' });
+                }
+
+                // بەڵگەکانی فەرموودە
+                if (item.hadith_evidences && Array.isArray(item.hadith_evidences)) {
+                    item.hadith_evidences.forEach(e => allEvidences.push({...e, type: 'hadith'}));
+                } else if (item.hadith_ar) {
+                    allEvidences.push({ ar: item.hadith_ar, ku: item.hadith_ku, source: item.hadith_source, type: 'hadith' });
+                }
+
+                const hasEvidence = allEvidences.length > 0;
+
+                // دروستکردنی HTML بۆ بەڵگەکان
+                const evidencesHTML = allEvidences.map((ev, i) => `
+                    <div class="evidence-item ${ev.type} ${i === 0 ? 'active' : ''}">
+                        <div class="evidence-header">
+                            <i class="fas ${ev.type === 'quran' ? 'fa-quran' : 'fa-scroll'}"></i>
+                            ${ev.type === 'quran' ? 'ئایەتێکی قوڕئان وەکو بەڵگە' : 'فەرموودەیەك وەکو بەڵگە'}
                         </div>
-                        ` : ''}
+                        <div class="evidence-content-ar">${ev.ar}</div>
+                        <div class="evidence-content-ku">${ev.ku}</div>
+                        <div class="evidence-ref">${ev.source}</div>
                     </div>
                 `).join('');
+
+                // دروستکردنی دوگمەکانی ژمارە (Pagination)
+                const paginationHTML = allEvidences.length > 1 ? `
+                    <div class="evidence-pagination">
+                        ${allEvidences.map((_, i) => `
+                            <button class="evidence-dot ${i === 0 ? 'active' : ''}" onclick="switchEvidence(this, ${i})">${i + 1}</button>
+                        `).join('')}
+                    </div>
+                ` : '';
+
+                return `
+                    <div class="aqidah-card ${hasEvidence ? 'has-evidence' : ''}">
+                        <div class="aqidah-question-section">
+                            <i class="fas fa-question-circle aqidah-question-icon"></i>
+                            <div class="question-label"><i class="fas fa-circle-question"></i> پرسیار ${index + 1}</div>
+                            <div class="question-text-ar">${item.question_ar}</div>
+                            <div class="question-text-ku">${item.question_ku}</div>
+                        </div>
+                        
+                        <div class="aqidah-content-body">
+                            <div class="aqidah-answer-section">
+                                <div class="answer-label"><i class="fas fa-lightbulb"></i> وەڵام</div>
+                                <div class="answer-text-ar">${item.answer_ar}</div>
+                                <div class="answer-text-ku">${item.answer_ku}</div>
+                            </div>
+
+                            ${hasEvidence ? `
+                            <div class="aqidah-evidence-section">
+                                <div class="evidence-wrapper">
+                                    ${evidencesHTML}
+                                </div>
+                                ${paginationHTML}
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         // بەکارهێنانی فەنکشنە ئامادەکراوەکەی ناو script.js

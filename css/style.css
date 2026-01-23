@@ -4207,126 +4207,168 @@ body.dark-mode .book-cover-fallback {
 /* Aqidah Page Styles */
 #aqidah-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
 }
 
 .aqidah-card {
-    background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
-    border-radius: 16px;
+    background: #1e293b;
+    border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
+    height: 100%;
     position: relative;
-    overflow: hidden;
 }
 
 .aqidah-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
     border-color: rgba(29, 185, 84, 0.4);
 }
 
-.aqidah-card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, #1db954, #3b82f6);
-    opacity: 0.8;
-}
-
-.card-number {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: linear-gradient(135deg, #1db954, #059669);
-    color: #fff;
-    padding: 0.3rem 0.9rem;
-    border-bottom-right-radius: 12px;
-    font-family: 'Cairo', sans-serif;
-    font-weight: 700;
-    font-size: 0.9rem;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-    z-index: 2;
-}
-
-.aqidah-header {
-    padding: 1.2rem 1.2rem 0.5rem 1.2rem;
+.aqidah-question-section {
+    background: linear-gradient(135deg, rgba(244, 63, 94, 0.15) 0%, rgba(30, 41, 59, 0.6) 100%);
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     position: relative;
 }
 
-.question-ar {
-    font-family: 'Cairo', serif;
-    font-size: 1.1rem;
-    color: #fbbf24;
+.aqidah-question-icon {
+    position: absolute;
+    top: 1rem;
+    left: 1.5rem;
+    font-size: 3rem;
+    color: rgba(244, 63, 94, 0.1);
+    transform: rotate(-15deg);
+    pointer-events: none;
+}
+
+.question-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fb7185;
+    font-size: 0.9rem;
     font-weight: 700;
-    margin-bottom: 0.3rem;
-    line-height: 1.5;
+    margin-bottom: 0.8rem;
+    background: rgba(244, 63, 94, 0.15);
+    width: fit-content;
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
 }
 
-.question-ku {
-    font-size: 0.85rem;
-    color: #94a3b8;
-    font-weight: 500;
-}
-
-.aqidah-body {
-    padding: 0.5rem 1.2rem 1.2rem 1.2rem;
-    flex-grow: 1;
-}
-
-.answer-ar {
+.question-text-ar {
     font-family: 'Cairo', serif;
+    font-size: 1.2rem;
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
+
+.question-text-ku {
     font-size: 0.95rem;
-    color: #e2e8f0;
-    margin-bottom: 0.5rem;
-    line-height: 1.7;
-    text-align: justify;
-}
-
-.answer-ku {
-    font-size: 0.85rem;
     color: #cbd5e1;
-    line-height: 1.7;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+}
+
+.aqidah-content-body {
+    background: linear-gradient(135deg, rgba(29, 185, 84, 0.1) 0%, rgba(30, 41, 59, 0.4) 100%);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.aqidah-answer-section {
+    padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+    flex-grow: 1;
+    background: transparent;
+    position: relative;
+}
+
+.answer-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #1db954;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: rgba(29, 185, 84, 0.15);
+    width: fit-content;
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
+}
+
+.answer-text-ar {
+    font-family: 'Cairo', serif;
+    font-size: 1.2rem;
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    line-height: 1.8;
     text-align: justify;
 }
 
-.aqidah-footer {
-    padding: 1rem;
-    background: rgba(0, 0, 0, 0.2);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+.answer-text-ku {
+    font-size: 1rem;
+    color: #cbd5e1;
+    line-height: 1.8;
+    text-align: justify;
+}
+
+.aqidah-evidence-section {
+    background: transparent;
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    border-top: none;
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.evidence-box {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
+.evidence-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.evidence-item {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
     padding: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
     position: relative;
-    transition: background 0.3s;
+    overflow: hidden;
+    width: 100%;
 }
 
-.evidence-box:hover {
-    background: rgba(255, 255, 255, 0.05);
+.evidence-item:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.04);
 }
 
-.evidence-box.quran {
+.evidence-item.quran {
+    border-right: 3px solid #3b82f6;
+    background: linear-gradient(to left, rgba(59, 130, 246, 0.1), transparent);
+}
+
+.evidence-item.hadith {
     border-right: 3px solid #fbbf24;
+    background: linear-gradient(to left, rgba(251, 191, 36, 0.05), transparent);
 }
 
-.evidence-box.hadith {
-    border-right: 3px solid #1db954;
-}
-
-.evidence-title {
+.evidence-header {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -4334,45 +4376,80 @@ body.dark-mode .book-cover-fallback {
     font-weight: 700;
     margin-bottom: 0.5rem;
     padding-bottom: 0.4rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
 }
 
-.evidence-box.quran .evidence-title {
-    color: #fbbf24;
-}
+.evidence-item.quran .evidence-header { color: #3b82f6; }
+.evidence-item.hadith .evidence-header { color: #fbbf24; }
 
-.evidence-box.hadith .evidence-title {
-    color: #1db954;
-}
-
-.evidence-ar {
+.evidence-content-ar {
     font-family: 'Cairo', serif;
-    color: #f8fafc;
-    font-size: 0.95rem;
-    margin-bottom: 0.4rem;
-    text-align: center;
-    line-height: 1.7;
-}
-
-.evidence-ku {
-    color: #94a3b8;
-    font-size: 0.8rem;
+    font-size: 1rem;
+    color: #f1f5f9;
     text-align: center;
     margin-bottom: 0.4rem;
     line-height: 1.6;
+    font-weight: 600;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
-.evidence-source {
-    display: block;
-    text-align: left;
+.evidence-content-ku {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    text-align: center;
+    margin-bottom: 0.4rem;
+    line-height: 1.5;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.evidence-ref {
     font-size: 0.75rem;
     color: #64748b;
+    text-align: left;
     font-style: italic;
-    margin-top: 0.4rem;
-    padding-top: 0.4rem;
-    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    direction: ltr;
+    opacity: 0.8;
+}
+
+/* Aqidah Evidence Pagination (Hidden on Mobile) */
+.evidence-pagination {
+    display: none;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.evidence-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05);
+    color: #cbd5e1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.evidence-dot:hover {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+.evidence-dot.active {
+    background: #1db954;
+    color: #0f172a;
+    border-color: #1db954;
+    box-shadow: 0 4px 10px rgba(29, 185, 84, 0.3);
 }
 
 /* Dhikr Page Styles */
@@ -4677,16 +4754,80 @@ body.dark-mode .book-cover-fallback {
     .aqidah-card {
         border-radius: 12px;
     }
-    .question-ar {
+    .aqidah-question-section, .aqidah-answer-section {
+        padding: 1.2rem;
+    }
+    .aqidah-evidence-section {
+        padding: 0 1.2rem 1.2rem 1.2rem;
+    }
+    .question-text-ar {
         font-size: 1rem;
     }
-    .question-ku {
+    .question-text-ku {
         font-size: 0.8rem;
     }
     .dhikr-tabs { display: none; }
     .mobile-select-container { display: block; }
     .dhikr-card { padding: 1.5rem; }
     .dhikr-arabic { font-size: 1.4rem; }
+}
+
+/* Laptop/Desktop Layout for Aqidah */
+@media (min-width: 1024px) {
+    #aqidah-container {
+        grid-template-columns: 1fr !important;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .aqidah-card.has-evidence {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        grid-template-areas: 
+            "question evidence"
+            "answer evidence";
+        align-items: stretch;
+    }
+    
+    .aqidah-content-body {
+        display: contents;
+    }
+
+    .aqidah-question-section { grid-area: question; }
+    .aqidah-answer-section { 
+        grid-area: answer;
+        background: linear-gradient(135deg, rgba(29, 185, 84, 0.1) 0%, rgba(30, 41, 59, 0.4) 100%);
+    }
+
+    .aqidah-evidence-section {
+        grid-area: evidence;
+        padding: 1.5rem;
+        border-right: 1px dashed rgba(255, 255, 255, 0.1);
+        background: linear-gradient(135deg, rgba(29, 185, 84, 0.1) 0%, rgba(30, 41, 59, 0.4) 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .evidence-pagination {
+        display: flex; /* Show pagination on desktop */
+    }
+
+    .evidence-item {
+        display: none; /* Hide items by default on desktop */
+        animation: fadeIn 0.3s ease;
+    }
+
+    .evidence-item.active {
+        display: block; /* Show only active item */
+    }
+    
+    .evidence-wrapper {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 }
 
 @media (max-width: 480px) {
