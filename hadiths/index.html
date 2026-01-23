@@ -132,17 +132,12 @@
             } catch (err) { console.error('Error updating visitor count:', err); }
         }
 
+        let hadithPagination;
+
         // فەنکشنی دیزاینکردن کە داتا وەردەگرێت (جا لە کاش بێت یان ئینتەرنێت)
         function renderHadiths(data) {
-            const hadithsContainer = document.getElementById('hadiths-container');
-
             // ڕیزکردنی داتاکان
             allHadiths = data.sort((a, b) => (parseInt(a.hadith_number) || 0) - (parseInt(b.hadith_number) || 0));
-
-            if (!allHadiths || allHadiths.length === 0) {
-                hadithsContainer.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #94a3b8;">هیچ فەرموودەیەک نەدۆزرایەوە.</p>';
-                return;
-            }
 
             // پڕکردنەوەی فیلتەرەکان
             const titles = [...new Set(allHadiths.map(h => h.title).filter(t => t))];
@@ -153,7 +148,60 @@
             }
 
             // پیشاندانی لیستەکە
-            renderList(allHadiths);
+            if (!hadithPagination) {
+                hadithPagination = window.initPagination({
+                    containerId: 'hadiths-container',
+                    itemsPerPage: 5,
+                    renderItem: (h, index) => {
+                        // Check if mobile (width <= 768px) to set lower limit
+                        const isMobile = window.innerWidth <= 768;
+                        const charLimit = isMobile ? 150 : 300;
+
+                        const text = h.kurdish_text || '';
+                        const isLong = text.length > charLimit;
+                        const shortText = isLong ? text.substring(0, charLimit) + '...' : text;
+
+                        return `
+                        <div class="hadith-card">
+                            ${h.title ? `<div class="hadith-topic-title">${h.title}</div>` : ''}
+                            <div class="hadith-arabic">${h.arabic_text}</div>
+                            <div class="hadith-kurdish" id="hadith-text-${index}">
+                                ${isLong ? `
+                                    <span class="short-text">${shortText}</span>
+                                    <span class="full-text" style="display:none;">${text}</span>
+                                    <button class="read-more-hadith-btn" onclick="toggleHadith(${index})">
+                                        <i class="fas fa-chevron-down"></i> زیاتر ببینە
+                                    </button>
+                                ` : text}
+                            </div>
+                            <div class="hadith-footer">
+                                <div class="hadith-narrator">
+                                    <i class="fas fa-user-edit"></i>
+                                    <span>ڕیوایەتکار: ${h.narrator || 'نەزانراو'}</span>
+                                </div>
+                                <div class="hadith-meta">
+                                    <span>${h.source}</span>
+                                    <span class="hadith-number">فەرموودەی #${h.hadith_number || '---'}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    },
+                    filterItem: (h, queryObj) => {
+                         const { query, title } = queryObj;
+                         const matchesTitle = title ? h.title === title : true;
+                         const matchesQuery = query ? (
+                            h.arabic_text.toLowerCase().includes(query) || 
+                            h.kurdish_text.toLowerCase().includes(query) ||
+                            (h.hadith_number && h.hadith_number.toString().includes(query)) ||
+                            (h.narrator && h.narrator.toLowerCase().includes(query)) ||
+                            (h.title && h.title.toLowerCase().includes(query))
+                        ) : true;
+                        return matchesTitle && matchesQuery;
+                    }
+                });
+            }
+            hadithPagination.init(allHadiths);
         }
 
         // Unified Filter Function
@@ -164,25 +212,9 @@
             const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
             const title = filterSelect ? filterSelect.value : '';
 
-            let filtered = allHadiths;
-
-            // Filter by Title
-            if (title) {
-                filtered = filtered.filter(h => h.title === title);
+            if (hadithPagination) {
+                hadithPagination.filter({ query, title });
             }
-
-            // Filter by Search Query
-            if (query) {
-                filtered = filtered.filter(h => 
-                    h.arabic_text.toLowerCase().includes(query) || 
-                    h.kurdish_text.toLowerCase().includes(query) ||
-                    (h.hadith_number && h.hadith_number.toString().includes(query)) ||
-                    (h.narrator && h.narrator.toLowerCase().includes(query)) ||
-                    (h.title && h.title.toLowerCase().includes(query))
-                );
-            }
-
-            renderList(filtered);
         }
 
         window.handleSearch = () => applyFilters();
@@ -208,49 +240,6 @@
             }
         }
 
-        function renderList(filtered) {
-            const container = document.getElementById('hadiths-container');
-            
-            if (filtered.length === 0) {
-                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #94a3b8; font-size: 1.1rem;">هیچ فەرموودەیەک نەدۆزرایەوە.</p>';
-                return;
-            }
-            
-            container.innerHTML = filtered.map((h, index) => {
-                // Check if mobile (width <= 768px) to set lower limit
-                const isMobile = window.innerWidth <= 768;
-                const charLimit = isMobile ? 150 : 300;
-
-                const text = h.kurdish_text || '';
-                const isLong = text.length > charLimit;
-                const shortText = isLong ? text.substring(0, charLimit) + '...' : text;
-
-                return `
-                <div class="hadith-card">
-                    ${h.title ? `<div class="hadith-topic-title">${h.title}</div>` : ''}
-                    <div class="hadith-arabic">${h.arabic_text}</div>
-                    <div class="hadith-kurdish" id="hadith-text-${index}">
-                        ${isLong ? `
-                            <span class="short-text">${shortText}</span>
-                            <span class="full-text" style="display:none;">${text}</span>
-                            <button class="read-more-hadith-btn" onclick="toggleHadith(${index})">
-                                <i class="fas fa-chevron-down"></i> زیاتر ببینە
-                            </button>
-                        ` : text}
-                    </div>
-                    <div class="hadith-footer">
-                        <div class="hadith-narrator">
-                            <i class="fas fa-user-edit"></i>
-                            <span>ڕیوایەتکار: ${h.narrator || 'نەزانراو'}</span>
-                        </div>
-                        <div class="hadith-meta">
-                            <span>${h.source}</span>
-                            <span class="hadith-number">فەرموودەی #${h.hadith_number || '---'}</span>
-                        </div>
-                    </div>
-                </div>
-            `}).join('');
-        }
 
         document.addEventListener('DOMContentLoaded', () => {
             initVisitorCount();

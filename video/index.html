@@ -117,6 +117,8 @@
 
         let allVideos = [];
 
+        let videoPagination;
+
         async function initVisitorCount() {
             const countEl = document.getElementById('visitor-count');
             if (!countEl) return;
@@ -134,6 +136,9 @@
             return (match && match[2].length === 11) ? match[2] : null;
         }
 
+        // Make getYouTubeVideoId global so playVideo can use it
+        window.getYouTubeVideoId = getYouTubeVideoId;
+
         function renderCategories() {
             const selectElement = document.getElementById('categorySelect');
             // Get unique categories from videos
@@ -147,14 +152,14 @@
         }
 
         window.filterVideos = (category) => {
-            // Trigger search input event to re-filter based on both category and search term
             const searchInput = document.getElementById('searchInput');
-            // Store the category in the input dataset to be used by the input event listener
-            searchInput.dataset.currentCategory = category;
-            searchInput.dispatchEvent(new Event('input'));
+            const term = searchInput.value.toLowerCase();
+            if (videoPagination) {
+                videoPagination.filter({ term, category });
+            }
         }
 
-        function stopAllVideos() {
+        window.stopAllVideos = function() {
             const playingContainers = document.querySelectorAll('.video-embed-container[data-played="true"]');
             playingContainers.forEach(container => {
                 container.dataset.played = 'false';
@@ -168,112 +173,105 @@
             });
         }
 
-        function renderVideosList(videos) {
-            const grid = document.getElementById('video-grid');
-            grid.innerHTML = '';
+        window.playVideo = async (container, videoId, videoType, videoUrl) => {
+            if (container.dataset.played === 'true') return;
+            
+            stopAllVideos();
+            
+            container.dataset.played = 'true';
 
-            if (videos.length === 0) {
-                grid.innerHTML = '<p class="empty-message grid-full-width">هیچ ڤیدیۆیەک نەدۆزرایەوە.</p>';
-                return;
+            // Increment view count
+            try {
+                const { data: newCount, error: rpcError } = await supabase.rpc('increment_video_view', { video_id_to_update: videoId });
+                if (rpcError) throw rpcError;
+                const viewCountEl = document.getElementById(`view-count-${videoId}`);
+                if(viewCountEl) viewCountEl.innerText = newCount;
+            } catch (err) {
+                console.error('Error incrementing view count:', err);
             }
 
-            videos.forEach(video => {
-                const card = document.createElement('div');
-                card.classList.add('video-card');
-                card.dataset.videoId = video.id;
-
-                let videoId = null;
-                if (video.video_type === 'youtube') {
-                    videoId = getYouTubeVideoId(video.video_url);
-                }
-                
-                const thumbnailUrl = video.thumbnail_url || (videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : '../assets/images/video-placeholder.jpg');
-
-                card.innerHTML = `
-                    <div class="video-embed-container">
-                        <img src="${thumbnailUrl}" alt="${video.title}" class="thumbnail">
-                        <i class="fas fa-play-circle play-button"></i>
-                    </div>
-                    <div class="video-info">
-                        <h3 class="video-title">${video.title}</h3>
-                        <p class="video-description">${video.description || ''}</p>
-                        <div class="video-meta">
-                            <div class="views">
-                                <i class="fas fa-eye"></i>
-                                <span class="view-count">${video.views}</span> بینین
-                            </div>
-                            <span class="video-type-label">${video.video_type === 'youtube' ? 'یوتیوب' : 'سەرەکی'}</span>
-                        </div>
-                    </div>
-                `;
-
-                const embedContainer = card.querySelector('.video-embed-container');
-                embedContainer.dataset.thumbnail = thumbnailUrl;
-                embedContainer.dataset.title = video.title;
-
-                embedContainer.addEventListener('click', async () => {
-                    if (embedContainer.dataset.played === 'true') return;
-                    
-                    stopAllVideos();
-                    
-                    embedContainer.dataset.played = 'true';
-
-                    // Increment view count
-                    try {
-                        const { data: newCount, error: rpcError } = await supabase.rpc('increment_video_view', { video_id_to_update: video.id });
-                        if (rpcError) throw rpcError;
-                        card.querySelector('.view-count').innerText = newCount;
-                    } catch (err) {
-                        console.error('Error incrementing view count:', err);
-                    }
-
-                    // Replace thumbnail with video player
-                    embedContainer.innerHTML = ''; 
-                    if (video.video_type === 'youtube' && videoId) {
-                        const iframe = document.createElement('iframe');
-                        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-                        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-                        iframe.allowFullscreen = true;
-                        embedContainer.appendChild(iframe);
-                    } else if (video.video_type === 'self_hosted') {
-                        const videoPlayer = document.createElement('video');
-                        videoPlayer.src = video.video_url;
-                        videoPlayer.controls = true;
-                        videoPlayer.autoplay = true;
-                        embedContainer.appendChild(videoPlayer);
-                    }
-                });
-
-                grid.appendChild(card);
-            });
+            // Replace thumbnail with video player
+            container.innerHTML = ''; 
+            if (videoType === 'youtube') {
+                const realVideoId = getYouTubeVideoId(videoUrl);
+                const iframe = document.createElement('iframe');
+                iframe.src = `https://www.youtube.com/embed/${realVideoId}?autoplay=1&rel=0`;
+                iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+                iframe.allowFullscreen = true;
+                container.appendChild(iframe);
+            } else if (videoType === 'self_hosted') {
+                const videoPlayer = document.createElement('video');
+                videoPlayer.src = videoUrl;
+                videoPlayer.controls = true;
+                videoPlayer.autoplay = true;
+                container.appendChild(videoPlayer);
+            }
         }
 
         function renderVideos(data) {
-            const grid = document.getElementById('video-grid');
-
             if (data) {
-                
                 allVideos = data || [];
                 
                 renderCategories();
-                renderVideosList(allVideos);
+                
+                if (!videoPagination) {
+                    videoPagination = window.initPagination({
+                        containerId: 'video-grid',
+                        itemsPerPage: 5,
+                        renderItem: (video) => {
+                            let videoId = null;
+                            if (video.video_type === 'youtube') {
+                                videoId = getYouTubeVideoId(video.video_url);
+                            }
+                            const thumbnailUrl = video.thumbnail_url || (videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : '../assets/images/video-placeholder.jpg');
+
+                            return `
+                                <div class="video-card" data-video-id="${video.id}">
+                                    <div class="video-embed-container" 
+                                         data-thumbnail="${thumbnailUrl}" 
+                                         data-title="${video.title}"
+                                         data-played="false"
+                                         onclick="playVideo(this, '${video.id}', '${video.video_type}', '${video.video_url}')">
+                                        <img src="${thumbnailUrl}" alt="${video.title}" class="thumbnail">
+                                        <i class="fas fa-play-circle play-button"></i>
+                                    </div>
+                                    <div class="video-info">
+                                        <h3 class="video-title">${video.title}</h3>
+                                        <p class="video-description">${video.description || ''}</p>
+                                        <div class="video-meta">
+                                            <div class="views">
+                                                <i class="fas fa-eye"></i>
+                                                <span class="view-count" id="view-count-${video.id}">${video.views}</span> بینین
+                                            </div>
+                                            <span class="video-type-label">${video.video_type === 'youtube' ? 'یوتیوب' : 'سەرەکی'}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        },
+                        filterItem: (video, queryObj) => {
+                            const { term, category } = queryObj;
+                            const matchesSearch = video.title.toLowerCase().includes(term) || (video.description && video.description.toLowerCase().includes(term));
+                            const matchesCategory = category === 'all' || video.category === category;
+                            return matchesSearch && matchesCategory;
+                        }
+                    });
+                }
+                videoPagination.init(allVideos);
 
                 // Enable Search
                 const searchInput = document.getElementById('searchInput');
                 searchInput.addEventListener('input', (e) => {
                     const term = e.target.value.toLowerCase();
-                    const currentCategory = e.target.dataset.currentCategory || 'all';
-
-                    const filtered = allVideos.filter(video => {
-                        const matchesSearch = video.title.toLowerCase().includes(term) || (video.description && video.description.toLowerCase().includes(term));
-                        const matchesCategory = currentCategory === 'all' || video.category === currentCategory;
-                        return matchesSearch && matchesCategory;
-                    });
+                    const categorySelect = document.getElementById('categorySelect');
+                    const category = categorySelect.value;
                     
-                    renderVideosList(filtered);
+                    if (videoPagination) {
+                        videoPagination.filter({ term, category });
+                    }
                 });
             } else {
-                grid.innerHTML = '<p class="empty-message grid-full-width">هیچ ڤیدیۆیەک نەدۆزرایەوە.</p>';
+                document.getElementById('video-grid').innerHTML = '<p class="empty-message grid-full-width">هیچ ڤیدیۆیەک نەدۆزرایەوە.</p>';
             }
         }
 

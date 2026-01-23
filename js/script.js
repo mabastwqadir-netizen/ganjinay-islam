@@ -175,3 +175,91 @@ window.fetchAndCacheData = async function(tableName, renderCallback, supabaseCli
         }
     }
 };
+
+// ==========================================
+// Pagination System (زیادکراو بۆ پەڕەبەندی هەموو بەشەکان)
+// ==========================================
+window.initPagination = function(options) {
+    const { containerId, itemsPerPage, renderItem, filterItem } = options;
+    const container = document.getElementById(containerId);
+    
+    // State
+    let state = {
+        allData: [],
+        filteredData: [],
+        currentPage: 1
+    };
+
+    if (!container) return null;
+
+    // Attach changePage function to container for onclick access
+    container.changePage = function(page) {
+        state.currentPage = page;
+        render();
+        
+        // Scroll to top of container
+        const headerOffset = 120;
+        const elementPosition = container.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+        });
+    };
+
+    function render() {
+        if (state.filteredData.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: #94a3b8; grid-column: 1/-1;">هیچ بابەتێک نەدۆزرایەوە.</p>';
+            return;
+        }
+
+        const totalPages = Math.ceil(state.filteredData.length / itemsPerPage);
+        
+        if (state.currentPage < 1) state.currentPage = 1;
+        if (state.currentPage > totalPages) state.currentPage = totalPages;
+
+        const start = (state.currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const pageData = state.filteredData.slice(start, end);
+
+        const itemsHTML = pageData.map((item, index) => {
+            const absIndex = state.allData.indexOf(item); 
+            return renderItem(item, absIndex, state.allData);
+        }).join('');
+
+        // Pagination Controls
+        let paginationControls = '';
+        if (totalPages > 1) {
+            paginationControls = '<div class="pagination-container">';
+            
+            if (state.currentPage > 1) {
+                paginationControls += `<button class="pagination-btn" onclick="document.getElementById('${containerId}').changePage(${state.currentPage - 1})"><i class="fas fa-chevron-right"></i></button>`;
+            }
+
+            for (let i = 1; i <= totalPages; i++) {
+                if (totalPages > 7) {
+                    if (i === 1 || i === totalPages || (i >= state.currentPage - 1 && i <= state.currentPage + 1)) {
+                        paginationControls += `<button class="pagination-btn ${i === state.currentPage ? 'active' : ''}" onclick="document.getElementById('${containerId}').changePage(${i})">${i}</button>`;
+                    } else if (i === state.currentPage - 2 || i === state.currentPage + 2) {
+                        paginationControls += `<span class="pagination-dots">...</span>`;
+                    }
+                } else {
+                    paginationControls += `<button class="pagination-btn ${i === state.currentPage ? 'active' : ''}" onclick="document.getElementById('${containerId}').changePage(${i})">${i}</button>`;
+                }
+            }
+
+            if (state.currentPage < totalPages) {
+                paginationControls += `<button class="pagination-btn" onclick="document.getElementById('${containerId}').changePage(${state.currentPage + 1})"><i class="fas fa-chevron-left"></i></button>`;
+            }
+
+            paginationControls += '</div>';
+        }
+
+        container.innerHTML = itemsHTML + paginationControls;
+    }
+
+    return {
+        init: (data) => { state.allData = data; state.filteredData = data; state.currentPage = 1; render(); },
+        filter: (query) => { if (filterItem) { state.filteredData = state.allData.filter(item => filterItem(item, query)); state.currentPage = 1; render(); } }
+    };
+};

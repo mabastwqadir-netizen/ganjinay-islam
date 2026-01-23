@@ -1,5 +1,5 @@
 /* استیراتیژی RTL برای کردی و عربی */
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Noto+Kufi+Arabic:wght@400;600;700&family=Noto+Sans+Kurdish:wght@300;400;600;700&family=Poppins:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@300;400;600;700&family=Noto+Kufi+Arabic:wght@400;600;700&family=Noto+Sans+Kurdish:wght@300;400;600;700&family=Poppins:wght@300;400;600;700&display=swap');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
 
 * {
@@ -686,12 +686,12 @@ main {
 }
 
 .hadith-arabic {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: #0f172a;
     margin-bottom: 1.2rem;
     font-weight: 600;
     line-height: 2.2;
-    font-family: 'Cairo', serif;
+    font-family: 'Amiri', serif;
 }
 
 .hadith-kurdish {
@@ -991,12 +991,12 @@ footer::before {
 }
 
 .quran-text {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: #1db954;
     line-height: 2.2;
     font-weight: 600;
     margin-bottom: 1.2rem;
-    font-family: 'Cairo', serif;
+    font-family: 'Amiri', serif;
 }
 
 .quran-translation {
@@ -2105,8 +2105,8 @@ input, textarea, button, select {
 }
 
 .hadith-arabic {
-    font-family: 'Cairo', serif;
-    font-size: 1.25rem;
+    font-family: 'Amiri', serif;
+    font-size: 1.5rem;
     color: #ffffff;
     line-height: 1.8;
     text-align: right;
@@ -2732,8 +2732,8 @@ input, textarea, button, select {
 }
 
 .quran-verse-section .arabic-text {
-    font-family: 'Cairo', sans-serif;
-    font-size: 1.1rem;
+    font-family: 'Amiri', serif;
+    font-size: 1.3rem;
     color: #e2e8f0;
     line-height: 1.8;
     margin-bottom: 0.4rem;
@@ -3094,8 +3094,8 @@ input, textarea, button, select {
 }
 
 .evidence-arabic {
-    font-family: 'Cairo', serif;
-    font-size: 1.15rem;
+    font-family: 'Amiri', serif;
+    font-size: 1.4rem;
     color: #e2e8f0;
     text-align: center;
     margin-bottom: 0.8rem;
@@ -3592,7 +3592,7 @@ body.dark-mode .book-cover-fallback {
     }
     
     .hadith-arabic {
-        font-size: 1.1rem;
+        font-size: 1.3rem;
         line-height: 2;
     }
     
@@ -3716,7 +3716,7 @@ body.dark-mode .book-cover-fallback {
                 }
             
                 .hadith-arabic {
-                    font-size: 0.9rem; /* Further reduced */
+                    font-size: 1.1rem; /* Further reduced */
                 }
     
     .hadith-kurdish {
@@ -4261,8 +4261,8 @@ body.dark-mode .book-cover-fallback {
 }
 
 .question-text-ar {
-    font-family: 'Cairo', serif;
-    font-size: 1.2rem;
+    font-family: 'Amiri', serif;
+    font-size: 1.4rem;
     color: #ffffff;
     font-weight: 700;
     margin-bottom: 0.2rem;
@@ -4308,13 +4308,14 @@ body.dark-mode .book-cover-fallback {
 }
 
 .answer-text-ar {
-    font-family: 'Cairo', serif;
-    font-size: 1.2rem;
+    font-family: 'Amiri', serif;
+    font-size: 1.4rem;
     color: #ffffff;
     font-weight: 700;
     margin-bottom: 0.2rem;
-    line-height: 1.8;
-    text-align: justify;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
 }
 
 .answer-text-ku {
@@ -4328,11 +4329,52 @@ body.dark-mode .book-cover-fallback {
     background: transparent;
     padding: 0 1.5rem 1.5rem 1.5rem;
     border-top: none;
-    display: flex;
+    display: none; /* Hidden by default on mobile */
     flex-direction: column;
     gap: 0.8rem;
     width: 100%;
     box-sizing: border-box;
+}
+
+.aqidah-evidence-section.show {
+    display: flex;
+    animation: evidenceReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes evidenceReveal {
+    0% {
+        opacity: 0;
+        transform: translateY(-15px) scale(0.98);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.mobile-evidence-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(237, 205, 23, 0.1);
+    color: #edcd17;
+    border: 1px solid rgba(237, 205, 23, 0.2);
+    padding: 0.4rem 0.8rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 0 1.5rem 1.5rem 1.5rem;
+    width: fit-content;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(237, 205, 23, 0.05);
+}
+
+.mobile-evidence-toggle:hover, .mobile-evidence-toggle.active {
+    background: #edcd17;
+    color: #0f172a;
+    box-shadow: 0 4px 15px rgba(237, 205, 23, 0.2);
+    border-color: #edcd17;
 }
 
 .evidence-wrapper {
@@ -4383,8 +4425,8 @@ body.dark-mode .book-cover-fallback {
 .evidence-item.hadith .evidence-header { color: #fbbf24; }
 
 .evidence-content-ar {
-    font-family: 'Cairo', serif;
-    font-size: 1rem;
+    font-family: 'Amiri', serif;
+    font-size: 1.2rem;
     color: #f1f5f9;
     text-align: center;
     margin-bottom: 0.4rem;
@@ -4522,8 +4564,8 @@ body.dark-mode .book-cover-fallback {
 }
 
 .dhikr-arabic {
-    font-family: 'Cairo', serif;
-    font-size: 1.6rem;
+    font-family: 'Amiri', serif;
+    font-size: 2rem;
     color: #ffffff;
     margin-bottom: 1rem;
     line-height: 1.8;
@@ -4744,7 +4786,7 @@ body.dark-mode .book-cover-fallback {
 .loading-spinner-center { grid-column: 1/-1; text-align: center; }
 .loading-text-center { text-align: center; color: white; }
 .tawheed-header { text-align: center; color: #1db954; margin-bottom: 2rem; font-size: 2rem; }
-.tawheed-text-ar { text-align: right; font-family: 'Cairo', serif; }
+.tawheed-text-ar { text-align: right; font-family: 'Amiri', serif; }
 
 @media (max-width: 768px) {
     #aqidah-container {
@@ -4760,8 +4802,8 @@ body.dark-mode .book-cover-fallback {
     .aqidah-evidence-section {
         padding: 0 1.2rem 1.2rem 1.2rem;
     }
-    .question-text-ar {
-        font-size: 1rem;
+    .question-text-ar, .answer-text-ar {
+        font-size: 1.2rem;
     }
     .question-text-ku {
         font-size: 0.8rem;
@@ -4769,7 +4811,7 @@ body.dark-mode .book-cover-fallback {
     .dhikr-tabs { display: none; }
     .mobile-select-container { display: block; }
     .dhikr-card { padding: 1.5rem; }
-    .dhikr-arabic { font-size: 1.4rem; }
+    .dhikr-arabic { font-size: 1.6rem; }
 }
 
 /* Laptop/Desktop Layout for Aqidah */
@@ -4807,6 +4849,10 @@ body.dark-mode .book-cover-fallback {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+    }
+
+    .mobile-evidence-toggle {
+        display: none;
     }
 
     .evidence-pagination {
@@ -5051,4 +5097,55 @@ body.faq-page {
     display: table;
     width: fit-content;
     margin: 0.5rem auto 0 !important;
+}
+
+/* Pagination Styles */
+.pagination-container {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    padding: 1rem;
+}
+
+.pagination-btn {
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 0.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.pagination-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-color: #1db954;
+    transform: translateY(-2px);
+}
+
+.pagination-btn.active {
+    background: #1db954;
+    color: #0f172a;
+    border-color: #1db954;
+    box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+    font-weight: 700;
+}
+
+.pagination-dots {
+    color: #94a3b8;
+    font-weight: bold;
+    padding: 0 0.5rem;
 }

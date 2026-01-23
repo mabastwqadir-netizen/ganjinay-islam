@@ -134,20 +134,14 @@
             } catch (err) { console.error('Error updating visitor count:', err); }
         }
 
+        let libraryPagination;
+
         function renderBooks(books) {
-            const container = document.getElementById('books-container');
-            
-                container.innerHTML = '';
-
-                if (!books || books.length === 0) {
-                    container.innerHTML = '<p class="books-empty-message">هیچ کتێبێک نەدۆزرایەوە.</p>';
-                    return;
-                }
-
-                books.forEach(book => {
-                    const bookCard = document.createElement('div');
-                    bookCard.className = 'library-book-card';
-                    
+            if (!libraryPagination) {
+                libraryPagination = window.initPagination({
+                    containerId: 'books-container',
+                    itemsPerPage: 10,
+                    renderItem: (book) => {
                     // Handle cover image (fallback icon if empty)
                     let coverHtml = '';
                     if (book.cover_url) {
@@ -156,27 +150,37 @@
                         coverHtml = `<div class="library-book-cover library-book-cover-fallback"><i class="fas fa-book"></i></div>`;
                     }
 
-                    bookCard.innerHTML = `
-                        <div class="library-book-cover-container">${coverHtml}</div>
-                        <div class="library-book-info">
-                            <h3 class="library-book-title" title="${book.title}">${book.title}</h3>
-                            ${book.author ? `<p class="library-book-author"><i class="fas fa-pen-nib"></i> ${book.author}</p>` : ''}
-                            
-                            <div class="library-book-stats-info">
-                                <span><i class="fas fa-eye"></i> <span id="view-count-${book.id}">${book.view_count || 0}</span></span>
-                                <span><i class="fas fa-download"></i> <span id="download-count-${book.id}">${book.download_count || 0}</span></span>
-                            </div>
+                    return `
+                        <div class="library-book-card">
+                            <div class="library-book-cover-container">${coverHtml}</div>
+                            <div class="library-book-info">
+                                <h3 class="library-book-title" title="${book.title}">${book.title}</h3>
+                                ${book.author ? `<p class="library-book-author"><i class="fas fa-pen-nib"></i> ${book.author}</p>` : ''}
+                                
+                                <div class="library-book-stats-info">
+                                    <span><i class="fas fa-eye"></i> <span id="view-count-${book.id}">${book.view_count || 0}</span></span>
+                                    <span><i class="fas fa-download"></i> <span id="download-count-${book.id}">${book.download_count || 0}</span></span>
+                                </div>
 
-                            <div class="library-book-actions">
-                                <a href="${book.pdf_url}" target="_blank" rel="noopener noreferrer" class="library-read-btn" onclick="incrementView('${book.id}')" title="خوێندنەوە"><i class="fas fa-book-open"></i></a>
-                                <a href="${book.pdf_url}?download=" class="library-download-btn" onclick="incrementDownload('${book.id}')">
-                                    <i class="fas fa-download" title="داونڵۆد"></i>
-                                </a>
+                                <div class="library-book-actions">
+                                    <a href="${book.pdf_url}" target="_blank" rel="noopener noreferrer" class="library-read-btn" onclick="incrementView('${book.id}')" title="خوێندنەوە"><i class="fas fa-book-open"></i></a>
+                                    <a href="${book.pdf_url}?download=" class="library-download-btn" onclick="incrementDownload('${book.id}')">
+                                        <i class="fas fa-download" title="داونڵۆد"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     `;
-                    container.appendChild(bookCard);
+                    },
+                    filterItem: (book, query) => {
+                        // Simple search by title or author if needed later
+                        if (!query) return true;
+                        const term = query.toLowerCase();
+                        return book.title.toLowerCase().includes(term) || (book.author && book.author.toLowerCase().includes(term));
+                    }
                 });
+            }
+            libraryPagination.init(books);
         }
 
         // Load books when page is ready
