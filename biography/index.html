@@ -55,36 +55,13 @@
                 <i class="fas fa-search hadith-search-icon"></i>
             </div>
 
-            <!-- TABS -->
-            <div class="tabs" role="tablist" aria-label="Biography sections">
-                <button class="tab-button tab-pill active" role="tab" aria-selected="true" aria-controls="before-islam" id="tab-before" onclick="switchTab('before-islam', this)">
-                    <span class="tab-icon"><i class="fas fa-moon"></i></span>
-                    <span class="tab-text">پێش ئیسلام</span>
-                </button>
-                <button class="tab-button tab-pill" role="tab" aria-selected="false" aria-controls="after-islam" id="tab-after" onclick="switchTab('after-islam', this)">
-                    <span class="tab-icon"><i class="fas fa-sun"></i></span>
-                    <span class="tab-text">دوای ئیسلام</span>
-                </button>
-            </div>
-
-            <!-- BEFORE ISLAM -->
-            <div id="before-islam" class="tab-content active">
-                <h3><i class="fa-solid fa-hashtag"></i> ژیانی پێش ئیسلام</h3>
-                <div id="before-islam-grid" class="messages-grid bio-grid-layout">
-                    <!-- Loading Skeletons -->
-                    <div class="skeleton-card"></div>
-                    <div class="skeleton-card"></div>
-                </div>
-            </div>
-
-            <!-- AFTER ISLAM -->
-            <div id="after-islam" class="tab-content">
-                <h3><i class="fa-solid fa-hashtag"></i> ژیانی دوای ئیسلام</h3>
-                <div id="after-islam-grid" class="messages-grid bio-grid-layout">
-                    <!-- Loading Skeletons -->
-                    <div class="skeleton-card"></div>
-                    <div class="skeleton-card"></div>
-                </div>
+            <!-- Biography Events Grid -->
+            <div id="biography-grid" class="messages-grid bio-grid-layout">
+                <!-- Loading Skeletons -->
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
             </div>
 
             <div class="visitor-count">
@@ -131,6 +108,11 @@
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNmdG53Ymd3YnhrbXVhY2trc2hvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5NTIxNTAsImV4cCI6MjA4MzUyODE1MH0.ArdAj5hPfNskzYDHitg5W6y9MGNkMFwAIwG9ep0MpBw'
         const supabase = createClient(supabaseUrl, supabaseKey)
 
+        let allEvents = [];
+        let filteredEvents = [];
+        let currentPage = 1;
+        const itemsPerPage = 5;
+
         async function initVisitorCount() {
             const countEl = document.getElementById('visitor-count');
             if (!countEl) return;
@@ -145,25 +127,45 @@
             } catch (err) { console.error('Error updating visitor count:', err); }
         }
 
-        function renderBiography(data) {
-            const beforeContainer = document.getElementById('before-islam-grid');
-            const afterContainer = document.getElementById('after-islam-grid');
+        // فەنکشن بۆ گۆڕینی پەڕە
+        window.changeBioPage = (page) => {
+            currentPage = page;
+            renderPage();
+            // Scroll to top of container
+            const container = document.getElementById('biography-grid');
+            if(container) {
+                const headerOffset = 120;
+                const elementPosition = container.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+        }
 
-                if (!data || data.length === 0) {
-                    beforeContainer.innerHTML = '<p class="empty-message">هیچ داتایەک نییە.</p>';
-                    afterContainer.innerHTML = '<p class="empty-message">هیچ داتایەک نییە.</p>';
-                    return;
-                }
+        // فەنکشن بۆ پیشاندانی پەڕەی دیاریکراو
+        function renderPage() {
+            const container = document.getElementById('biography-grid');
+            if (!container) return;
 
-                // Clear skeletons
-                beforeContainer.innerHTML = '';
-                afterContainer.innerHTML = '';
+            if (filteredEvents.length === 0) {
+                container.innerHTML = '<p class="empty-message grid-full-width">هیچ ڕووداوێک نەدۆزرایەوە.</p>';
+                return;
+            }
 
-                data.forEach(event => {
-                    const card = document.createElement('div');
-                    card.classList.add('message-card', 'bio-card'); // Using message-card style from Quran section
+            const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
+            
+            if (currentPage < 1) currentPage = 1;
+            if (currentPage > totalPages) currentPage = totalPages;
 
-                    card.innerHTML = `
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageData = filteredEvents.slice(start, end);
+
+            const cardsHTML = pageData.map(event => {
+                return `
+                    <div class="message-card bio-card">
                         <div class="message-header">
                             <i class="fas ${event.icon || 'fa-history'}"></i>
                             <h4>${event.title}</h4>
@@ -179,30 +181,69 @@
                             </div>
                             ` : ''}
                         </div>
-                    `;
+                    </div>
+                `;
+            }).join('');
 
-                    if (event.category === 'before_islam') {
-                        beforeContainer.appendChild(card);
+            // دروستکردنی دوگمەکانی پەڕەبەندی
+            let paginationControls = '';
+            if (totalPages > 1) {
+                paginationControls = '<div class="pagination-container">';
+                
+                if (currentPage > 1) {
+                    paginationControls += `<button class="pagination-btn" onclick="changeBioPage(${currentPage - 1})"><i class="fas fa-chevron-right"></i></button>`;
+                }
+
+                for (let i = 1; i <= totalPages; i++) {
+                    if (totalPages > 7) {
+                        if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                            paginationControls += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" onclick="changeBioPage(${i})">${i}</button>`;
+                        } else if (i === currentPage - 2 || i === currentPage + 2) {
+                            paginationControls += `<span class="pagination-dots">...</span>`;
+                        }
                     } else {
-                        afterContainer.appendChild(card);
+                        paginationControls += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" onclick="changeBioPage(${i})">${i}</button>`;
                     }
-                });
+                }
 
-                // Enable Search
-                const searchInput = document.getElementById('searchInput');
-                searchInput.addEventListener('input', (e) => {
-                    const term = e.target.value.toLowerCase();
-                    const cards = document.querySelectorAll('.bio-card');
-                    cards.forEach(card => {
-                        const text = card.textContent.toLowerCase();
-                        card.style.display = text.includes(term) ? 'block' : 'none';
-                    });
-                });
+                if (currentPage < totalPages) {
+                    paginationControls += `<button class="pagination-btn" onclick="changeBioPage(${currentPage + 1})"><i class="fas fa-chevron-left"></i></button>`;
+                }
+
+                paginationControls += '</div>';
+            }
+
+            container.innerHTML = cardsHTML + paginationControls;
+        }
+
+        function renderBiography(data) {
+            const container = document.getElementById('biography-grid');
+            if (!data || data.length === 0) {
+                container.innerHTML = '<p class="empty-message grid-full-width">هیچ داتایەک نییە.</p>';
+                return;
+            }
+
+            allEvents = data;
+            filteredEvents = data;
+            currentPage = 1;
+            renderPage();
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             initVisitorCount();
             window.fetchAndCacheData('biography_events', renderBiography, supabase, 'display_order', true);
+
+            // Enable Search
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                filteredEvents = allEvents.filter(event => {
+                    const text = (event.title + event.content).toLowerCase();
+                    return text.includes(term);
+                });
+                currentPage = 1;
+                renderPage();
+            });
         });
     </script>
 </body>

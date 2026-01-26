@@ -57,22 +57,20 @@
                 </div>
             </div>
 
-            <div class="hadith-content-layout">
-                <!-- TABS (Right Side) -->
-                <div id="companions-tabs" class="tabs vertical-tabs">
+            <!-- Dropdown for companion selection -->
+            <div class="companions-dropdown-wrapper">
+                <select id="companions-dropdown" class="companions-dropdown" onchange="selectCompanionById(this.value)" aria-label="هەڵبژاردنی هاوەڵ">
+                    <!-- Options will be injected here by JS -->
+                </select>
+            </div>
+
+            <!-- Content Area -->
+            <div id="companion-content">
+                <div class="loading-spinner loading-text-center w-full">
                     <div class="loading-spinner loading-text-center w-full">
                         <i class="fas fa-spinner fa-spin fa-2x"></i>
                     </div>
                 </div>
-
-                <!-- Content Area (Left Side) -->
-                <div id="companion-content" class="flex-1">
-                    <!-- Details will be injected here -->
-                </div>
-            </div>
-
-            <div class="visitor-count">
-                <p><i class="fas fa-eye"></i> ژمارەی سەردانیکەران: <span id="visitor-count">0</span></p>
             </div>
         </div>
     </main>
@@ -144,52 +142,52 @@
         }
 
         function renderCompanions(data) {
-            const tabsContainer = document.getElementById('companions-tabs');
             const contentContainer = document.getElementById('companion-content');
+            const dropdownWrapper = document.querySelector('.companions-dropdown-wrapper');
 
             allCompanions = data || [];
 
             if (!allCompanions || allCompanions.length === 0) {
-                tabsContainer.innerHTML = '';
                 contentContainer.innerHTML = '<p style="text-align: center; color: #94a3b8;">هیچ داتایەک نەدۆزرایەوە.</p>';
+                if (dropdownWrapper) dropdownWrapper.style.display = 'none';
                 return;
             }
 
-            // Render Tabs
-            renderTabs(allCompanions);
+            if (dropdownWrapper) dropdownWrapper.style.display = 'block';
+
+            // Render Dropdown
+            renderDropdown(allCompanions);
             
-            // Select first one
-            selectCompanion(allCompanions[0]);
+            // ئەگەر پێشتر هاوەڵێک دیاری کرابێت، ئەوەیان بپارێزە (بۆ کاتی نوێبوونەوەی داتا)
+            if (activeCompanion) {
+                const current = allCompanions.find(c => c.id === activeCompanion.id);
+                selectCompanion(current || allCompanions[0]);
+            } else {
+                selectCompanion(allCompanions[0]);
+            }
         }
 
-        function renderTabs(list) {
-            const tabsContainer = document.getElementById('companions-tabs');
-            tabsContainer.innerHTML = list.map(comp => `
-            <button class="tab-button tab-pill ${activeCompanion && activeCompanion.id === comp.id ? 'active' : ''}" onclick="selectCompanionById('${comp.id}')" data-id="${comp.id}">
-                    <span class="tab-icon"><i class="fas fa-user"></i></span>
-                    <span class="tab-text">${comp.name}</span>
-                </button>
-            `).join('');
+        function renderDropdown(list) {
+            const dropdown = document.getElementById('companions-dropdown');
+            if (!dropdown) return;
+            
+            dropdown.innerHTML = `
+                <option value="" disabled>هاوەڵێک هەڵبژێرە...</option>
+                ${list.map(comp => `<option value="${comp.id}">${comp.name}</option>`).join('')}
+            `;
         }
 
         window.selectCompanionById = (id) => {
-            const comp = allCompanions.find(c => c.id == id);
+            const comp = allCompanions.find(c => String(c.id) === String(id));
             if (comp) selectCompanion(comp);
         }
 
         function selectCompanion(comp) {
             activeCompanion = comp;
             
-            // Update active class without re-rendering to preserve scroll and animation
-            document.querySelectorAll('#companions-tabs .tab-button').forEach(btn => {
-                if (btn.dataset.id == comp.id) {
-                    btn.classList.add('active');
-                    // Ensure active tab is visible on mobile
-                    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
+            // Update dropdown selected value
+            const dropdown = document.getElementById('companions-dropdown');
+            if (dropdown) dropdown.value = comp.id;
             
             const container = document.getElementById('companion-content');
             
@@ -292,11 +290,10 @@
         window.handleSearch = (input) => {
             const query = input.value.toLowerCase();
             const filtered = allCompanions.filter(c => c.name.toLowerCase().includes(query) || (c.full_name && c.full_name.toLowerCase().includes(query)));
-            renderTabs(filtered);
+            renderDropdown(filtered);
         }
 
         document.addEventListener('DOMContentLoaded', () => { 
-            initVisitorCount(); 
             window.fetchAndCacheData('companions', renderCompanions, supabase, 'id', true);
         });
     </script>

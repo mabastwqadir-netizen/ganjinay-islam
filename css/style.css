@@ -2534,6 +2534,48 @@ input, textarea, button, select {
     gap: 0.8rem;
 }
 
+/* Companions Dropdown Styles */
+.companions-dropdown-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 2rem auto;
+    display: none; /* Hide by default, shown by JS */
+}
+
+.companions-dropdown {
+    width: 100%;
+    padding: 1rem 1.5rem 1rem 2.5rem;
+    background-color: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: left 1rem center;
+    background-size: 1em;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    text-align: right;
+}
+
+.companions-dropdown:hover, 
+.companions-dropdown:focus {
+    border-color: #1db954;
+    box-shadow: 0 0 0 4px rgba(29, 185, 84, 0.1);
+    background-color: rgba(30, 41, 59, 0.8);
+    outline: none;
+}
+
+.companions-dropdown option {
+    background: #1e293b;
+    color: white;
+    padding: 12px;
+}
 @media (max-width: 768px) {
     .companion-detail-card {
         padding: 1.2rem;
@@ -3954,8 +3996,18 @@ body.dark-mode .book-cover-fallback {
     color: #cbd5e1;
     line-height: 1.7;
     text-align: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0;
     flex-grow: 1;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out, opacity 0.5s ease-out, margin-bottom 0.5s ease-out;
+}
+
+.zikr-translation.expanded {
+    max-height: 300px;
+    opacity: 1;
+    margin-bottom: 1.5rem;
 }
 
 .zikr-footer {
@@ -4025,7 +4077,9 @@ body.dark-mode .book-cover-fallback {
 }
 
 .toggle-translation-btn {
-    display: none; /* Hidden by default, shown only on mobile */
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     background: transparent;
     color: #64748b;
     border: 1px solid #475569;
@@ -4634,7 +4688,7 @@ body.dark-mode .book-cover-fallback {
 
 .dhikr-arabic {
     font-family: 'Amiri', serif;
-    font-size: 2rem;
+    font-size: 1.6rem;
     color: #ffffff;
     margin-bottom: 1rem;
     line-height: 1.8;
@@ -4643,6 +4697,16 @@ body.dark-mode .book-cover-fallback {
 .dhikr-kurdish {
     color: #94a3b8;
     font-size: 1rem;
+    margin-bottom: 0;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out, opacity 0.5s ease-out, margin-bottom 0.5s ease-out;
+}
+
+.dhikr-kurdish.expanded {
+    max-height: 500px;
+    opacity: 1;
     margin-bottom: 1.5rem;
 }
 
@@ -4905,17 +4969,6 @@ body.dark-mode .book-cover-fallback {
     
     .dhikr-kurdish {
         font-size: 0.9rem; /* Smaller Kurdish text */
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        margin-bottom: 0;
-        transition: max-height 0.5s ease-out, opacity 0.5s ease-out, margin-bottom 0.5s ease-out;
-    }
-
-    .dhikr-kurdish.expanded {
-        max-height: 500px;
-        opacity: 1;
-        margin-bottom: 1.5rem;
     }
 
     .zikr-card {
@@ -4929,17 +4982,6 @@ body.dark-mode .book-cover-fallback {
 
     .zikr-translation {
         font-size: 0.9rem; /* Smaller Kurdish text */
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        margin-bottom: 0;
-        transition: max-height 0.5s ease-out, opacity 0.5s ease-out, margin-bottom 0.5s ease-out;
-    }
-
-    .zikr-translation.expanded {
-        max-height: 300px; /* A large enough value */
-        opacity: 1;
-        margin-bottom: 1.5rem;
     }
 
     .zikr-footer {
@@ -4949,9 +4991,6 @@ body.dark-mode .book-cover-fallback {
     }
 
     .toggle-translation-btn {
-        display: inline-flex; /* Show the button on mobile */
-        align-items: center;
-        gap: 0.5rem;
         margin: 0;
         font-size: 0.75rem;
         padding: 0.3rem 0.8rem;
