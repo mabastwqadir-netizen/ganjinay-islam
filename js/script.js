@@ -172,22 +172,16 @@ window.switchTab = function(tabId, btn) {
 // PWA & Caching Helpers (زیادکراو بۆ هەموو بەشەکان)
 // ==========================================
 
-// ١. تۆمارکردنی Service Worker بە شێوەی ئۆتۆماتیکی بۆ هەموو پەڕەکان
+// ١. تۆمارکردنی Service Worker بۆ پاشەکەوتکردنی پەڕەکان و خێراکردنی ماڵپەڕ
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        // دۆزینەوەی ڕێڕەوی sw.js لەڕێگەی لینکی manifest
-        // ئەمە وا دەکات لە هەر فۆڵدەرێک بیت، ڕێڕەوەکە ڕاست بێت (../sw.js یان ./sw.js)
-        const manifestLink = document.querySelector('link[rel="manifest"]');
-        if (manifestLink) {
-            const swPath = manifestLink.getAttribute('href').replace('manifest.json', 'sw.js');
-            
-            navigator.serviceWorker.register(swPath)
-                .then(registration => {
-                    console.log('ServiceWorker registered successfully');
-                }, err => {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-        }
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('ServiceWorker registered successfully with scope: ', registration.scope);
+            })
+            .catch(err => {
+                console.error('ServiceWorker registration failed: ', err);
+            });
     });
 }
 
