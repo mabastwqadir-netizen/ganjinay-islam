@@ -4804,9 +4804,11 @@ body.dark-mode .book-cover-fallback {
     }
     .question-text-ar, .answer-text-ar {
         font-size: 1.2rem;
+        text-align: center;
     }
-    .question-text-ku {
-        font-size: 0.8rem;
+    .question-text-ku, .answer-text-ku {
+        font-size: 0.9rem;
+        text-align: center;
     }
     .dhikr-tabs { display: none; }
     .mobile-select-container { display: block; }
