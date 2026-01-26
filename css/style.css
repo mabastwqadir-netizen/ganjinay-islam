@@ -4223,10 +4223,13 @@ body.dark-mode .book-cover-fallback {
     position: relative;
 }
 
-.aqidah-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-    border-color: rgba(29, 185, 84, 0.4);
+/* Apply hover effect only on devices that can truly hover (like desktops) */
+@media (hover: hover) and (pointer: fine) {
+    .aqidah-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        border-color: rgba(29, 185, 84, 0.4);
+    }
 }
 
 .aqidah-question-section {
