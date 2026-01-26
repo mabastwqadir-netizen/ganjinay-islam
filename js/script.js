@@ -89,6 +89,66 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     faqObserver.observe(document.body, { childList: true, subtree: true });
+
+    // ==========================================
+    // Zikr Translation Toggle Logic (Mobile)
+    // ==========================================
+    function setupZikrCards() {
+        // Function to add button to a card (Handles both Dhikr and Zikr styles)
+        const addToggleButton = (card) => {
+            // Find translation element (could be .dhikr-kurdish or .zikr-translation)
+            const translation = card.querySelector('.dhikr-kurdish') || card.querySelector('.zikr-translation');
+            
+            // If no translation or button already exists, skip
+            if (!translation || card.querySelector('.toggle-translation-btn')) return;
+
+            const btn = document.createElement('button');
+            btn.className = 'toggle-translation-btn';
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> بینینی کوردی';
+            
+            // Try to find footer or meta section to place button inline with source
+            const footer = card.querySelector('.zikr-footer') || card.querySelector('.dhikr-meta');
+            
+            if (footer) {
+                footer.appendChild(btn);
+            } else {
+                // Fallback: Insert button AFTER the translation element
+                translation.parentNode.insertBefore(btn, translation.nextSibling);
+            }
+            
+            // Add click event
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent card click
+                const isExpanded = translation.classList.toggle('expanded');
+                btn.innerHTML = isExpanded ? 
+                    '<i class="fas fa-chevron-up"></i> شاردنەوەی کوردی' : 
+                    '<i class="fas fa-chevron-down"></i> بینینی کوردی';
+                btn.classList.toggle('expanded', isExpanded);
+            });
+        };
+
+        // 1. Process existing cards on load (Targeting both class types)
+        document.querySelectorAll('.dhikr-card, .zikr-card').forEach(addToggleButton);
+
+        // 2. Use MutationObserver to process dynamically added cards
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach(mutation => {
+                mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === 1) {
+                        if (node.classList.contains('dhikr-card') || node.classList.contains('zikr-card')) {
+                            addToggleButton(node);
+                        } else if (node.querySelectorAll) {
+                            node.querySelectorAll('.dhikr-card, .zikr-card').forEach(addToggleButton);
+                        }
+                    }
+                });
+            });
+        });
+        
+        // Observe body to catch all potential containers
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+    setupZikrCards();
 });
 
 // Global Tab Switcher Function (Used in Prayer page)

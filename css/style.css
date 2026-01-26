@@ -670,11 +670,13 @@ main {
     }
 }
 
-.hadith-item:hover,
-.companion-item:hover {
-    background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
-    transform: translateX(-8px);
-    box-shadow: 0 8px 25px rgba(29, 185, 84, 0.1);
+@media (hover: hover) and (pointer: fine) {
+    .hadith-item:hover,
+    .companion-item:hover {
+        background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+        transform: translateX(-8px);
+        box-shadow: 0 8px 25px rgba(29, 185, 84, 0.1);
+    }
 }
 
 .event-item:hover {
@@ -950,10 +952,12 @@ footer::before {
     50% { transform: translate(50px, 50px); }
 }
 
-.prayer-time:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(29, 185, 84, 0.2);
-    border-color: #1ed760;
+@media (hover: hover) and (pointer: fine) {
+    .prayer-time:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(29, 185, 84, 0.2);
+        border-color: #1ed760;
+    }
 }
 
 .prayer-name {
@@ -985,9 +989,11 @@ footer::before {
     transition: all 0.3s ease;
 }
 
-.quran-verse:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 45px rgba(29, 185, 84, 0.15);
+@media (hover: hover) and (pointer: fine) {
+    .quran-verse:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 45px rgba(29, 185, 84, 0.15);
+    }
 }
 
 .quran-text {
@@ -1226,10 +1232,12 @@ footer::before {
     border: 1px solid rgba(0,0,0,0.05);
 }
 
-.book-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(29, 185, 84, 0.15);
-    border-color: rgba(29, 185, 84, 0.3);
+@media (hover: hover) and (pointer: fine) {
+    .book-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(29, 185, 84, 0.15);
+        border-color: rgba(29, 185, 84, 0.3);
+    }
 }
 
 .book-cover-container {
@@ -1252,8 +1260,10 @@ footer::before {
     transition: transform 0.5s ease;
 }
 
-.book-card:hover .book-cover {
-    transform: scale(1.03);
+@media (hover: hover) and (pointer: fine) {
+    .book-card:hover .book-cover {
+        transform: scale(1.03);
+    }
 }
 
 .book-info {
@@ -1302,9 +1312,11 @@ footer::before {
     box-shadow: 0 4px 10px rgba(29, 185, 84, 0.2);
 }
 
-.download-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(29, 185, 84, 0.3);
+@media (hover: hover) and (pointer: fine) {
+    .download-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(29, 185, 84, 0.3);
+    }
 }
 
 .book-description {
@@ -1362,9 +1374,11 @@ footer::before {
     transition: all 0.3s ease;
 }
 
-.read-btn:hover {
-    background: #e2e8f0;
-    color: #1db954;
+@media (hover: hover) and (pointer: fine) {
+    .read-btn:hover {
+        background: #e2e8f0;
+        color: #1db954;
+    }
 }
 
 .download-btn {
@@ -1848,11 +1862,14 @@ input, textarea, button, select {
     transition: transform 0.3s ease;
     position: relative;
     overflow: hidden;
+
 }
 
-.faq-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+@media (hover: hover) and (pointer: fine) {
+    .faq-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+    }
 }
 
 .faq-question {
@@ -1969,8 +1986,10 @@ input, textarea, button, select {
     transition: color 0.3s;
 }
 
-.faq-see-more-btn:hover {
-    color: #1ed760;
+@media (hover: hover) and (pointer: fine) {
+    .faq-see-more-btn:hover {
+        color: #1ed760;
+    }
 }
 
 .answer-item.official .answer-text {
@@ -1992,8 +2011,10 @@ input, textarea, button, select {
     font-weight: 600;
 }
 
-.reply-toggle-btn:hover {
-    color: #1db954;
+@media (hover: hover) and (pointer: fine) {
+    .reply-toggle-btn:hover {
+        color: #1db954;
+    }
 }
 
 .reply-form {
@@ -2080,10 +2101,12 @@ input, textarea, button, select {
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-.hadith-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    border-color: rgba(29, 185, 84, 0.5);
+@media (hover: hover) and (pointer: fine) {
+    .hadith-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        border-color: rgba(29, 185, 84, 0.5);
+    }
 }
 
 .hadith-number {
@@ -2167,7 +2190,6 @@ input, textarea, button, select {
 }
 
 .hadith-title-section h2 {
-    color: white;
     color: #edcd17;
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
@@ -2607,22 +2629,6 @@ input, textarea, button, select {
     animation: fadeIn 0.8s ease-out;
 }
 
-.quran-header {
-    text-align: center;
-    margin-bottom: 4rem;
-}
-
-.quran-header h2 {
-    font-size: 3rem;
-    font-weight: 700;
-    color: #edcd17;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-}
-
 .quran-header p {
     font-size: 1.2rem;
     color: #cbd5e1;
@@ -2653,10 +2659,12 @@ input, textarea, button, select {
     position: relative;
 }
 
-.message-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
-    border-color: rgba(29, 185, 84, 0.3);
+@media (hover: hover) and (pointer: fine) {
+    .message-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+        border-color: rgba(29, 185, 84, 0.3);
+    }
 }
 
 .message-card::before {
@@ -2671,8 +2679,10 @@ input, textarea, button, select {
     transition: opacity 0.3s ease;
 }
 
-.message-card:hover::before {
-    opacity: 1;
+@media (hover: hover) and (pointer: fine) {
+    .message-card:hover::before {
+        opacity: 1;
+    }
 }
 
 .message-header {
@@ -2938,10 +2948,12 @@ input, textarea, button, select {
     overflow: hidden;
 }
 
-.quran-section-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 50px rgba(29, 185, 84, 0.2);
-    border-color: #1db954;
+@media (hover: hover) and (pointer: fine) {
+    .quran-section-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 50px rgba(29, 185, 84, 0.2);
+        border-color: #1db954;
+    }
 }
 
 .quran-card-icon {
@@ -2958,10 +2970,12 @@ input, textarea, button, select {
     transition: all 0.3s ease;
 }
 
-.quran-section-card:hover .quran-card-icon {
-    background: #1db954;
-    color: #0f172a;
-    transform: scale(1.1) rotate(10deg);
+@media (hover: hover) and (pointer: fine) {
+    .quran-section-card:hover .quran-card-icon {
+        background: #1db954;
+        color: #0f172a;
+        transform: scale(1.1) rotate(10deg);
+    }
 }
 
 .quran-card-content h3 {
@@ -2993,18 +3007,20 @@ input, textarea, button, select {
     margin-top: auto;
 }
 
-.quran-card-button:hover {
-    background: #1db954;
-    color: #0f172a;
-    box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
-}
+@media (hover: hover) and (pointer: fine) {
+    .quran-card-button:hover {
+        background: #1db954;
+        color: #0f172a;
+        box-shadow: 0 5px 15px rgba(29, 185, 84, 0.3);
+    }
 
-.quran-card-button i {
-    transition: transform 0.3s ease;
-}
+    .quran-card-button i {
+        transition: transform 0.3s ease;
+    }
 
-.quran-card-button:hover i {
-    transform: translateX(-4px);
+    .quran-card-button:hover i {
+        transform: translateX(-4px);
+    }
 }
 
 .visitor-count-quran {
@@ -3025,8 +3041,10 @@ input, textarea, button, select {
     color: white;
 }
 
-.tawheed-definition-box:hover {
-    background: rgba(255, 255, 255, 0.05);
+@media (hover: hover) and (pointer: fine) {
+    .tawheed-definition-box:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
 }
 
 .tawheed-definition-box h4 {
@@ -3071,10 +3089,12 @@ input, textarea, button, select {
     overflow: hidden;
 }
 
-.evidence-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
-    border-color: rgba(29, 185, 84, 0.3);
+@media (hover: hover) and (pointer: fine) {
+    .evidence-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+        border-color: rgba(29, 185, 84, 0.3);
+    }
 }
 
 .evidence-card::before {
@@ -3089,8 +3109,10 @@ input, textarea, button, select {
     transition: opacity 0.3s ease;
 }
 
-.evidence-card:hover::before {
-    opacity: 1;
+@media (hover: hover) and (pointer: fine) {
+    .evidence-card:hover::before {
+        opacity: 1;
+    }
 }
 
 .evidence-arabic {
@@ -3753,7 +3775,7 @@ body.dark-mode .book-cover-fallback {
         padding: 0.8rem 0.5rem; /* Tighter padding for extra small mobile */
     }
     .hadith-title-section h2 { /* New rule for mobile title */
-        font-size: 1.6rem !important;
+        font-size: 1.2rem !important;
         color: #edcd17; /* Yellow color */
     }
 
@@ -3888,10 +3910,12 @@ body.dark-mode .book-cover-fallback {
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-.zikr-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    border-color: rgba(29, 185, 84, 0.5);
+@media (hover: hover) and (pointer: fine) {
+    .zikr-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        border-color: rgba(29, 185, 84, 0.5);
+    }
 }
 
 .zikr-card-header {
@@ -3960,9 +3984,25 @@ body.dark-mode .book-cover-fallback {
     border: 1px solid rgba(255, 215, 0, 0.2) !important;
 }
 
-.islam-card:hover {
-    border-color: #ffd700 !important;
-    box-shadow: 0 15px 50px rgba(255, 215, 0, 0.15) !important;
+@media (hover: hover) and (pointer: fine) {
+    .islam-card:hover {
+        border-color: #ffd700 !important;
+        box-shadow: 0 15px 50px rgba(255, 215, 0, 0.15) !important;
+        transform: translateY(-5px);
+    }
+}
+
+@media (max-width: 1024px) {
+    .islam-card:hover {
+        transform: none !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+        border-color: rgba(255, 215, 0, 0.2) !important;
+    }
+
+    /* This specifically targets the top green line inherited from .message-card and hides it on mobile */
+    .islam-card:hover::before {
+        opacity: 0 !important;
+    }
 }
 
 .islam-card .message-header {
@@ -3982,6 +4022,30 @@ body.dark-mode .book-cover-fallback {
 
 .islam-card h4 {
     font-size: 1.15rem;
+}
+
+.toggle-translation-btn {
+    display: none; /* Hidden by default, shown only on mobile */
+    background: transparent;
+    color: #64748b;
+    border: 1px solid #475569;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    width: fit-content;
+}
+
+.toggle-translation-btn:hover {
+    background: rgba(100, 116, 139, 0.1);
+    color: #94a3b8;
+    border-color: #64748b;
+}
+.toggle-translation-btn.expanded i {
+    transform: rotate(180deg);
 }
 
 /* Biography Page Styles */
@@ -4561,9 +4625,11 @@ body.dark-mode .book-cover-fallback {
     align-items: center;
 }
 
-.dhikr-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(29, 185, 84, 0.3);
+@media (hover: hover) and (pointer: fine) {
+    .dhikr-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(29, 185, 84, 0.3);
+    }
 }
 
 .dhikr-arabic {
@@ -4615,9 +4681,16 @@ body.dark-mode .book-cover-fallback {
     color: #64748b;
     margin-top: 1rem;
     width: 100%;
-    text-align: right;
     border-top: 1px solid rgba(255,255,255,0.05);
     padding-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* زیادکردنی بۆشاییەکی کەم لەنێوان ئایکۆن و نووسین */
+}
+
+/* ئەم ستایلە نوێیە دوگمەکە پاڵ دەنێت بۆ کۆتایی هێڵەکە */
+.dhikr-meta .toggle-translation-btn {
+    margin-right: auto;
 }
 
 /* Library Page Styles */
@@ -4640,10 +4713,12 @@ body.dark-mode .book-cover-fallback {
     height: 100%;
 }
 
-.library-book-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
-    border-color: #1db954;
+@media (hover: hover) and (pointer: fine) {
+    .library-book-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        border-color: #1db954;
+    }
 }
 
 .library-book-cover-container {
@@ -4674,8 +4749,10 @@ body.dark-mode .book-cover-fallback {
     transition: transform 0.5s ease;
 }
 
-.library-book-card:hover .library-book-cover {
-    transform: scale(1.1);
+@media (hover: hover) and (pointer: fine) {
+    .library-book-card:hover .library-book-cover {
+        transform: scale(1.1);
+    }
 }
 
 .library-book-cover-fallback {
@@ -4753,8 +4830,10 @@ body.dark-mode .book-cover-fallback {
     color: white !important;
 }
 
-.library-read-btn:hover {
-    background-color: #1ed760;
+@media (hover: hover) and (pointer: fine) {
+    .library-read-btn:hover {
+        background-color: #1ed760;
+    }
 }
 
 .library-download-btn {
@@ -4762,8 +4841,10 @@ body.dark-mode .book-cover-fallback {
     color: white !important;
 }
 
-.library-download-btn:hover {
-    background-color: #475569;
+@media (hover: hover) and (pointer: fine) {
+    .library-download-btn:hover {
+        background-color: #475569;
+    }
 }
 
 /* Utility Classes for Inline Style Fixes */
@@ -4816,7 +4897,65 @@ body.dark-mode .book-cover-fallback {
     .dhikr-tabs { display: none; }
     .mobile-select-container { display: block; }
     .dhikr-card { padding: 1.5rem; }
-    .dhikr-arabic { font-size: 1.6rem; }
+    
+    /* Dhikr Card Specific Mobile Styles */
+    .dhikr-arabic { 
+        font-size: 1.4rem; /* Smaller Arabic text */
+    }
+    
+    .dhikr-kurdish {
+        font-size: 0.9rem; /* Smaller Kurdish text */
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        margin-bottom: 0;
+        transition: max-height 0.5s ease-out, opacity 0.5s ease-out, margin-bottom 0.5s ease-out;
+    }
+
+    .dhikr-kurdish.expanded {
+        max-height: 500px;
+        opacity: 1;
+        margin-bottom: 1.5rem;
+    }
+
+    .zikr-card {
+        padding: 1.2rem;
+    }
+
+    .zikr-text {
+        font-size: 1.2rem; /* Smaller Arabic text */
+        line-height: 1.8;
+    }
+
+    .zikr-translation {
+        font-size: 0.9rem; /* Smaller Kurdish text */
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        margin-bottom: 0;
+        transition: max-height 0.5s ease-out, opacity 0.5s ease-out, margin-bottom 0.5s ease-out;
+    }
+
+    .zikr-translation.expanded {
+        max-height: 300px; /* A large enough value */
+        opacity: 1;
+        margin-bottom: 1.5rem;
+    }
+
+    .zikr-footer {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .toggle-translation-btn {
+        display: inline-flex; /* Show the button on mobile */
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0;
+        font-size: 0.75rem;
+        padding: 0.3rem 0.8rem;
+    }
 }
 
 /* Laptop/Desktop Layout for Aqidah */
@@ -5048,10 +5187,12 @@ body.faq-page {
     transition: all 0.3s ease;
 }
 
-.prayer-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(251, 191, 36, 0.2) !important;
-    border-color: #fbbf24 !important;
+@media (hover: hover) and (pointer: fine) {
+    .prayer-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(251, 191, 36, 0.2) !important;
+        border-color: #fbbf24 !important;
+    }
 }
 
 .prayer-card .message-header {
