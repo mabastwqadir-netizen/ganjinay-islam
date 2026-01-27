@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const pwaInstallBtn = document.getElementById('pwa-install-btn');
     
     const handleInstall = async () => {
+        console.log('Install button clicked');
         if (deferredPrompt) {
             deferredPrompt.prompt();
             const { outcome } = await deferredPrompt.userChoice;
