@@ -1,5 +1,4 @@
 const CACHE_NAME = 'islamic-treasure-v1';
-const DYNAMIC_CACHE = 'islamic-treasure-dynamic-v1';
 
 // فایلە سەرەکییەکان بۆ پاشەکەوتکردن (App Shell)
 const ASSETS = [
@@ -27,7 +26,7 @@ self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((keys) => {
             return Promise.all(keys.map((key) => {
-                if (key !== CACHE_NAME && key !== DYNAMIC_CACHE) {
+                if (key !== CACHE_NAME) {
                     return caches.delete(key);
                 }
             }));
@@ -49,7 +48,7 @@ self.addEventListener('fetch', (event) => {
                 // ئەگەر وەڵامەکە دروست بوو، نوێی بکەرەوە لە کاشدا
                 if (response && response.status === 200 && response.type === 'basic') {
                     const responseToCache = response.clone();
-                    caches.open(DYNAMIC_CACHE).then((cache) => {
+                    caches.open(CACHE_NAME).then((cache) => {
                         cache.put(event.request, responseToCache);
                     });
                 }
