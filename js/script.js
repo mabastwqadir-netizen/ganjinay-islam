@@ -42,6 +42,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
+    // PWA Install Logic (زیادکراو)
+    // ==========================================
+    const pwaInstallBtn = document.getElementById('pwa-install-btn');
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+        // Update UI to notify the user they can add to home screen
+        if (pwaInstallBtn) {
+            pwaInstallBtn.style.display = 'flex';
+        }
+    });
+
+    if (pwaInstallBtn) {
+        pwaInstallBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to the install prompt: ${outcome}`);
+                deferredPrompt = null;
+                pwaInstallBtn.style.display = 'none';
+            }
+        });
+    }
+
+    window.addEventListener('appinstalled', () => {
+        if (pwaInstallBtn) pwaInstallBtn.style.display = 'none';
+        deferredPrompt = null;
+    });
+
+    // ==========================================
     // FAQ Read More Logic (زیادکراو بۆ وەڵامە درێژەکان)
     // ==========================================
     function processFaqReadMore(element) {
