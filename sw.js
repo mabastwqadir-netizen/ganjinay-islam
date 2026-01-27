@@ -1,4 +1,4 @@
-const CACHE_NAME = 'islamic-treasure-v2'; // Bump version
+const CACHE_NAME = 'islamic-treasure-v3'; // Bump version
 const STATIC_ASSETS = [
     '/', // Alias for index.html
     '/index.html',
@@ -6,6 +6,8 @@ const STATIC_ASSETS = [
     '/js/script.js',
     '/js/theme.js',
     '/assets/logo.png',
+    '/assets/icons/Icon192.jpg',
+    '/assets/icons/Icon512.jpg',
     '/aqidah/index.html',
     '/biography/index.html',
     '/companions/index.html',
