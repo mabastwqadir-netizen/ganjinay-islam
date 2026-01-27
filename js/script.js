@@ -1,3 +1,15 @@
+// PWA Install Logic - Move outside DOMContentLoaded to catch early events
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent Chrome 67 and earlier from automatically showing the prompt
+    e.preventDefault();
+    // Stash the event so it can be triggered later.
+    deferredPrompt = e;
+    // Update UI if element exists (or wait for DOMContentLoaded)
+    const btn = document.getElementById('pwa-install-btn');
+    if (btn) btn.style.display = 'flex';
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     // Sidebar Toggle Logic
     const sidebarToggle = document.getElementById('sidebarToggle');
@@ -45,18 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // PWA Install Logic (زیادکراو)
     // ==========================================
     const pwaInstallBtn = document.getElementById('pwa-install-btn');
-    let deferredPrompt;
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevent Chrome 67 and earlier from automatically showing the prompt
-        e.preventDefault();
-        // Stash the event so it can be triggered later.
-        deferredPrompt = e;
-        // Update UI to notify the user they can add to home screen
-        if (pwaInstallBtn) {
-            pwaInstallBtn.style.display = 'flex';
-        }
-    });
+    
+    // Check if event fired before DOM loaded
+    if (deferredPrompt && pwaInstallBtn) {
+        pwaInstallBtn.style.display = 'flex';
+    }
 
     if (pwaInstallBtn) {
         pwaInstallBtn.addEventListener('click', async () => {

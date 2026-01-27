@@ -1,4 +1,4 @@
-const CACHE_NAME = 'islamic-treasure-v3'; // Bump version
+const CACHE_NAME = 'islamic-treasure-v4'; // Bump version
 const STATIC_ASSETS = [
     '/', // Alias for index.html
     '/index.html',
