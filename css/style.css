@@ -5347,4 +5347,5 @@ body.faq-page {
 }
 
 .faq-textarea {
-    background: #0f172a !importa
+    background: #0f172a !important;
+}
