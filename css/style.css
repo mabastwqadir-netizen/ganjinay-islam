@@ -5349,3 +5349,75 @@ body.faq-page {
 .faq-textarea {
     background: #0f172a !important;
 }
+
+/* ==================== PAGINATION SYSTEM ==================== */
+.pagination-container {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.pagination-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(30, 41, 59, 0.6);
+    color: #cbd5e1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Cairo', sans-serif;
+}
+
+.pagination-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border-color: #1db954;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.pagination-btn.active {
+    background: linear-gradient(135deg, #1db954, #1ed760);
+    color: #0f172a;
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+    font-weight: 800;
+}
+
+.pagination-btn.active:hover {
+    box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
+}
+
+.pagination-dots {
+    color: #64748b;
+    font-weight: bold;
+    padding: 0 0.5rem;
+    letter-spacing: 2px;
+}
+
+@media (max-width: 480px) {
+    .pagination-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+        border-radius: 10px;
+    }
+    
+    .pagination-container {
+        gap: 0.3rem;
+        margin-top: 1.5rem;
+    }
+}
