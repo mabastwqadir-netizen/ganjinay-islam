@@ -7,7 +7,6 @@ window.addEventListener('beforeinstallprompt', (e) => {
     deferredPrompt = e;
     // Update UI if element exists (or wait for DOMContentLoaded)
     const btn = document.getElementById('pwa-install-btn');
-    if (btn) btn.style.display = 'flex';
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -58,27 +57,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     const pwaInstallBtn = document.getElementById('pwa-install-btn');
     
-    // Check if event fired before DOM loaded
-    if (deferredPrompt && pwaInstallBtn) {
-        pwaInstallBtn.style.display = 'flex';
-    }
+    const handleInstall = async () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User response to the install prompt: ${outcome}`);
+            deferredPrompt = null;
+        } else {
+            alert('بۆ دابەزاندنی ئەپەکە:\n١. لە ئایفۆن: دوگمەی Share دابگرە و Add to Home Screen هەڵبژێرە.\n٢. لە ئەندرۆید/کۆمپیوتەر: لە مینیۆی وێبگەڕەکە Install App هەڵبژێرە.');
+        }
+    };
 
     if (pwaInstallBtn) {
-        pwaInstallBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                console.log(`User response to the install prompt: ${outcome}`);
-                deferredPrompt = null;
-                pwaInstallBtn.style.display = 'none';
-            }
-        });
+        pwaInstallBtn.addEventListener('click', handleInstall);
     }
-
+    
     window.addEventListener('appinstalled', () => {
         if (pwaInstallBtn) pwaInstallBtn.style.display = 'none';
         deferredPrompt = null;
     });
+    
+    // Check if already installed
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        if (pwaInstallBtn) pwaInstallBtn.style.display = 'none';
+    }
 
     // ==========================================
     // FAQ Read More Logic (زیادکراو بۆ وەڵامە درێژەکان)
