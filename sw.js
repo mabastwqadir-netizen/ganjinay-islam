@@ -13,6 +13,7 @@ const ASSETS = [
     'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 ];
 
+
 // 1. Install Event: پاشەکەوتکردنی فایلە سەرەکییەکان
 self.addEventListener('install', (event) => {
     // چالاککردنی خێرا (Skip Waiting) بۆ ئەوەی ڕاستەوخۆ کۆنتڕۆڵ بگرێتە دەست
@@ -23,6 +24,7 @@ self.addEventListener('install', (event) => {
         })
     );
 });
+
 
 // 2. Activate Event: سڕینەوەی کاشی کۆن
 self.addEventListener('activate', (event) => {
@@ -37,6 +39,7 @@ self.addEventListener('activate', (event) => {
     );
     return self.clients.claim();
 });
+
 
 // 3. Fetch Event: ستراتیژی جیاواز بۆ فایلە ناوخۆیی و دەرەکییەکان
 self.addEventListener('fetch', (event) => {
