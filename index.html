@@ -7,7 +7,7 @@
     <title>گەنجینەی ئیسلام</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="apple-touch-icon" href="assets/logo.png">
+    <link rel="apple-touch-icon" href="assets/icons/Icon192.png">
     <link rel="manifest" href="manifest.json">
 
     <!-- Google tag (gtag.js) -->
@@ -423,6 +423,20 @@
 
             });
 
+        </script>
+        <script>
+            // Service Worker Registration
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/sw.js')
+                        .then(registration => {
+                            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                        })
+                        .catch(err => {
+                            console.log('ServiceWorker registration failed: ', err);
+                        });
+                });
+            }
         </script>
 </body>
 </html>
