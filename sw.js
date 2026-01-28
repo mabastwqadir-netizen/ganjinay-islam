@@ -1,4 +1,4 @@
-const CACHE_NAME = 'islamic-treasure-v2';
+const CACHE_NAME = 'islamic-treasure-v3';
 
 // فایلە سەرەکییەکان بۆ پاشەکەوتکردن (App Shell)
 const ASSETS = [
@@ -37,6 +37,17 @@ self.addEventListener('activate', (event) => {
 
 // 3. Fetch Event: ستراتیژی Network First (سەرەتا ئینتەرنێت، ئەگەر نەبوو کاش)
 self.addEventListener('fetch', (event) => {
+    // چارەسەری کێشەی Google Analytics لە کاتی ئۆفڵاین
+    // ئەگەر ئینتەرنێت نەبوو، وەڵامێکی بەتاڵ دەگەڕێنێتەوە بۆ ئەوەی ماڵپەڕەکە نەوەستێت
+    if (event.request.url.includes('googletagmanager.com') || event.request.url.includes('google-analytics.com')) {
+        event.respondWith(
+            fetch(event.request).catch(() => {
+                return new Response('', { status: 200, headers: { 'Content-Type': 'application/javascript' } });
+            })
+        );
+        return;
+    }
+
     // تەنها بۆ داواکارییەکانی ناو ماڵپەڕ (Supabase و دەرەکییەکان پشتگوێ دەخرێن تا script.js کاری خۆی بکات)
     if (!event.request.url.startsWith(self.location.origin) || event.request.method !== 'GET') {
         return;
