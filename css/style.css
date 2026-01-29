@@ -2181,9 +2181,14 @@ input, textarea, button, select {
 
 .responder-name {
     font-weight: 700;
-    color: #f8fafc;
     color: #fbbf24;
-    font-size: 0.95rem;
+    font-size: 0.8rem;
+}
+
+.faq-asker-info {
+    font-weight: 700;
+    color: #fbbf24;
+    font-size: 0.8rem;
 }
 
 .answer-text {
@@ -5351,7 +5356,7 @@ body.faq-page {
 }
 
 .faq-form-container::before {
-    background: linear-gradient(90deg, #fbbf24, #d97706) !important;
+    background:none !important;
 }
 
 .faq-form-container h3 {
