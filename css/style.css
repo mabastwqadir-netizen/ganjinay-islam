@@ -521,7 +521,6 @@ main {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #1db954, #1ed760, #ff6b6b);
     transform: scaleX(0);
     transform-origin: right;
     transition: transform 0.4s ease;
