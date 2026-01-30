@@ -124,8 +124,7 @@
                 selectElement.innerHTML = categories.map(cat => {
                     const hasNew = allAdhkar.some(item => item.category === cat && window.isNewItem(item.created_at));
                     const label = hasNew ? `${cat} (نوێ)` : cat;
-                    return `<option value="${cat}">${label}</option>`;
-                    const style = hasNew ? 'style="color: #4ade80; font-weight: bold;"' : '';
+                    const style = hasNew ? 'style="color: #60a5fa;"' : '';
                     return `<option value="${cat}" ${style}>${label}</option>`;
                 }).join('');
             }
