@@ -2271,7 +2271,7 @@ input, textarea, button, select {
 
 .reply-inputs input {
     flex: 1;
-    padding: 0.6rem;
+    padding: 0.6rem 0.3rem;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: white;
@@ -2286,19 +2286,16 @@ input, textarea, button, select {
 
 .admin-code-input {
     max-width: 160px;
-    width: 160px;
+    width: 10px;
     border-color: rgba(255, 255, 255, 0.1);
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%2394a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>');
     background-repeat: no-repeat;
-    background-position: 10px center;
+    background-position: 35px center;
     padding-left: 35px !important;
     transition: all 0.3s ease;
 }
 
-.admin-code-input:focus {
-    border-color: #1db954;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%231db954" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>');
-}
+
 
 .no-answers {
     color: #64748b;
