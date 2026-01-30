@@ -163,6 +163,9 @@
             const end = start + itemsPerPage;
             const pageData = filteredEvents.slice(start, end);
 
+            // ڕێکخستنی ژمارەی دەستپێک بۆ ئەوەی لەگەڵ پەڕەبەندی بگونجێت
+            container.style.counterReset = `bio-counter ${start}`;
+
             const cardsHTML = pageData.map(event => {
                 return `
                     <div class="message-card bio-card">
@@ -175,8 +178,7 @@
                             ${event.date_text ? `
                             <div class="quran-verse-section" style="margin-bottom:0; padding: 0.8rem;">
                                 <p class="kurdish-text" style="margin:0; text-align:center;">
-                                    <i class="fas fa-calendar-alt" style="color:#1db954; margin-left:5px;"></i> 
-                                    <strong>مێژوو:</strong> ${event.date_text}
+                                 ${event.date_text}
                                 </p>
                             </div>
                             ` : ''}
