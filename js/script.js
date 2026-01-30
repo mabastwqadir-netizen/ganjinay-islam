@@ -191,6 +191,17 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(document.body, { childList: true, subtree: true });
     }
     setupZikrCards();
+
+    // ==========================================
+    // App Version Display (زیادکراو)
+    // ==========================================
+    const APP_VERSION = 'v5'; // دڵنیابەرەوە ئەمە لەگەڵ sw.js یەک دەگرێتەوە
+    const footer = document.querySelector('footer');
+    if (footer) {
+        const versionEl = document.createElement('div');
+        versionEl.innerHTML = `<span class="app-version"><i class="fas fa-code-branch"></i> وەشان: ${APP_VERSION}</span>`;
+        footer.appendChild(versionEl);
+    }
 });
 
 // Global Tab Switcher Function (Used in Prayer page)
