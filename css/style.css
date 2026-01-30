@@ -3631,8 +3631,29 @@ body.dark-mode .visitor-count span {
 
 /* Fix for New Badge overlap with Bio Counter */
 .bio-card .new-badge {
-    left: auto;
-    right: 12px;
+    left: 0;
+    right: auto;
+    top: 45px;
+    border-radius: 0 20px 20px 0;
+}
+
+/* Fix for Dhikr Card Badge position */
+.dhikr-card .new-badge {
+    position: static;
+    margin: 0;
+}
+
+.dhikr-action-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: auto;
+    width: 100%;
+}
+
+.dhikr-card .counter-btn {
+    margin-top: 0;
 }
 
 .book-cover-fallback {
@@ -4457,7 +4478,7 @@ body.dark-mode .book-cover-fallback {
 }
 
 .bio-card .message-header {
-    padding: 1rem 1.2rem;
+    padding: 0.6rem 1.2rem;
 }
 
 .bio-card .message-body {
@@ -5533,5 +5554,30 @@ body.faq-page {
     .pagination-container {
         gap: 0.3rem;
         margin-top: 1.5rem;
+    }
+}
+
+/* Mobile Optimization for Bio Card Badge */
+@media (max-width: 768px) {
+    .bio-card::after {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .bio-card .new-badge {
+        top: 0;
+        left: 35px;
+        right: auto;
+        border-radius: 0 0 12px 0;
+        padding: 3px 8px;
+    }
+
+    .bio-card .message-header {
+        padding: 0.4rem 1rem;
+    }
+
+    .bio-card .message-body {
+        padding: 1rem;
     }
 }

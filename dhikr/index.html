@@ -165,12 +165,14 @@
 
             container.innerHTML = filtered.map((item, index) => `
                 <div class="dhikr-card">
-                    ${window.getNewBadge(item.created_at)}
                     <div class="dhikr-arabic">${item.arabic_text}</div>
                     <div class="dhikr-kurdish">${item.kurdish_text || ''}</div>
                     
-                    <div class="counter-btn" id="btn-${index}" onclick="countDown(${index}, ${item.repeat_count})">
-                        ${item.repeat_count}
+                    <div class="dhikr-action-container">
+                        ${window.getNewBadge(item.created_at)}
+                        <div class="counter-btn" id="btn-${index}" onclick="countDown(${index}, ${item.repeat_count})">
+                            ${item.repeat_count}
+                        </div>
                     </div>
 
                     <div class="dhikr-meta">
