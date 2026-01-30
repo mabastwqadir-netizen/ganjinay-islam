@@ -258,13 +258,34 @@
                     const timings = data.data.timings;
                     const date = data.data.date;
 
+                    // ==========================================
+                    // Prayer Time Adjustments (چاککردنی کاتەکان)
+                    // ==========================================
+                    const adjustments = {
+                        'Fajr': 10,      // بەیانی: +١٠ خولەک
+                        'Sunrise': 4,    // خۆرهەڵاتن: +٤ خولەک
+                        'Dhuhr': 9,      // نیوەڕۆ: +٩ خولەک
+                        'Asr': 2,        // عەسر: +٢ خولەک
+                        'Maghrib': 6,    // مەغریب: +٦ خولەک
+                        'Isha': -2       // عیشا: -٢ خولەک
+                    };
+
+                    Object.keys(adjustments).forEach(key => {
+                        if (timings[key]) {
+                            let [h, m] = timings[key].split(':').map(v => parseInt(v));
+                            let d = new Date();
+                            d.setHours(h, m + adjustments[key]);
+                            timings[key] = d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
+                        }
+                    });
+
                     if (dateEl) {
                         dateEl.innerHTML = `<i class="far fa-calendar-alt"></i> ${date.hijri.day} ${date.hijri.month.ar} ${date.hijri.year} | ${date.gregorian.date}`;
                     }
 
                     const prayers = [
                         { key: 'Fajr', name: 'بەیانی', icon: 'fa-cloud-sun' },
-                        { key: 'Sunrise', name: 'خۆرھەڵات', icon: 'fa-sun' },
+                        { key: 'Sunrise', name: 'خۆرھەڵاتن', icon: 'fa-sun' },
                         { key: 'Dhuhr', name: 'نیوەڕۆ', icon: 'fa-sun' },
                         { key: 'Asr', name: 'عەسر', icon: 'fa-cloud-sun' },
                         { key: 'Maghrib', name: 'مەغریب', icon: 'fa-moon' },
@@ -289,7 +310,7 @@
                         const now = new Date();
                         const prayerNames = {
                             'Fajr': 'بەیانی',
-                            'Sunrise': 'خۆرھەڵات',
+                            'Sunrise': 'خۆرھەڵاتن',
                             'Dhuhr': 'نیوەڕۆ',
                             'Asr': 'عەسر',
                             'Maghrib': 'مەغریب',
