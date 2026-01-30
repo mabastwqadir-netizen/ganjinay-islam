@@ -121,9 +121,13 @@
                 currentCategory = categories[0];
                 
                 // Generate Dropdown Options
-                selectElement.innerHTML = categories.map(cat => 
-                    `<option value="${cat}">${cat}</option>`
-                ).join('');
+                selectElement.innerHTML = categories.map(cat => {
+                    const hasNew = allAdhkar.some(item => item.category === cat && window.isNewItem(item.created_at));
+                    const label = hasNew ? `${cat} (نوێ)` : cat;
+                    return `<option value="${cat}">${label}</option>`;
+                    const style = hasNew ? 'style="color: #4ade80; font-weight: bold;"' : '';
+                    return `<option value="${cat}" ${style}>${label}</option>`;
+                }).join('');
             }
 
             renderAdhkar();
@@ -162,6 +166,7 @@
 
             container.innerHTML = filtered.map((item, index) => `
                 <div class="dhikr-card">
+                    ${window.getNewBadge(item.created_at)}
                     <div class="dhikr-arabic">${item.arabic_text}</div>
                     <div class="dhikr-kurdish">${item.kurdish_text || ''}</div>
                     

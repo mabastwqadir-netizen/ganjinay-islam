@@ -163,7 +163,7 @@
 
                         return `
                         <div class="hadith-card">
-                            ${h.title ? `<div class="hadith-topic-title">${h.title}</div>` : ''}
+                            ${h.title ? `<div class="hadith-topic-title">${window.getNewBadge(h.created_at)} ${h.title}</div>` : window.getNewBadge(h.created_at)}
                             <div class="hadith-arabic">${h.arabic_text}</div>
                             <div class="hadith-kurdish" id="hadith-text-${index}">
                                 ${isLong ? `

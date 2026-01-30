@@ -152,6 +152,7 @@
 
                     return `
                         <div class="library-book-card">
+                            ${window.getNewBadge(book.created_at)}
                             <div class="library-book-cover-container">${coverHtml}</div>
                             <div class="library-book-info">
                                 <h3 class="library-book-title" title="${book.title}">${book.title}</h3>

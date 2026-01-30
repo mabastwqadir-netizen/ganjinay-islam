@@ -121,6 +121,7 @@
                 card.classList.add('info-card');
 
                 card.innerHTML = `
+                    ${window.getNewBadge(info.created_at)}
                     <div class="info-card-header">
                         <h4>${info.title || 'زانیارییەک'}</h4>
                     </div>

@@ -284,6 +284,28 @@ window.fetchAndCacheData = async function(tableName, renderCallback, supabaseCli
 };
 
 // ==========================================
+// New Item Check Helper (فەنکشنی پشکنینی نوێ)
+// ==========================================
+window.isNewItem = function(dateString) {
+    if (!dateString) return false;
+    const createdDate = new Date(dateString);
+    const now = new Date();
+    const diffTime = now - createdDate;
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+    return diffDays >= 0 && diffDays <= 3;
+};
+
+// ==========================================
+// New Badge Helper (فەنکشنی نیشانەی نوێ)
+// ==========================================
+window.getNewBadge = function(dateString) {
+    if (window.isNewItem(dateString)) {
+        return '<span class="new-badge">نوێ</span>';
+    }
+    return '';
+};
+
+// ==========================================
 // Pagination System (زیادکراو بۆ پەڕەبەندی هەموو بەشەکان)
 // ==========================================
 window.initPagination = function(options) {

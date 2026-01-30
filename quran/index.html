@@ -125,6 +125,7 @@
                 data.forEach(section => {
                     const cardHTML = `
                         <div class="quran-section-card">
+                            ${window.getNewBadge(section.created_at)}
                             <div class="quran-card-icon">
                                 <i class="fas ${section.icon}"></i>
                             </div>

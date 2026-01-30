@@ -227,6 +227,7 @@
 
                             return `
                                 <div class="video-card" data-video-id="${video.id}">
+                                    ${window.getNewBadge(video.created_at)}
                                     <div class="video-embed-container" 
                                          data-thumbnail="${thumbnailUrl}" 
                                          data-title="${video.title}"

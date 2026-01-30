@@ -169,6 +169,7 @@
             const cardsHTML = pageData.map(event => {
                 return `
                     <div class="message-card bio-card">
+                        ${window.getNewBadge(event.created_at)}
                         <div class="message-header">
                             <i class="fas ${event.icon || 'fa-history'}"></i>
                             <h4>${event.title}</h4>

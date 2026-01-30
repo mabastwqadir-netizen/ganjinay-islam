@@ -128,6 +128,7 @@
                 }
 
                 card.innerHTML = `
+                    ${window.getNewBadge(message.created_at)}
                     <div class="message-header">
                         <i class="fas fa-bullhorn"></i>
                         <h4>${message.title || 'پەیامێک بۆ تۆ'}</h4>
