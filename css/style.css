@@ -4407,6 +4407,7 @@ body.dark-mode .book-cover-fallback {
 
 .bio-card .message-body {
     padding: 1.2rem;
+    text-align: center;
 }
 
 .bio-card h4 {
