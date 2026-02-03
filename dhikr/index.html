@@ -51,20 +51,28 @@
                 </div>
             </div>
 
-            <div class="zikr-controls">
-                <div class="zikr-search-container">
-                    <input type="text" class="zikr-search-input" placeholder="گەڕان لە زیکرەکان..." oninput="searchDhikr(this.value)">
-                    <i class="fas fa-search zikr-search-icon"></i>
-                </div>
-                <select class="zikr-category-select" id="zikrCategory" onchange="filterDhikr(this.value)" aria-label="پاڵاوتنی زیکرەکان">
-                    <option>جارێ دەهێنرێت...</option>
-                </select>
-            </div>
-
-            <div class="hadith-grid" id="dhikr-container">
+            <!-- New Category List View -->
+            <div id="category-list-container">
                 <div class="loading-spinner loading-spinner-center">
                     <i class="fas fa-spinner fa-spin fa-2x"></i>
                 </div>
+            </div>
+
+            <!-- Existing Dhikr View (initially hidden) -->
+            <div id="dhikr-view-container" style="display: none;">
+                <button id="back-to-categories" class="cta-button quran-back-btn" style="margin-bottom: 2rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-arrow-right"></i> گەڕانەوە بۆ لیستەکە
+                </button>
+                <div class="zikr-controls">
+                    <div class="zikr-search-container">
+                        <input type="text" class="zikr-search-input" placeholder="گەڕان لە زیکرەکان..." oninput="searchDhikr(this.value)">
+                        <i class="fas fa-search zikr-search-icon"></i>
+                    </div>
+                    <select class="zikr-category-select" id="zikrCategory" onchange="filterDhikr(this.value)" aria-label="پاڵاوتنی زیکرەکان">
+                        <option>جارێ دەهێنرێت...</option>
+                    </select>
+                </div>
+                <div class="hadith-grid" id="dhikr-container"></div>
             </div>
         </div>
     </main>
@@ -109,18 +117,56 @@
         let currentCategory = '';
         let searchQuery = '';
 
+        // Get references to the new containers
+        const categoryListContainer = document.getElementById('category-list-container');
+        const dhikrViewContainer = document.getElementById('dhikr-view-container');
+        const backButton = document.getElementById('back-to-categories');
+
+        // Function to render the initial category list
+        function renderCategoryList(categories) {
+            if (!categoryListContainer) return;
+
+            if (categories.length === 0) {
+                categoryListContainer.innerHTML = '<p class="empty-message">هیچ بەشێک نەدۆزرایەوە.</p>';
+                return;
+            }
+
+            // New list style
+            categoryListContainer.className = 'category-list'; 
+            categoryListContainer.innerHTML = categories.map(cat => {
+                const hasNew = allAdhkar.some(item => item.category === cat && window.isNewItem(item.created_at, `dhikr_${item.id}`));
+                const newBadge = hasNew ? '<span class="new-badge">نوێ</span>' : '';
+                
+                // Count items in category
+                const itemCount = allAdhkar.filter(item => item.category === cat).length;
+
+                return `
+                    <div class="category-list-item" onclick="showDhikrView('${cat}')">
+                        ${newBadge}
+                        <div class="category-item-details">
+                            <h3 style="margin: 0;">${cat} <span style="font-size: 0.85rem; color: #94a3b8; font-weight: normal; margin-right: 0.5rem;">(${itemCount})</span></h3>
+                        </div>
+                        <div class="category-item-action">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // This function is called when data is fetched
         function renderDhikrData(data) {
             const selectElement = document.getElementById('zikrCategory');
-
             allAdhkar = data || [];
 
             // Extract unique categories dynamically
             const categories = [...new Set(allAdhkar.map(item => item.category))];
 
+            // 1. Render the category list view
+            renderCategoryList(categories);
+
+            // 2. Populate the dropdown for the detail view
             if (categories.length > 0) {
-                currentCategory = categories[0];
-                
-                // Generate Dropdown Options
                 selectElement.innerHTML = categories.map(cat => {
                     const hasNew = allAdhkar.some(item => item.category === cat && window.isNewItem(item.created_at, `dhikr_${item.id}`));
                     const label = hasNew ? `${cat} (نوێ)` : cat;
@@ -128,10 +174,16 @@
                     return `<option value="${cat}" ${style}>${label}</option>`;
                 }).join('');
             }
-
-            renderAdhkar();
         }
 
+        // Function to switch to the dhikr card view
+        window.showDhikrView = (category) => {
+            categoryListContainer.style.display = 'none';
+            dhikrViewContainer.style.display = 'block';
+            filterDhikr(category); // Set category and render cards
+        }
+
+        // The onchange handler for the dropdown
         window.filterDhikr = (category) => {
             const select = document.getElementById('zikrCategory');
             if (select && select.value !== category) {
@@ -142,6 +194,7 @@
             renderAdhkar();
         }
 
+        // The oninput handler for the search box
         window.searchDhikr = (q) => {
             searchQuery = q.toLowerCase();
             renderAdhkar();
@@ -149,6 +202,7 @@
 
         function renderAdhkar() {
             const container = document.getElementById('dhikr-container');
+            if (container.offsetParent === null) return; // Don't render if hidden
             
             const filtered = allAdhkar.filter(d => {
                 const matchesCategory = d.category === currentCategory;
@@ -159,7 +213,7 @@
             });
 
             if (filtered.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #94a3b8; grid-column: 1/-1;">هیچ زیکرێک نەدۆزرایەوە.</p>';
+                container.innerHTML = '<p class="empty-message" style="grid-column: 1/-1;">هیچ زیکرێک نەدۆزرایەوە.</p>';
                 return;
             }
 
@@ -204,6 +258,14 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Back button functionality
+            backButton.addEventListener('click', () => {
+                dhikrViewContainer.style.display = 'none';
+                categoryListContainer.style.display = 'flex';
+                searchQuery = ''; // Reset search
+                const searchInput = document.querySelector('.zikr-search-input');
+                if(searchInput) searchInput.value = '';
+            });
             window.fetchAndCacheData('adhkar', renderDhikrData, supabase, 'id', true);
         });
     </script>

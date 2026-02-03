@@ -4311,6 +4311,81 @@ body.dark-mode .book-cover-fallback {
     }
 }
 
+/* New Category List Style for Dhikr Page */
+.category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.category-list-item {
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.category-list-item:hover {
+    transform: translateY(-3px) scale(1.01);
+    border-color: #1db954;
+    box-shadow: 0 10px 25px rgba(29, 185, 84, 0.15);
+}
+
+.category-list-item .new-badge {
+    top: -1px;
+    left: -1px;
+    border-top-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 5px 14px;
+    font-size: 0.8rem;
+}
+
+
+.category-list-item:hover .category-item-icon {
+    background: #1db954;
+    color: #0f172a;
+    transform: rotate(5deg);
+}
+
+.category-item-details {
+    flex-grow: 1;
+}
+
+.category-item-details h3 {
+    color: #f1f5f9;
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0 0 0.3rem 0;
+}
+
+.category-item-details p {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.category-item-action {
+    color: #64748b;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.category-list-item:hover .category-item-action {
+    color: #1db954;
+    transform: translateX(-5px);
+}
+
 /* ==================== ZIKR CARDS STYLES (دیزاینی کارتەکانی زیکر) ==================== */
 .zikr-grid {
     display: grid;
