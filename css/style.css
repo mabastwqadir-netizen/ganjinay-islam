@@ -119,19 +119,19 @@ header {
     left: 50%;
     transform: translateX(-50%) translateY(150%);
     background: rgba(30, 41, 59, 0.95);
-    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     border: 1px solid rgba(29, 185, 84, 0.3);
-    padding: 1.5rem;
+    padding: 1rem;
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.4);
     z-index: 10000;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.8rem;
     width: 90%;
-    max-width: 400px;
-    transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    max-width: 380px;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     text-align: center;
 }
 
@@ -141,16 +141,16 @@ header {
 
 .pwa-toast-content h3 {
     color: #edcd17;
-    margin: 0 0 0.5rem 0;
-    font-size: 1.2rem;
+    margin: 0 0 0.3rem 0;
+    font-size: 1.1rem;
     font-weight: 700;
 }
 
 .pwa-toast-content p {
     color: #cbd5e1;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     margin: 0;
-    line-height: 1.5;
+    line-height: 1.4;
 }
 
 .pwa-toast-buttons {
@@ -164,12 +164,19 @@ header {
     background: linear-gradient(135deg, #1db954, #1ed760);
     color: #0f172a;
     border: none;
-    padding: 0.8rem;
+    padding: 0.6rem;
     border-radius: 12px;
     font-weight: 700;
     cursor: pointer;
     font-family: inherit;
     transition: transform 0.2s;
+    animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+    0% { box-shadow: 0 0 0 0 rgba(29, 185, 84, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(29, 185, 84, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(29, 185, 84, 0); }
 }
 
 .pwa-btn-install:active {
@@ -181,7 +188,7 @@ header {
     background: rgba(255, 255, 255, 0.05);
     color: #94a3b8;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.8rem;
+    padding: 0.6rem;
     border-radius: 12px;
     font-weight: 600;
     cursor: pointer;
@@ -191,6 +198,13 @@ header {
 
 .pwa-btn-dismiss:hover {
     background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+/* Style for the dismiss button when it's the only child (for iOS prompt) */
+.pwa-toast-buttons .pwa-btn-dismiss:only-child {
+    flex-basis: 100%;
+    background: #475569;
     color: white;
 }
 
@@ -5367,6 +5381,20 @@ body.dark-mode .book-cover-fallback {
     cursor: pointer;
 }
 
+/* Highlighted Book Style (زیادکراو بۆ کتێبی دیاریکراو) */
+.highlighted-book {
+    border: 2px solid #edcd17 !important;
+    box-shadow: 0 0 20px rgba(237, 205, 23, 0.3) !important;
+    animation: pulse-highlight 2s infinite;
+    z-index: 5;
+}
+
+@keyframes pulse-highlight {
+    0% { box-shadow: 0 0 0 0 rgba(237, 205, 23, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(237, 205, 23, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(237, 205, 23, 0); }
+}
+
 @media (hover: hover) and (pointer: fine) {
     .library-book-card:hover {
         transform: translateY(-5px);
@@ -5412,6 +5440,71 @@ body.dark-mode .book-cover-fallback {
 .library-book-cover-fallback {
     color: #475569;
     font-size: 4rem;
+}
+
+/* Book Modal Styles (زیادکراو بۆ پیشاندانی کتێبی بڵاوکراوە) */
+.book-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.85);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px); /* لێڵکردنی پاشبنەما */
+    z-index: 10000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.book-modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.book-modal-content {
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    border: 1px solid #1db954;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 450px;
+    padding: 2.5rem 2rem;
+    position: relative;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-align: center;
+}
+
+.book-modal-overlay.active .book-modal-content {
+    transform: scale(1);
+}
+
+.book-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #cbd5e1;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-size: 1.1rem;
+}
+
+.book-modal-close:hover {
+    background: #ef4444;
+    color: white;
 }
 
 .library-book-info {

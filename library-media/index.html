@@ -8,6 +8,18 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="manifest" href="../manifest.json">
     <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="کتێبخانە - گەنجینەی ئیسلام">
+    <meta property="og:description" content="کۆمەڵێک کتێبی بەسوود و سەرچاوەی گرنگ بۆ دەوڵەمەندکردنی زانیارییەکانت.">
+    <meta property="og:image" content="../assets/icons/Icon512.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="کتێبخانە - گەنجینەی ئیسلام">
+    <meta property="twitter:description" content="کۆمەڵێک کتێبی بەسوود و سەرچاوەی گرنگ بۆ دەوڵەمەندکردنی زانیارییەکانت.">
+    <meta property="twitter:image" content="../assets/icons/Icon512.png">
 </head>
 <body>
     <script>
@@ -65,6 +77,16 @@
 
         <div class="visitor-count">
             <p><i class="fas fa-eye"></i> ژمارەی سەردانیکەران: <span id="visitor-count">0</span></p>
+        </div>
+
+        <!-- Book Modal (زیادکراو) -->
+        <div id="book-modal" class="book-modal-overlay">
+            <div class="book-modal-content">
+                <button class="book-modal-close" onclick="closeBookModal()" title="داخستن" aria-label="داخستن"><i class="fas fa-times"></i></button>
+                <div id="book-modal-body">
+                    <!-- ناوەڕۆک لێرە دادەنرێت -->
+                </div>
+            </div>
         </div>
     </main>
 
@@ -143,6 +165,10 @@
         let libraryPagination;
 
         function renderBooks(books) {
+            // پشکنین بۆ بوونی ئایدی کتێب لە لینکەکەدا
+            const urlParams = new URLSearchParams(window.location.search);
+            const sharedBookId = urlParams.get('book');
+
             if (!libraryPagination) {
                 libraryPagination = window.initPagination({
                     containerId: 'books-container',
@@ -172,7 +198,7 @@
                                 </div>
 
                                 <div class="library-book-actions">
-                                    <button class="library-share-btn" onclick="event.stopPropagation(); shareContent('${book.title.replace(/'/g, "\\'")}', 'کتێبی «${book.title.replace(/'/g, "\\'")}» لە گەنجینەی ئیسلام بخوێنەرەوە.', '${book.pdf_url}')" title="بڵاوکردنەوە">
+                                    <button class="library-share-btn" onclick="event.stopPropagation(); shareContent('${book.title.replace(/'/g, "\\'")}', 'کتێبی «${book.title.replace(/'/g, "\\'")}» لە گەنجینەی ئیسلام بخوێنەرەوە.', '${window.location.origin}${window.location.pathname}?book=${book.id}')" title="بڵاوکردنەوە">
                                         <i class="fas fa-share-alt"></i>
                                     </button>
                                     <a href="${book.pdf_url}?download=" class="library-download-btn" onclick="event.stopPropagation(); incrementDownload('${book.id}')">
@@ -192,6 +218,14 @@
                 });
             }
             libraryPagination.init(books);
+
+            // ئەگەر کتێبێک لە لینکەکەدا هەبوو، مۆداڵەکە بکەرەوە
+            if (sharedBookId) {
+                const sharedBook = books.find(b => b.id == sharedBookId);
+                if (sharedBook) {
+                    setTimeout(() => window.openBookModal(sharedBook), 500);
+                }
+            }
         }
 
         // Load books when page is ready
@@ -208,6 +242,54 @@
                     }
                 });
             }
+        });
+
+        // Modal Functions (فەنکشنەکانی مۆداڵ)
+        window.openBookModal = (book) => {
+            const modal = document.getElementById('book-modal');
+            const modalBody = document.getElementById('book-modal-body');
+            
+            let coverHtml = '';
+            if (book.cover_url) {
+                coverHtml = `<img src="${book.cover_url}" alt="${book.title}" style="width:140px; height:200px; object-fit:cover; border-radius:8px; box-shadow:0 10px 25px rgba(0,0,0,0.3); margin-bottom:1.5rem;">`;
+            } else {
+                coverHtml = `<div class="library-book-cover library-book-cover-fallback" style="width:140px; height:200px; margin:0 auto 1.5rem auto; border-radius:8px; display:flex; align-items:center; justify-content:center; background:#334155;"><i class="fas fa-book"></i></div>`;
+            }
+
+            modalBody.innerHTML = `
+                ${coverHtml}
+                <h3 style="color:#edcd17; font-size:1.5rem; font-weight:700; margin-bottom:0.5rem;">${book.title}</h3>
+                ${book.author ? `<p style="color:#94a3b8; margin-bottom:1rem;"><i class="fas fa-pen-nib"></i> ${book.author}</p>` : ''}
+                <p style="color:#cbd5e1; font-size:0.95rem; line-height:1.6; margin-bottom:2rem;">${book.description || ''}</p>
+                
+                <div style="display:flex; gap:1rem; justify-content:center;">
+                    <a href="${book.pdf_url}" target="_blank" class="library-read-btn" style="padding:0.8rem 2rem; font-size:1rem; flex:1;" onclick="incrementView('${book.id}'); closeBookModal()">
+                        <i class="fas fa-book-open"></i> خوێندنەوە
+                    </a>
+                    <a href="${book.pdf_url}?download=" class="library-download-btn" style="padding:0.8rem 1.5rem; font-size:1rem;" onclick="incrementDownload('${book.id}')">
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // ڕاگرتنی جوڵەی لاپەڕە
+        }
+
+        window.closeBookModal = () => {
+            const modal = document.getElementById('book-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // لابردنی ئایدی کتێب لە لینکەکە
+            const url = new URL(window.location);
+            url.searchParams.delete('book');
+            window.history.replaceState({}, '', url);
+        }
+
+        // داخستن بە کلیک کردن لە دەرەوەی کاردەکە
+        document.getElementById('book-modal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeBookModal();
         });
     </script>
 </body>

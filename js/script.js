@@ -1,9 +1,18 @@
 // PWA Install Logic - Move outside DOMContentLoaded to catch early events
 let deferredPrompt;
 
+// Helper to check if we are on the homepage
+const isHomePage = () => {
+    const path = window.location.pathname;
+    const subfolders = ['aqidah', 'biography', 'companions', 'dhikr', 'faq', 'hadiths', 'islam-what', 'library-media', 'prayer', 'quran', 'tawheed', 'video'];
+    const isSubpage = subfolders.some(folder => path.includes(`/${folder}/`));
+    return !isSubpage;
+};
+
 // Function to show the custom install toast
 const showInstallToast = () => {
     if (!deferredPrompt) return;
+    if (!isHomePage()) return;
     
     // Check if toast already exists
     if (document.getElementById('pwa-install-toast')) return;
@@ -13,7 +22,7 @@ const showInstallToast = () => {
     toast.className = 'pwa-install-toast';
     toast.innerHTML = `
         <div class="pwa-toast-content">
-            <img src="/assets/icons/Icon192.png" alt="App Icon" style="width: 60px; height: 60px; margin-bottom: 10px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+            <img src="/assets/icons/Icon192.png" alt="App Icon" style="width: 50px; height: 50px; margin-bottom: 5px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
             <h3>ئەپەکە دابەزێنە</h3>
             <p>بۆ بەکارهێنانی بەبێ ئینتەرنێت و ئەزموونێکی باشتر و خێراتر</p>
         </div>
@@ -48,12 +57,56 @@ const showInstallToast = () => {
     });
 };
 
+// New helper function to detect iOS
+const isIOS = () => {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+
+// New function to show iOS-specific instructions
+const showIOSInstallInstructions = () => {
+    if (!isHomePage()) return;
+    // Check if toast already exists or if it was dismissed
+    if (document.getElementById('pwa-install-toast') || localStorage.getItem('iosInstallDismissed') === 'true') return;
+
+    const toast = document.createElement('div');
+    toast.id = 'pwa-install-toast';
+    toast.className = 'pwa-install-toast';
+    toast.innerHTML = `
+        <div class="pwa-toast-content">
+            <img src="/assets/icons/Icon192.png" alt="App Icon" style="width: 50px; height: 50px; margin-bottom: 5px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+            <h3>ئەپەکە دابەزێنە</h3>
+            <p>بۆ دامەزراندنی ئەپەکە، کرتە لە دوگمەی Share <i class="fas fa-share-alt" style="font-size: 1.1em; vertical-align: middle;"></i> بکە، پاشان 'Add to Home Screen' <i class="fas fa-plus-square" style="font-size: 1.1em; vertical-align: middle;"></i> هەڵبژێرە.</p>
+        </div>
+        <div class="pwa-toast-buttons">
+            <button id="pwa-dismiss-btn" class="pwa-btn-dismiss">باشە، تێگەیشتم</button>
+        </div>
+    `;
+    document.body.appendChild(toast);
+
+    // Trigger reflow and show
+    requestAnimationFrame(() => {
+        toast.classList.add('show');
+    });
+
+    // Handle Dismiss
+    document.getElementById('pwa-dismiss-btn').addEventListener('click', () => {
+        toast.classList.remove('show');
+        // Save dismissal so it doesn't show again
+        localStorage.setItem('iosInstallDismissed', 'true');
+        setTimeout(() => toast.remove(), 500);
+    });
+};
+
+
 window.addEventListener('beforeinstallprompt', (e) => {
+    // Don't show prompt on iOS, it's not supported
+    if (isIOS()) return;
+
     // Prevent Chrome 67 and earlier from automatically showing the prompt
     e.preventDefault();
     // Stash the event so it can be triggered later.
     deferredPrompt = e;
-    
+
     // Show toast if body exists, otherwise wait for load
     if (document.body) {
         showInstallToast();
@@ -109,6 +162,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // PWA Install Logic (زیادکراو)
     // ==========================================
     
+    // PWA Install Logic for iOS
+    // Show instructions after a small delay to not be too intrusive
+    if (isIOS() && !window.matchMedia('(display-mode: standalone)').matches) {
+        setTimeout(showIOSInstallInstructions, 3000); // Show after 3 seconds
+    }
+
     window.addEventListener('appinstalled', () => {
         const toast = document.getElementById('pwa-install-toast');
         if (toast) {
