@@ -1555,6 +1555,7 @@ footer::before {
 .book-actions {
     display: flex;
     gap: 0.5rem;
+    margin-top: auto;
 }
 
 .read-btn {
@@ -1577,6 +1578,33 @@ footer::before {
     .read-btn:hover {
         background: #e2e8f0;
         color: #1db954;
+    }
+}
+
+.share-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem;
+    font-size: 0.95rem;
+    background: #e0e7ff; /* Indigo-100 */
+    color: #3730a3; /* Indigo-800 */
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .share-btn:hover {
+        background: #c7d2fe; /* Indigo-200 */
+        color: #312e81; /* Indigo-900 */
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(99, 102, 241, 0.2);
     }
 }
 
@@ -3568,6 +3596,15 @@ body.dark-mode .download-btn {
     background: linear-gradient(135deg, #1db954, #1ed760);
     color: #0f172a;
 }
+
+body.dark-mode .share-btn {
+    background: #312e81; /* Indigo-900 */
+    color: #e0e7ff; /* Indigo-100 */
+}
+
+body.dark-mode .share-btn:hover {
+    background: #3730a3; /* Indigo-800 */
+}
 body.dark-mode .visitor-count {
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     border-color: rgba(29, 185, 84, 0.2);
@@ -3946,6 +3983,12 @@ body.dark-mode .book-cover-fallback {
     .tab-button {
         width: 100%;
         font-size: 0.9rem;
+    }
+
+    .library-books-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr) !important; /* بەکارهێنانی !important بۆ دڵنیابوونەوە لە جێبەجێبوون */
+        gap: 1rem;
     }
 
     .prayer-times {
@@ -5134,11 +5177,53 @@ body.dark-mode .book-cover-fallback {
     margin-right: auto;
 }
 
+/* Library Search Styles (زیادکراو) */
+.library-search-container {
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto 2.5rem auto;
+    position: relative;
+}
+
+.library-search-input {
+    width: 100%;
+    padding: 1rem 3.5rem 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    color: white;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.library-search-input::placeholder {
+    color: #94a3b8;
+    opacity: 0.7;
+}
+
+.library-search-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #1db954;
+    box-shadow: 0 0 0 4px rgba(29, 185, 84, 0.1);
+}
+
+.library-search-icon {
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+    font-size: 1.1rem;
+}
+
 /* Library Page Styles */
 .library-books-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.2rem;
     padding: 1rem 0;
 }
 
@@ -5153,6 +5238,7 @@ body.dark-mode .book-cover-fallback {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     height: 100%;
     position: relative;
+    cursor: pointer;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -5254,7 +5340,7 @@ body.dark-mode .book-cover-fallback {
     gap: 0.5rem;
 }
 
-.library-read-btn, .library-download-btn {
+.library-read-btn, .library-download-btn, .library-share-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -5265,6 +5351,9 @@ body.dark-mode .book-cover-fallback {
     font-weight: 500;
     text-decoration: none;
     transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
 }
 
 .library-read-btn {
@@ -5286,6 +5375,17 @@ body.dark-mode .book-cover-fallback {
 @media (hover: hover) and (pointer: fine) {
     .library-download-btn:hover {
         background-color: #475569;
+    }
+}
+
+.library-share-btn {
+    background-color: #3b82f6;
+    color: white !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .library-share-btn:hover {
+        background-color: #2563eb;
     }
 }
 

@@ -222,6 +222,37 @@ window.switchTab = function(tabId, btn) {
 };
 
 // ==========================================
+// Web Share API Helper (زیادکراو)
+// ==========================================
+window.shareContent = async function(title, text, url) {
+    // Use the book's own page URL if available, otherwise the main site URL
+    const shareUrl = url || window.location.origin;
+    const shareData = {
+        title: title,
+        text: text,
+        url: shareUrl,
+    };
+
+    if (navigator.share) {
+        try {
+            await navigator.share(shareData);
+            console.log('Content shared successfully');
+        } catch (err) {
+            console.error('Error sharing:', err);
+        }
+    } else {
+        // Fallback for browsers that don't support Web Share API
+        try {
+            await navigator.clipboard.writeText(`${title}\n${text}\n${shareUrl}`);
+            alert('بڵاوکردنەوە پشتگیری نەکراوە لەم وێبگەڕە. بەڵام لینکەکە بۆت کۆپی کرا!');
+        } catch (err) {
+            console.error('Fallback copy to clipboard failed:', err);
+            alert('بڵاوکردنەوە پشتگیری نەکراوە و کۆپی کردنیش سەرکەوتوو نەبوو.');
+        }
+    }
+};
+
+// ==========================================
 // PWA & Caching Helpers (زیادکراو بۆ هەموو بەشەکان)
 // ==========================================
 

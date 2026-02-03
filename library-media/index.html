@@ -49,6 +49,12 @@
             <p>کۆمەڵێک کتێبی بەسوود و سەرچاوەی گرنگ بۆ دەوڵەمەندکردنی زانیارییەکانت.</p>
         </div>
 
+        <!-- Search Input -->
+        <div class="library-search-container">
+            <i class="fas fa-search library-search-icon"></i>
+            <input type="text" id="book-search-input" class="library-search-input" placeholder="گەڕان بۆ کتێب بەپێی ناونیشان یان نووسەر...">
+        </div>
+
         <div id="books-container" class="library-books-grid">
             <!-- Loading State -->
             <div class="loading-spinner">
@@ -151,7 +157,7 @@
                     }
 
                     return `
-                        <div class="library-book-card">
+                        <div class="library-book-card" onclick="window.open('${book.pdf_url}', '_blank'); incrementView('${book.id}')">
                             ${window.getNewBadge(book.created_at)}
                             <div class="library-book-cover-container">${coverHtml}</div>
                             <div class="library-book-info">
@@ -164,8 +170,10 @@
                                 </div>
 
                                 <div class="library-book-actions">
-                                    <a href="${book.pdf_url}" target="_blank" rel="noopener noreferrer" class="library-read-btn" onclick="incrementView('${book.id}')" title="خوێندنەوە"><i class="fas fa-book-open"></i></a>
-                                    <a href="${book.pdf_url}?download=" class="library-download-btn" onclick="incrementDownload('${book.id}')">
+                                    <button class="library-share-btn" onclick="event.stopPropagation(); shareContent('${book.title.replace(/'/g, "\\'")}', 'کتێبی «${book.title.replace(/'/g, "\\'")}» لە گەنجینەی ئیسلام بخوێنەرەوە.', '${book.pdf_url}')" title="بڵاوکردنەوە">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                    <a href="${book.pdf_url}?download=" class="library-download-btn" onclick="event.stopPropagation(); incrementDownload('${book.id}')">
                                         <i class="fas fa-download" title="داونڵۆد"></i>
                                     </a>
                                 </div>
@@ -188,6 +196,16 @@
         document.addEventListener('DOMContentLoaded', () => {
             window.fetchAndCacheData('books', renderBooks, supabase, 'created_at', false);
             initVisitorCount();
+
+            // Event listener for the search input
+            const searchInput = document.getElementById('book-search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    if (libraryPagination) { // Ensure pagination is initialized
+                        libraryPagination.filter(this.value);
+                    }
+                });
+            }
         });
     </script>
 </body>
