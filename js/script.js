@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // App Version Display (زیادکراو)
     // ==========================================
-    const APP_VERSION = 'v5'; // دڵنیابەرەوە ئەمە لەگەڵ sw.js یەک دەگرێتەوە
+    const APP_VERSION = 'v5.1'; // دڵنیابەرەوە ئەمە لەگەڵ sw.js یەک دەگرێتەوە
     const footer = document.querySelector('footer');
     if (footer) {
         const versionEl = document.createElement('div');
