@@ -1,12 +1,65 @@
 // PWA Install Logic - Move outside DOMContentLoaded to catch early events
 let deferredPrompt;
+
+// Function to show the custom install toast
+const showInstallToast = () => {
+    if (!deferredPrompt) return;
+    
+    // Check if toast already exists
+    if (document.getElementById('pwa-install-toast')) return;
+
+    const toast = document.createElement('div');
+    toast.id = 'pwa-install-toast';
+    toast.className = 'pwa-install-toast';
+    toast.innerHTML = `
+        <div class="pwa-toast-content">
+            <img src="/assets/icons/Icon192.png" alt="App Icon" style="width: 60px; height: 60px; margin-bottom: 10px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+            <h3>ئەپەکە دابەزێنە</h3>
+            <p>بۆ بەکارهێنانی بەبێ ئینتەرنێت و ئەزموونێکی باشتر و خێراتر</p>
+        </div>
+        <div class="pwa-toast-buttons">
+            <button id="pwa-dismiss-btn" class="pwa-btn-dismiss">لابردن</button>
+            <button id="pwa-accept-btn" class="pwa-btn-install">دامەزراندن</button>
+        </div>
+    `;
+    document.body.appendChild(toast);
+
+    // Trigger reflow and show
+    requestAnimationFrame(() => {
+        toast.classList.add('show');
+    });
+
+    // Handle Dismiss
+    document.getElementById('pwa-dismiss-btn').addEventListener('click', () => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 500);
+    });
+
+    // Handle Install
+    document.getElementById('pwa-accept-btn').addEventListener('click', async () => {
+        toast.classList.remove('show');
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User response to the install prompt: ${outcome}`);
+            deferredPrompt = null;
+        }
+        setTimeout(() => toast.remove(), 500);
+    });
+};
+
 window.addEventListener('beforeinstallprompt', (e) => {
     // Prevent Chrome 67 and earlier from automatically showing the prompt
     e.preventDefault();
     // Stash the event so it can be triggered later.
     deferredPrompt = e;
-    // Update UI if element exists (or wait for DOMContentLoaded)
-    const btn = document.getElementById('pwa-install-btn');
+    
+    // Show toast if body exists, otherwise wait for load
+    if (document.body) {
+        showInstallToast();
+    } else {
+        window.addEventListener('load', showInstallToast);
+    }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -55,32 +108,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // PWA Install Logic (زیادکراو)
     // ==========================================
-    const pwaInstallBtn = document.getElementById('pwa-install-btn');
-    
-    const handleInstall = async () => {
-        console.log('Install button clicked');
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log(`User response to the install prompt: ${outcome}`);
-            deferredPrompt = null;
-        } else {
-            alert('بۆ دابەزاندنی ئەپەکە:\n١. لە ئایفۆن: دوگمەی Share دابگرە و Add to Home Screen هەڵبژێرە.\n٢. لە ئەندرۆید/کۆمپیوتەر: لە مینیۆی وێبگەڕەکە Install App هەڵبژێرە.');
-        }
-    };
-
-    if (pwaInstallBtn) {
-        pwaInstallBtn.addEventListener('click', handleInstall);
-    }
     
     window.addEventListener('appinstalled', () => {
-        if (pwaInstallBtn) pwaInstallBtn.style.display = 'none';
+        const toast = document.getElementById('pwa-install-toast');
+        if (toast) {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 500);
+        }
         deferredPrompt = null;
     });
     
     // Check if already installed
     if (window.matchMedia('(display-mode: standalone)').matches) {
-        if (pwaInstallBtn) pwaInstallBtn.style.display = 'none';
+        const toast = document.getElementById('pwa-install-toast');
+        if (toast) toast.style.display = 'none';
     }
 
     // ==========================================
