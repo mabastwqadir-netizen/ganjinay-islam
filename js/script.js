@@ -315,10 +315,34 @@ window.fetchAndCacheData = async function(tableName, renderCallback, supabaseCli
 };
 
 // ==========================================
-// New Item Check Helper (فەنکشنی پشکنینی نوێ)
+// New Item & Viewed State Helpers (لۆجیکی نوێ و بینراو)
 // ==========================================
-window.isNewItem = function(dateString) {
-    if (!dateString) return false;
+const viewedItemsKey = 'islamicTreasureViewedItems';
+
+// فەنکشن بۆ خوێندنەوەی ئەو بابەتانەی بینراون لە localStorage
+function getViewedItems() {
+    try {
+        const items = localStorage.getItem(viewedItemsKey);
+        return items ? JSON.parse(items) : {};
+    } catch (e) {
+        return {};
+    }
+}
+
+// فەنکشن بۆ نیشانکردنی بابەتێک وەک بینراو، بانگ دەکرێت کاتێک بەکارهێنەر کلیک دەکات
+window.markItemAsViewed = function(itemId) {
+    if (!itemId) return;
+    const viewedItems = getViewedItems();
+    viewedItems[itemId] = true;
+    localStorage.setItem(viewedItemsKey, JSON.stringify(viewedItems));
+};
+
+// فەنکشنی پشکنینی نوێ: بابەتێک بە نوێ دادەنرێت ئەگەر لە ماوەی ٣ ڕۆژدا زیادکرابێت و بەکارهێنەر نەیبینیبێت
+window.isNewItem = function(dateString, itemId) {
+    if (!dateString || !itemId) return false;
+    const viewedItems = getViewedItems();
+    if (viewedItems[itemId]) return false; // User has viewed it
+
     const createdDate = new Date(dateString);
     const now = new Date();
     const diffTime = now - createdDate;
@@ -326,11 +350,9 @@ window.isNewItem = function(dateString) {
     return diffDays >= 0 && diffDays <= 3;
 };
 
-// ==========================================
-// New Badge Helper (فەنکشنی نیشانەی نوێ)
-// ==========================================
-window.getNewBadge = function(dateString) {
-    if (window.isNewItem(dateString)) {
+// فەنکشنی نیشانەی نوێ: نیشانەکە دەگەڕێنێتەوە ئەگەر بابەتەکە نوێ بوو
+window.getNewBadge = function(dateString, itemId) {
+    if (window.isNewItem(dateString, itemId)) {
         return '<span class="new-badge">نوێ</span>';
     }
     return '';

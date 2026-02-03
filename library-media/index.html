@@ -146,7 +146,7 @@
             if (!libraryPagination) {
                 libraryPagination = window.initPagination({
                     containerId: 'books-container',
-                    itemsPerPage: 14,
+                    itemsPerPage: 8,
                     renderItem: (book) => {
                     // Handle cover image (fallback icon if empty)
                     let coverHtml = '';
@@ -156,9 +156,11 @@
                         coverHtml = `<div class="library-book-cover library-book-cover-fallback"><i class="fas fa-book"></i></div>`;
                     }
 
+                    const itemId = `book_${book.id}`;
+
                     return `
-                        <div class="library-book-card" onclick="window.open('${book.pdf_url}', '_blank'); incrementView('${book.id}')">
-                            ${window.getNewBadge(book.created_at)}
+                        <div class="library-book-card" onclick="window.open('${book.pdf_url}', '_blank'); incrementView('${book.id}'); window.markItemAsViewed('${itemId}')">
+                            ${window.getNewBadge(book.created_at, itemId)}
                             <div class="library-book-cover-container">${coverHtml}</div>
                             <div class="library-book-info">
                                 <h3 class="library-book-title" title="${book.title}">${book.title}</h3>

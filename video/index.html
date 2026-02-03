@@ -225,14 +225,16 @@
                             }
                             const thumbnailUrl = video.thumbnail_url || (videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : '../assets/images/video-placeholder.jpg');
 
+                            const itemId = `video_${video.id}`;
+
                             return `
                                 <div class="video-card" data-video-id="${video.id}">
-                                    ${window.getNewBadge(video.created_at)}
+                                    ${window.getNewBadge(video.created_at, itemId)}
                                     <div class="video-embed-container" 
                                          data-thumbnail="${thumbnailUrl}" 
                                          data-title="${video.title}"
                                          data-played="false"
-                                         onclick="playVideo(this, '${video.id}', '${video.video_type}', '${video.video_url}')">
+                                         onclick="playVideo(this, '${video.id}', '${video.video_type}', '${video.video_url}'); window.markItemAsViewed('${itemId}')">
                                         <img src="${thumbnailUrl}" alt="${video.title}" class="thumbnail">
                                         <i class="fas fa-play-circle play-button"></i>
                                     </div>

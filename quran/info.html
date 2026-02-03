@@ -120,8 +120,11 @@
                 const card = document.createElement('div');
                 card.classList.add('info-card');
 
+                const itemId = `quran_info_${info.id}`;
+                card.setAttribute('onclick', `window.markItemAsViewed('${itemId}')`);
+
                 card.innerHTML = `
-                    ${window.getNewBadge(info.created_at)}
+                    ${window.getNewBadge(info.created_at, itemId)}
                     <div class="info-card-header">
                         <h4>${info.title || 'زانیارییەک'}</h4>
                     </div>

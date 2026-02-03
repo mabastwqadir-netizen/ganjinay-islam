@@ -119,8 +119,11 @@
                 const card = document.createElement('div');
                 card.classList.add('message-card', 'miracle-card'); // Reusing message-card style
 
+                const itemId = `quran_miracle_${item.id}`;
+                card.setAttribute('onclick', `window.markItemAsViewed('${itemId}')`);
+
                 card.innerHTML = `
-                    ${window.getNewBadge(item.created_at)}
+                    ${window.getNewBadge(item.created_at, itemId)}
                     <div class="message-header">
                         <i class="fas ${item.icon || 'fa-star'}"></i>
                         <h4>${item.title || 'ئیعجازێک'}</h4>

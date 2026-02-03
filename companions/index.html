@@ -236,9 +236,11 @@
                 `;
             }
 
+            const itemId = `companion_${comp.id}`;
+
             container.innerHTML = `
-                <div class="companion-detail-card">
-                    ${window.getNewBadge(comp.created_at)}
+                <div class="companion-detail-card" onclick="window.markItemAsViewed('${itemId}')">
+                    ${window.getNewBadge(comp.created_at, itemId)}
                     <h2 class="companion-name-title" style="text-align: center; margin-bottom: 2rem;">${comp.name}</h2>
 
                     <div class="companion-section-title"><i class="fas fa-id-card"></i> ناساندن</div>

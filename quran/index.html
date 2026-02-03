@@ -123,16 +123,17 @@
             if (data && data.length > 0) {
                 grid.innerHTML = ''; // Clear loading text
                 data.forEach(section => {
+                    const itemId = `quran_section_${section.id}`;
                     const cardHTML = `
                         <div class="quran-section-card">
-                            ${window.getNewBadge(section.created_at)}
+                            ${window.getNewBadge(section.created_at, itemId)}
                             <div class="quran-card-icon">
                                 <i class="fas ${section.icon}"></i>
                             </div>
                             <div class="quran-card-content">
                                 <h3>${section.title}</h3>
                                 <p>${section.description}</p>
-                                <a href="${section.link}" class="quran-card-button">${section.button_text} <i class="fas fa-arrow-left"></i></a>
+                                <a href="${section.link}" class="quran-card-button" onclick="window.markItemAsViewed('${itemId}')">${section.button_text} <i class="fas fa-arrow-left"></i></a>
                             </div>
                         </div>
                     `;

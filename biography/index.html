@@ -167,9 +167,10 @@
             container.style.counterReset = `bio-counter ${start}`;
 
             const cardsHTML = pageData.map(event => {
+                const itemId = `bio_${event.id}`;
                 return `
-                    <div class="message-card bio-card">
-                        ${window.getNewBadge(event.created_at)}
+                    <div class="message-card bio-card" onclick="window.markItemAsViewed('${itemId}')">
+                        ${window.getNewBadge(event.created_at, itemId)}
                         <div class="message-header">
                             <i class="fas ${event.icon || 'fa-history'}"></i>
                             <h4>${event.title}</h4>

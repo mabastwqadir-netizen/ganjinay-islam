@@ -161,9 +161,11 @@
                         const isLong = text.length > charLimit;
                         const shortText = isLong ? text.substring(0, charLimit) + '...' : text;
 
+                        const itemId = `hadith_${h.id}`;
+
                         return `
-                        <div class="hadith-card">
-                            ${h.title ? `<div class="hadith-topic-title">${window.getNewBadge(h.created_at)} ${h.title}</div>` : window.getNewBadge(h.created_at)}
+                        <div class="hadith-card" onclick="window.markItemAsViewed('${itemId}')">
+                            ${h.title ? `<div class="hadith-topic-title">${window.getNewBadge(h.created_at, itemId)} ${h.title}</div>` : window.getNewBadge(h.created_at, itemId)}
                             <div class="hadith-arabic">${h.arabic_text}</div>
                             <div class="hadith-kurdish" id="hadith-text-${index}">
                                 ${isLong ? `

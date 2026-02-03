@@ -122,7 +122,7 @@
                 
                 // Generate Dropdown Options
                 selectElement.innerHTML = categories.map(cat => {
-                    const hasNew = allAdhkar.some(item => item.category === cat && window.isNewItem(item.created_at));
+                    const hasNew = allAdhkar.some(item => item.category === cat && window.isNewItem(item.created_at, `dhikr_${item.id}`));
                     const label = hasNew ? `${cat} (نوێ)` : cat;
                     const style = hasNew ? 'style="color: #60a5fa;"' : '';
                     return `<option value="${cat}" ${style}>${label}</option>`;
@@ -163,13 +163,15 @@
                 return;
             }
 
-            container.innerHTML = filtered.map((item, index) => `
-                <div class="dhikr-card">
+            container.innerHTML = filtered.map((item, index) => {
+                const itemId = `dhikr_${item.id}`;
+                return `
+                <div class="dhikr-card" onclick="window.markItemAsViewed('${itemId}')">
                     <div class="dhikr-arabic">${item.arabic_text}</div>
                     <div class="dhikr-kurdish">${item.kurdish_text || ''}</div>
                     
                     <div class="dhikr-action-container">
-                        ${window.getNewBadge(item.created_at)}
+                        ${window.getNewBadge(item.created_at, itemId)}
                         <div class="counter-btn" id="btn-${index}" onclick="countDown(${index}, ${item.repeat_count})">
                             ${item.repeat_count}
                         </div>
@@ -179,7 +181,7 @@
                         <i class="fas fa-book-open"></i> ${item.source || 'سەرچاوە نەزانراوە'}
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
         }
 
         window.countDown = (index, max) => {

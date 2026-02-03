@@ -122,13 +122,16 @@
                 const card = document.createElement('div');
                 card.classList.add('message-card');
 
+                const itemId = `quran_message_${message.id}`;
+                card.setAttribute('onclick', `window.markItemAsViewed('${itemId}')`);
+
                 let pointsHtml = '';
                 if (message.points && message.points.length > 0) {
                     pointsHtml = message.points.map(point => `<li><i class="fas fa-check-circle"></i> ${point}</li>`).join('');
                 }
 
                 card.innerHTML = `
-                    ${window.getNewBadge(message.created_at)}
+                    ${window.getNewBadge(message.created_at, itemId)}
                     <div class="message-header">
                         <i class="fas fa-bullhorn"></i>
                         <h4>${message.title || 'پەیامێک بۆ تۆ'}</h4>
