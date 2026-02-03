@@ -4797,6 +4797,73 @@ body.dark-mode .book-cover-fallback {
     color: white;
 }
 
+.video-share-btn {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.video-share-btn:hover {
+    background: #3b82f6;
+    color: white;
+}
+
+/* Video Modal Styles */
+.video-modal-content {
+    background: #1e293b;
+    border: 1px solid #1db954;
+    border-radius: 16px;
+    width: 95%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.video-modal-content .book-modal-close {
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.book-modal-overlay.active .video-modal-content {
+    transform: scale(1);
+}
+
+.video-modal-player {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    background: black;
+}
+
+.video-modal-player iframe,
+.video-modal-player video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.video-modal-info {
+    padding: 1.5rem;
+    text-align: right;
+    background: linear-gradient(to top, #0f172a, #1e293b);
+}
+
 .video-controls {
     display: flex;
     justify-content: center;
