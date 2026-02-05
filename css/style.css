@@ -5999,3 +5999,9 @@ body.faq-page {
         padding: 1rem;
     }
 }
+
+/* ئەم کۆدە ڕەنگە شینە نامۆکە لە هەموو شوێنێک لادەبات */
+* {
+    -webkit-tap-highlight-color: transparent;
+    outline: none; /* بۆ دڵنیایی زیاتر کە هیچ چوارچێوەیەکی تر دەرنەکەوێت */
+}
