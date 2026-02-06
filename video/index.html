@@ -303,7 +303,7 @@
                                          data-title="${video.title}"
                                          data-played="false"
                                          onclick="playVideo(this, '${video.id}', '${video.video_type}', '${video.video_url}'); window.markItemAsViewed('${itemId}')">
-                                        <img src="${thumbnailUrl}" alt="${video.title}" class="thumbnail">
+                                        <img src="${thumbnailUrl}" alt="${video.title}" class="thumbnail" loading="lazy">
                                         <i class="fas fa-play-circle play-button"></i>
                                     </div>
                                     <div class="video-info">

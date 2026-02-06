@@ -182,7 +182,7 @@
                     // Handle cover image (fallback icon if empty)
                     let coverHtml = '';
                     if (book.cover_url) {
-                        coverHtml = `<img src="${book.cover_url}" alt="${book.title}" class="library-book-cover">`;
+                        coverHtml = `<img src="${book.cover_url}" alt="${book.title}" class="library-book-cover" loading="lazy">`;
                     } else {
                         coverHtml = `<div class="library-book-cover library-book-cover-fallback"><i class="fas fa-book"></i></div>`;
                     }
