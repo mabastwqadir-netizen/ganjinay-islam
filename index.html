@@ -443,10 +443,22 @@
             }
 
             document.addEventListener('DOMContentLoaded', () => {
-
+                // Load stats immediately
                 initStats();
-                initPrayerTimes();
 
+                // Lazy load prayer times when the section is scrolled into view
+                const prayerSection = document.querySelector('.prayer-section-home');
+                if (prayerSection) {
+                    const prayerObserver = new IntersectionObserver((entries, observer) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                initPrayerTimes();
+                                observer.unobserve(entry.target); // Load only once
+                            }
+                        });
+                    }, { rootMargin: '100px' }); // Start loading 100px before it's visible
+                    prayerObserver.observe(prayerSection);
+                }
             });
 
         </script>
