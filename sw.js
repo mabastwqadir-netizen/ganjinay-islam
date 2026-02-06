@@ -1,4 +1,4 @@
-const CACHE_NAME = 'islamic-treasure-v5.5';
+const CACHE_NAME = 'islamic-treasure-v5.6';
 
 // فایلە سەرەکییەکان بۆ پاشەکەوتکردن (App Shell)
 const ASSETS = [
