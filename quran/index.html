@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>قوڕئان - گەنجینەی ئیسلام</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;500;600;700;800&family=Noto+Kufi+Arabic:wght@400;700&family=Noto+Sans+Kurdish:wght@400;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://sftnwbgwbxkmuackksho.supabase.co">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/style-min.css">
     <link rel="apple-touch-icon" href="../assets/logo.png">
@@ -52,7 +57,10 @@
         <!-- ID زیادکرا بۆ ئەوەی سکریپتەکە بیدۆزێتەوە -->
         <div id="quran_sections-container" class="quran-sections-grid">
             <!-- Data will be loaded from Supabase -->
-            <p class="loading-text-center">جارکردنی بەشەکان...</p>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
         </div>
 
         <div class="visitor-count-quran">
@@ -90,7 +98,7 @@
     </footer>
 
 
-    <script src="../js/script.js"></script>
+    <script src="../js/script.js" defer></script>
 
     <!-- Supabase Integration -->
     <script type="module">
