@@ -1,4 +1,4 @@
-const CACHE_NAME = 'islamic-treasure-v5.7';
+const CACHE_NAME = 'islamic-treasure-v5.8';
 
 // فایلە سەرەکییەکان بۆ پاشەکەوتکردن (App Shell)
 const ASSETS = [
@@ -77,11 +77,29 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // ستراتیژی Network First بۆ فایلە ناوخۆییەکان (بۆ وەرگرتنی نوێترین وەشان)
+    // ستراتیژی جیاواز بۆ فایلە ناوخۆییەکان
     if (url.origin === self.location.origin) {
+        // 1. HTML Files: Network First (بۆ ئەوەی گۆڕانکارییەکان ڕاستەوخۆ دەرکەون)
+        if (request.headers.get('Accept') && request.headers.get('Accept').includes('text/html')) {
+            event.respondWith(
+                fetch(request)
+                    .then((response) => {
+                        const responseToCache = response.clone();
+                        caches.open(CACHE_NAME).then((cache) => {
+                            cache.put(request, responseToCache);
+                        });
+                        return response;
+                    })
+                    .catch(() => caches.match(request))
+            );
+            return;
+        }
+
+        // 2. CSS, JS, Images: Stale-While-Revalidate (بۆ خێرایی زۆر)
+        // سەرەتا لە کاشەوە دەهێنرێت، دواتر لە پشتەوە نوێ دەکرێتەوە
         event.respondWith(
-            fetch(request)
-                .then((response) => {
+            caches.match(request).then((cachedResponse) => {
+                const networkFetch = fetch(request).then((response) => {
                     if (response && response.status === 200) {
                         const responseToCache = response.clone();
                         caches.open(CACHE_NAME).then((cache) => {
@@ -89,8 +107,10 @@ self.addEventListener('fetch', (event) => {
                         });
                     }
                     return response;
-                })
-                .catch(() => caches.match(request))
+                });
+
+                return cachedResponse || networkFetch;
+            })
         );
         return;
     }
