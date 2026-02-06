@@ -22,7 +22,7 @@ const showInstallToast = () => {
     toast.className = 'pwa-install-toast';
     toast.innerHTML = `
         <div class="pwa-toast-content">
-            <img src="/assets/icons/Icon192.png" alt="App Icon" style="width: 50px; height: 50px; margin-bottom: 5px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+            <img src="/assets/icons/Icon192.png" alt="App Icon" style="width: 50px; height: 50px; margin-bottom: 5px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); background-color: #ffffff;">
             <h3>ئەپەکە دابەزێنە</h3>
             <p>بۆ بەکارهێنانی بەبێ ئینتەرنێت و ئەزموونێکی باشتر و خێراتر</p>
         </div>
@@ -73,7 +73,7 @@ const showIOSInstallInstructions = () => {
     toast.className = 'pwa-install-toast';
     toast.innerHTML = `
         <div class="pwa-toast-content">
-            <img src="/assets/icons/Icon192.png" alt="App Icon" style="width: 50px; height: 50px; margin-bottom: 5px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+            <img src="/assets/icons/Icon192.png" alt="App Icon" style="width: 50px; height: 50px; margin-bottom: 5px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); background-color: #ffffff;">
             <h3>ئەپەکە دابەزێنە</h3>
             <p>بۆ دامەزراندنی ئەپەکە، کرتە لە دوگمەی Share <i class="fas fa-share-alt" style="font-size: 1.1em; vertical-align: middle;"></i> بکە، پاشان 'Add to Home Screen' <i class="fas fa-plus-square" style="font-size: 1.1em; vertical-align: middle;"></i> هەڵبژێرە.</p>
         </div>
@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // App Version Display (زیادکراو)
     // ==========================================
-    const APP_VERSION = 'v5.1'; // دڵنیابەرەوە ئەمە لەگەڵ sw.js یەک دەگرێتەوە
+    const APP_VERSION = 'v5.9'; // دڵنیابەرەوە ئەمە لەگەڵ sw.js یەک دەگرێتەوە
     const footer = document.querySelector('footer');
     if (footer) {
         const versionEl = document.createElement('div');
